@@ -1,0 +1,50 @@
+main = "src/index.ts"
+compatibility_date = "2023-10-16"
+account_id = "c5d18577a688210711261e1b3c2ffb71"
+usage_model = "bundled"
+workers_dev = false
+
+rules = [{ type = "ESModule", globs = ["**/*.js"] }]
+
+kv_namespaces = [
+  { binding = "PLAN2GATHER_MEETINGS", id = "f203873043104e6fba47e9d855fe755f", preview_id = "f203873043104e6fba47e9d855fe755f" },
+]
+
+[build]
+command = "npx nx build backend"
+
+# Explicitly specifying folders/files because on build `src/generated` changes and it infinte loops
+watch_dir = [
+  "src/dao",
+  "src/routers",
+  "src/types",
+  "src/utils",
+  "src/index.ts",
+  "src/env.ts",
+  "src/trpc.ts",
+]
+
+[env.dev]
+name = "plan2gather-backend-dev"
+route = "api-dev.plan2gather.net/*"
+kv_namespaces = [
+  { binding = "PLAN2GATHER_MEETINGS", id = "f203873043104e6fba47e9d855fe755f", preview_id = "f203873043104e6fba47e9d855fe755f" },
+]
+
+[env.beta]
+name = "plan2gather-backend-beta"
+route = "api-beta.plan2gather.net/*"
+kv_namespaces = [
+  { binding = "PLAN2GATHER_MEETINGS", id = "3686c37a82d3448f910ca2378ff6f6f7" },
+]
+
+[env.prod]
+name = "plan2gather-backend-prod"
+route = "api-prod.plan2gather.net/*"
+kv_namespaces = [
+  { binding = "PLAN2GATHER_MEETINGS", id = "624e6665714c4c81932fe6e98746bc73" },
+]
+
+[dev]
+port = 3001
+ip = 'localhost'

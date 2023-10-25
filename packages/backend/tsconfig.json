@@ -11,6 +11,7 @@
     }
   ],
   "compilerOptions": {
+    "types": ["node", "@cloudflare/workers-types"],
     "esModuleInterop": true
   }
 }
