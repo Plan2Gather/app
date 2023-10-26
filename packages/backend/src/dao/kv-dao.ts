@@ -1,9 +1,10 @@
-import { BulkKey, BulkKeyMap } from '@backend/utils/const';
+import { ALL_MEETING_KEY, BulkKey, BulkKeyMap } from '@backend/utils/const';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { KvWrapper } from './kv-wrapper';
 
 import type { KVNamespaceListOptions } from '@cloudflare/workers-types';
+import { MeetingData, meetingDataSchema } from '@backend/types/schema';
 
 const KV_REQUESTS_PER_TRIGGER = 1000;
 
@@ -20,7 +21,7 @@ export class KVDAO {
     > = {
       meetings: {
         namespace: this.meetingsNamespace,
-        parser: z.string(),
+        parser: meetingDataSchema,
       },
     };
 
@@ -61,5 +62,54 @@ export class KVDAO {
     // Use get unsafe for performance reasons. Since we are fetching a large number of records
     // the time can be greater than 50ms resulting in occasional 503's
     return Promise.all(keys.map((key) => namespace.getUnsafe(key))) as never;
+  }
+
+  async getAllMeetings() {
+    const meetingList = await this.meetingsNamespace.safeGet(
+      z.array(meetingDataSchema),
+      ALL_MEETING_KEY
+    );
+    if (!meetingList.success) {
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'Could not find any meetings.',
+      });
+    }
+
+    return meetingList.data;
+  }
+
+  private async putAllMeetings(meetingList: MeetingData[]) {
+    await this.meetingsNamespace.put(
+      z.array(meetingDataSchema),
+      ALL_MEETING_KEY,
+      meetingList
+    );
+  }
+
+  getMeeting(id: string) {
+    return this.meetingsNamespace.get(meetingDataSchema, id);
+  }
+
+  async putMeeting(meeting: MeetingData) {
+    await this.meetingsNamespace.put(meetingDataSchema, meeting.id, meeting);
+
+    return meeting;
+  }
+
+  async updateMeeting(meeting: MeetingData) {
+    const existingMeeting = await this.getMeeting(meeting.id);
+    if (!existingMeeting) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Could not find meeting to update.',
+      });
+    }
+
+    await this.putMeeting(meeting);
+  }
+
+  async removeMeeting(id: string) {
+    await this.meetingsNamespace.delete(id);
   }
 }
