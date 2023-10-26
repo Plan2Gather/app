@@ -1,7 +1,5 @@
 import { Env, getCloudflareEnv } from '@backend/env';
 import { t } from './trpc';
-import { Toucan } from 'toucan-js';
-import { Context } from 'toucan-js/dist/types';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 
 export const appRouter = t.router({});
@@ -14,11 +12,7 @@ const CORS_HEADERS = {
 };
 
 export default {
-  async fetch(
-    request: Request,
-    rawEnv: Record<string, unknown>,
-    cloudflareCtx: Context
-  ) {
+  async fetch(request: Request, rawEnv: Record<string, unknown>) {
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: CORS_HEADERS });
     }
@@ -35,15 +29,6 @@ export default {
     if (!cloudflareEnv.IS_DEPLOYED) {
       // await ensureLocalDb(cloudflareEnv, polyratingsEnv);
     }
-
-    const sentry = new Toucan({
-      dsn: 'https://a7c07e573f624b40b98f061b54877d9d@o1195960.ingest.sentry.io/6319110',
-      context: cloudflareCtx,
-      requestDataOptions: {
-        allowedHeaders: ['user-agent'],
-        allowedSearchParams: /(.*)/,
-      },
-    });
 
     return fetchRequestHandler({
       endpoint: '',
@@ -63,11 +48,6 @@ export default {
           ...CORS_HEADERS,
         },
       }),
-      onError: (errorState) => {
-        if (errorState.error.code === 'INTERNAL_SERVER_ERROR') {
-          sentry.captureException(errorState.error);
-        }
-      },
     });
   },
 };

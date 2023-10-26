@@ -1,6 +1,12 @@
 import { infer as zodInfer, SafeParseReturnType, ZodTypeAny } from 'zod';
 import { TRPCError } from '@trpc/server';
 
+import type {
+  KVNamespace,
+  KVNamespaceListOptions,
+  KVNamespacePutOptions,
+} from '@cloudflare/workers-types';
+
 export class KvWrapper {
   constructor(private kv: KVNamespace) {}
 

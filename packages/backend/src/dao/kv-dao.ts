@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { KvWrapper } from './kv-wrapper';
 
+import type { KVNamespaceListOptions } from '@cloudflare/workers-types';
+
 const KV_REQUESTS_PER_TRIGGER = 1000;
 
 export class KVDAO {

@@ -2,6 +2,8 @@ import { KVDAO } from '@backend/dao/kv-dao';
 import { z } from 'zod';
 import { KvWrapper } from './dao/kv-wrapper';
 
+import type { KVNamespace } from '@cloudflare/workers-types';
+
 export function getCloudflareEnv(
   rawEnv: Record<string, unknown>
 ): CloudflareEnv {
