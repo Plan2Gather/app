@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createIDBPersister } from '../utils/idbPersister';
 
-import { Test } from './test';
+import Homepage from './homepage/homepage';
 
 export function App() {
   const [queryClient] = useState(() => {
@@ -25,7 +25,7 @@ export function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <Test />
+        <Homepage />
       </QueryClientProvider>
     </trpc.Provider>
   );
