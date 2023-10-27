@@ -2,3 +2,6 @@
 /dist
 /coverage
 /.nx/cache
+packages/backend/src/generated/tomlGenerated.ts
+package.json
+package-lock.json
