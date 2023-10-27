@@ -1,4 +1,4 @@
-import { KVDAO } from '@backend/dao/kv-dao';
+import { KVDAO } from './dao/kv-dao';
 import { z } from 'zod';
 import { KvWrapper } from './dao/kv-wrapper';
 

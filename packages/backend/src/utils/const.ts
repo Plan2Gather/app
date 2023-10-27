@@ -1,4 +1,4 @@
-import { MeetingData } from '@backend/types/schema';
+import { MeetingData } from '../types/schema';
 import type { IsEqual } from 'type-fest';
 
 export const bulkKeys = ['meetings'] as const;

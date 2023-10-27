@@ -36,7 +36,7 @@ export const dateRangeSchema = z
  * The day of the week is required to be an integer between 0 and 6,
  * where 0 is Sunday and 6 is Saturday.
  */
-export const dayOfWeekSchema = z
+export const dayOfWeekSchema = z.coerce
   .number()
   .int()
   .refine((value) => value >= 0 && value <= 6, {
@@ -80,6 +80,7 @@ export const meetingDataSchema = z.object({
   ...meetingFormDataSchema.shape,
   id: z.string().uuid(),
   availability: userAvailabilitySchema,
+  creationDate: validDatetimeSchema,
 });
 
 export type MeetingData = z.infer<typeof meetingDataSchema>;

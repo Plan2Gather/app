@@ -1,12 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.scss';
 
-import NxWelcome from './nx-welcome';
 import { useMemo, useState } from 'react';
-import { trpc, trpcClientOptions } from '@frontend/trpc';
+import { trpc, trpcClientOptions } from '../trpc';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
-import { createIDBPersister } from '@frontend/utils/idbPersister';
+import { createIDBPersister } from '../utils/idbPersister';
+
+import { Test } from './test';
 
 export function App() {
   const [queryClient] = useState(() => {
@@ -24,7 +25,7 @@ export function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <NxWelcome title="plan2gather" />
+        <Test />
       </QueryClientProvider>
     </trpc.Provider>
   );

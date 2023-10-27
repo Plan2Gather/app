@@ -15,8 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@backend/*": ["packages/backend/src/*"],
-      "@frontend/*": ["packages/frontend/src/*"]
+      "@plan2gather/backend": ["packages/backend/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

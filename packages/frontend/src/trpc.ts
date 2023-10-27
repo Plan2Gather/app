@@ -1,7 +1,8 @@
 import { createTRPCReact } from '@trpc/react-query';
 import { httpLink } from '@trpc/client';
-import type { AppRouter } from '@backend/index';
 import { config } from './config';
+
+import type { AppRouter } from '@plan2gather/backend';
 
 export const trpc = createTRPCReact<AppRouter>();
 

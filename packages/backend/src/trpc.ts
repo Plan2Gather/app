@@ -1,5 +1,5 @@
 import { initTRPC } from '@trpc/server';
-import { Env } from '@backend/env';
+import { Env } from './env';
 
 type Context = {
   env: Env;

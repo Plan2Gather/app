@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import { t } from '@backend/trpc';
-import { meetingFormDataSchema } from '@backend/types/schema';
+import { t } from '../trpc';
+import { meetingFormDataSchema } from '../types/schema';
 
-import type { MeetingData } from '@backend/types/schema';
+import type { MeetingData } from '../types/schema';
 
 export const meetingRouter = t.router({
   get: t.procedure
@@ -16,6 +16,8 @@ export const meetingRouter = t.router({
       const meeting: MeetingData = {
         id: meetingId,
         ...input,
+        availability: {},
+        creationDate: new Date().toISOString(),
       };
 
       await ctx.env.kvDao.putMeeting(meeting);

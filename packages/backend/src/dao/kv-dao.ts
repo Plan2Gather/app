@@ -1,12 +1,13 @@
-import { ALL_MEETING_KEY, BulkKey, BulkKeyMap } from '@backend/utils/const';
+import { ALL_MEETING_KEY, BulkKey, BulkKeyMap } from '../utils/const';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
 import { KvWrapper } from './kv-wrapper';
 
 import type { KVNamespaceListOptions } from '@cloudflare/workers-types';
-import { MeetingData, meetingDataSchema } from '@backend/types/schema';
+import { MeetingData, meetingDataSchema } from '../types/schema';
 
 const KV_REQUESTS_PER_TRIGGER = 1000;
+const EXPIRATION_TTL = 60 * 60 * 24 * 7; // 7 days
 
 export class KVDAO {
   constructor(private meetingsNamespace: KvWrapper) {}
@@ -92,7 +93,9 @@ export class KVDAO {
   }
 
   async putMeeting(meeting: MeetingData) {
-    await this.meetingsNamespace.put(meetingDataSchema, meeting.id, meeting);
+    await this.meetingsNamespace.put(meetingDataSchema, meeting.id, meeting, {
+      expirationTtl: EXPIRATION_TTL,
+    });
 
     return meeting;
   }

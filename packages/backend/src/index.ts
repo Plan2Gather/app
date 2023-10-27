@@ -1,8 +1,11 @@
-import { Env, getCloudflareEnv } from '@backend/env';
+import { Env, getCloudflareEnv } from './env';
 import { t } from './trpc';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
+import { meetingRouter } from './routers/meeting';
 
-export const appRouter = t.router({});
+export const appRouter = t.router({
+  meetings: meetingRouter,
+});
 export type AppRouter = typeof appRouter;
 
 const CORS_HEADERS = {
@@ -37,7 +40,7 @@ export default {
       batching: {
         enabled: false,
       },
-      createContext: async ({ req }) => {
+      createContext: async () => {
         return { env: polyratingsEnv };
       },
       responseMeta: () => ({
