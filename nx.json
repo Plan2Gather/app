@@ -67,7 +67,7 @@
   "tasksRunnerOptions": {
     "default": {
       "options": {
-        "cacheableOperations": ["build-storybook", "build", "lint", "test"]
+        "cacheableOperations": ["build-storybook", "build", "lint", "test", "generateBackendTypes"]
       }
     }
   }
