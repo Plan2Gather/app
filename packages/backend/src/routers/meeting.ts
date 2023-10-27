@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { t } from '../trpc';
-import { meetingFormDataSchema } from '../types/schema';
+import { meetingDataSchema, meetingFormDataSchema } from '../types/schema';
 
 import type { MeetingData } from '../types/schema';
 
@@ -25,7 +25,7 @@ export const meetingRouter = t.router({
       return meetingId;
     }),
   update: t.procedure
-    .input(meetingFormDataSchema)
+    .input(meetingDataSchema)
     .mutation(async ({ ctx, input }) => {
       await ctx.env.kvDao.updateMeeting(input);
 

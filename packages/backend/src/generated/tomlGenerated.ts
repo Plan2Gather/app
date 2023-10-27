@@ -2,27 +2,27 @@
 /* eslint-disable */
 
 export interface APIEnv {
-  url: string;
+    url: string;
 }
 export const DEV_ENV: APIEnv = {
-  url: 'https://api-dev.plan2gather.net',
+    url: "https://api-dev.plan2gather.net",
 };
 export const BETA_ENV: APIEnv = {
-  url: 'https://api-beta.plan2gather.net',
+    url: "https://api-beta.plan2gather.net",
 };
 export const PROD_ENV: APIEnv = {
-  url: 'https://api-prod.plan2gather.net',
+    url: "https://api-prod.plan2gather.net",
 };
 export const LOCAL_ENV: APIEnv = {
-  url: 'http://localhost:3001',
+    url: "http://localhost:3001",
 };
 
 export const cloudflareNamespaceInformation = {
-  PLAN2GATHER_MEETINGS: {
-    dev: 'f203873043104e6fba47e9d855fe755f',
-    beta: '3686c37a82d3448f910ca2378ff6f6f7',
-    prod: '624e6665714c4c81932fe6e98746bc73',
-  },
+    PLAN2GATHER_MEETINGS: {
+        dev: "f203873043104e6fba47e9d855fe755f",
+        beta: "3686c37a82d3448f910ca2378ff6f6f7",
+        prod: "624e6665714c4c81932fe6e98746bc73",
+    },
 } as const;
 
-export const cloudflareAccountId = 'c5d18577a688210711261e1b3c2ffb71';
+export const cloudflareAccountId = "c5d18577a688210711261e1b3c2ffb71";
