@@ -46,12 +46,9 @@ export const dayOfWeekSchema = z.coerce
 /**
  * Availability schema.
  *
- * The availability is a record of day of the week to an array of date ranges.
+ * The availability is an array of date ranges.
  */
-export const availabilitySchema = z.record(
-  dayOfWeekSchema,
-  z.array(dateRangeSchema)
-);
+export const availabilitySchema = z.array(dateRangeSchema);
 
 /**
  * User availability schema.
