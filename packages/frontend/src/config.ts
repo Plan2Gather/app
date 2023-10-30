@@ -49,11 +49,9 @@ const modeToConfig: Record<string, AppConfiguration> = {
 
 const deploymentMode = import.meta.env.MODE ?? 'fallback';
 
-let config: AppConfiguration;
-if (deploymentMode === 'local-dev') {
-  config = localConfig;
-} else {
-  config = modeToConfig[deploymentMode] ?? modeToConfig.fallback;
-}
+const config =
+  deploymentMode === 'local-dev'
+    ? localConfig
+    : modeToConfig[deploymentMode] ?? modeToConfig.fallback;
 
 export { config };

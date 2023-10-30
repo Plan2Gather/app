@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './homepage.module.scss';
-
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -9,6 +6,9 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { Button } from '@mui/material';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import styles from './homepage.module.scss';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary">
@@ -16,8 +16,7 @@ function Copyright() {
       <Link color="inherit" href="https://plan2gather.net/">
         Plan2Gather
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {new Date().getFullYear()}.
     </Typography>
   );
 }
@@ -27,7 +26,7 @@ const defaultTheme = createTheme();
 /* eslint-disable-next-line */
 export interface HomepageProps {}
 
-export function Homepage() {
+export default function Homepage() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box
@@ -67,5 +66,3 @@ export function Homepage() {
     </ThemeProvider>
   );
 }
-
-export default Homepage;

@@ -1,14 +1,7 @@
-import { KVDAO } from './dao/kv-dao';
 import { z } from 'zod';
-import { KvWrapper } from './dao/kv-wrapper';
-
 import type { KVNamespace } from '@cloudflare/workers-types';
-
-export function getCloudflareEnv(
-  rawEnv: Record<string, unknown>
-): CloudflareEnv {
-  return cloudflareEnvParser.parse(rawEnv);
-}
+import KVDAO from './dao/kv-dao';
+import KvWrapper from './dao/kv-wrapper';
 
 export class Env {
   kvDao: KVDAO;
@@ -29,3 +22,9 @@ const cloudflareEnvParser = z.object({
   PLAN2GATHER_MEETINGS: kvNamespaceParser,
   IS_DEPLOYED: z.boolean(),
 });
+
+export function getCloudflareEnv(
+  rawEnv: Record<string, unknown>
+): CloudflareEnv {
+  return cloudflareEnvParser.parse(rawEnv);
+}

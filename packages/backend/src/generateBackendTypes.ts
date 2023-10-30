@@ -31,7 +31,10 @@ function objToString(obj: unknown, ndeep = 1): string {
   }
 }
 
-const workerToml = readFileSync(resolve(__dirname, './wrangler.toml'), 'utf-8');
+const workerToml = readFileSync(
+  resolve(__dirname, '../wrangler.toml'),
+  'utf-8'
+);
 const parsedToml = parse(workerToml);
 
 const nameSpaceDefinitions = Object.entries(parsedToml.env)
@@ -78,6 +81,6 @@ export const cloudflareAccountId = "${parsedToml.account_id}";
 `;
 
 writeFileSync(
-  resolve(__dirname, './src/generated/tomlGenerated.ts'),
+  resolve(__dirname, './generated/tomlGenerated.ts'),
   tomlTypeOutput
 );

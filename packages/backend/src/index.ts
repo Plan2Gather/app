@@ -1,6 +1,6 @@
+import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { Env, getCloudflareEnv } from './env';
 import { t } from './trpc';
-import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { meetingRouter } from './routers/meeting';
 
 export const appRouter = t.router({
@@ -40,9 +40,7 @@ export default {
       batching: {
         enabled: false,
       },
-      createContext: async () => {
-        return { env: polyratingsEnv };
-      },
+      createContext: async () => ({ env: polyratingsEnv }),
       responseMeta: () => ({
         headers: {
           'Access-Control-Max-Age': '1728000',
