@@ -1,7 +1,7 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { Env, getCloudflareEnv } from './env';
-import { t } from './trpc';
-import { meetingRouter } from './routers/meeting';
+import t from './trpc';
+import meetingRouter from './routers/meeting';
 
 export const appRouter = t.router({
   meetings: meetingRouter,

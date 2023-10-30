@@ -5,4 +5,4 @@ type Context = {
   env: Env;
 };
 
-export const t = initTRPC.context<Context>().create({});
+export default initTRPC.context<Context>().create({});
