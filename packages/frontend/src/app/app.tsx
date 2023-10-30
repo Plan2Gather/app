@@ -6,6 +6,7 @@ import { trpc, trpcClientOptions } from '../trpc';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createIDBPersister } from '../utils/idbPersister';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Homepage from './homepage/homepage';
 
@@ -22,10 +23,17 @@ export function App() {
   });
   const trpcClient = useMemo(() => trpc.createClient(trpcClientOptions()), []);
 
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Homepage />,
+    },
+  ]);
+
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <Homepage />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </trpc.Provider>
   );
