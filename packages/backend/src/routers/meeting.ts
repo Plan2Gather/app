@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
-import { t } from '../trpc';
+import t from '../trpc';
 import { meetingDataSchema, meetingFormDataSchema } from '../types/schema';
 
 import type { MeetingData } from '../types/schema';
 
-export const meetingRouter = t.router({
+export default t.router({
   get: t.procedure
     .input(z.object({ id: z.string().uuid() }))
     .query(({ input, ctx }) => ctx.env.kvDao.getMeeting(input.id)),

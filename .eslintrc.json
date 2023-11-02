@@ -5,11 +5,19 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
+      "extends": ["airbnb", "airbnb-typescript"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
     },
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
+      "settings": {
+        "import/resolver": {
+          "typescript": {}
+        }
+      },
       "rules": {}
     },
     {

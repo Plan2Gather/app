@@ -1,15 +1,15 @@
-import { ALL_MEETING_KEY, BulkKey, BulkKeyMap } from '../utils/const';
 import { z } from 'zod';
 import { TRPCError } from '@trpc/server';
-import { KvWrapper } from './kv-wrapper';
-
 import type { KVNamespaceListOptions } from '@cloudflare/workers-types';
+import KvWrapper from './kv-wrapper';
+
+import { ALL_MEETING_KEY, BulkKey, BulkKeyMap } from '../utils/const';
 import { MeetingData, meetingDataSchema } from '../types/schema';
 
 const KV_REQUESTS_PER_TRIGGER = 1000;
 const EXPIRATION_TTL = 60 * 60 * 24 * 7; // 7 days
 
-export class KVDAO {
+export default class KVDAO {
   constructor(private meetingsNamespace: KvWrapper) {}
 
   getBulkNamespace(bulkKey: BulkKey): {

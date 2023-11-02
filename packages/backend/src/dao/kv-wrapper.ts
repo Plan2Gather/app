@@ -7,7 +7,7 @@ import type {
   KVNamespacePutOptions,
 } from '@cloudflare/workers-types';
 
-export class KvWrapper {
+export default class KvWrapper {
   constructor(private kv: KVNamespace) {}
 
   async get<T extends ZodTypeAny>(
