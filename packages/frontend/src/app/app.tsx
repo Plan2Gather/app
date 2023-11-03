@@ -7,7 +7,8 @@ import { trpc, trpcClientOptions } from '../trpc';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.scss';
 
-import Homepage from './homepage/homepage';
+import Homepage from './pages/homepage/homepage';
+import Layout from './components/layout/layout';
 
 export default function App() {
   const [queryClient] = useState(() => {
@@ -32,7 +33,9 @@ export default function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <Layout>
+          <RouterProvider router={router} />
+        </Layout>
       </QueryClientProvider>
     </trpc.Provider>
   );
