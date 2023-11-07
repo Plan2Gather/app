@@ -44,7 +44,7 @@ const footers = [
   {
     title: 'Resources',
     description: [
-      { text: 'How to Use', link: '/how' },
+      { text: 'Getting Started Guide', link: '/guide' },
       {
         text: 'Source Code on GitHub',
         link: 'https://github.com/cjlawson02/plan2gather',
@@ -53,10 +53,7 @@ const footers = [
   },
   {
     title: 'Legal',
-    description: [
-      { text: 'Privacy policy', link: '/privacy' },
-      { text: 'Terms of use', link: '/terms' },
-    ],
+    description: [{ text: 'Privacy policy', link: '/privacy' }],
   },
 ];
 
@@ -114,7 +111,7 @@ export default function Layout(props: LayoutProps) {
               <Link
                 variant="button"
                 color="text.primary"
-                href="/how"
+                href="/guide"
                 sx={{ my: 1, mx: 1.5 }}
               >
                 Help
@@ -131,7 +128,9 @@ export default function Layout(props: LayoutProps) {
         </AppBar>
         {/* End Header */}
         {/* Main */}
-        <Container disableGutters>{children}</Container>
+        <Container maxWidth="md" sx={{ paddingY: '20px' }} component="main">
+          {children}
+        </Container>
         {/* End Main */}
         {/* Footer */}
         <Box
