@@ -26,6 +26,32 @@ To start the development server for the backend run `nx serve frontend`. Open yo
 
 To build the backend, run `nx build backend`
 
+## Linting and Formatting
+
+We follow the [AirBnB style guide](https://github.com/airbnb/javascript) and use ESLint and Prettier for linting and formatting.
+
+### Run ESLint
+
+To run ESLint for linting your code, use the following command:
+
+```bash
+nx run-many -t lint
+```
+
+This command will lint all projects in your Nx workspace.
+
+### Run Prettier
+
+To run Prettier for code formatting, use the following command:
+
+```bash
+nx format
+```
+
+This command will format the code in all projects in your Nx workspace according to the Prettier configuration.
+
+Make sure to have the necessary ESLint and Prettier configurations in place to maintain code consistency.
+
 ## Generate code
 
 If you happen to use Nx plugins, you can leverage code generators that might come with it.
