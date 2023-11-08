@@ -69,6 +69,8 @@ export const meetingFormDataSchema = z.object({
   allowedPeriods: availabilitySchema,
 });
 
+export type MeetingFormData = z.infer<typeof meetingFormDataSchema>;
+
 /**
  * Meeting data schema.
  * The meeting data is the meeting form data with an ID and user availability.

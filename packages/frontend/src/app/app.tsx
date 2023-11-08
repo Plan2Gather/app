@@ -10,6 +10,7 @@ import styles from './app.module.scss';
 import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
 import NotFound from './pages/not-found/not-found';
+import Creation from './pages/meeting-creation/meeting-creation';
 
 export default function App() {
   const [queryClient] = useState(() => {
@@ -32,7 +33,7 @@ export default function App() {
     },
     {
       path: '/meeting-creation',
-      element: <NotFound />,
+      element: <Creation />,
     },
     {
       path: '/team',

@@ -3,6 +3,8 @@ import { Env, getCloudflareEnv } from './env';
 import t from './trpc';
 import meetingRouter from './routers/meeting';
 
+export * from './types/schema';
+
 export const appRouter = t.router({
   meetings: meetingRouter,
 });
