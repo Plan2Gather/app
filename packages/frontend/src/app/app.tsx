@@ -30,6 +30,26 @@ export default function App() {
       path: '/',
       element: <Homepage />,
     },
+    {
+      path: '/meeting-creation',
+      element: <NotFound />,
+    },
+    {
+      path: '/team',
+      element: <NotFound />,
+    },
+    {
+      path: '/contact',
+      element: <NotFound />,
+    },
+    {
+      path: '/guide',
+      element: <NotFound />,
+    },
+    {
+      path: '/privacy',
+      element: <NotFound />,
+    },
   ]);
 
   return (
