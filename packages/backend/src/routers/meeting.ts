@@ -1,8 +1,7 @@
 import { z } from 'zod';
-
+import { nanoid } from 'nanoid'
 import t from '../trpc';
 import { meetingDataSchema, meetingFormDataSchema } from '../types/schema';
-import { nanoid } from 'nanoid'
 import type { MeetingData } from '../types/schema';
 
 export default t.router({
