@@ -9,6 +9,8 @@ import styles from './app.module.scss';
 
 import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
+import Creation from './pages/meeting-creation/meeting-creation';
+import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
 
 export default function App() {
@@ -32,7 +34,7 @@ export default function App() {
     },
     {
       path: '/meeting-creation',
-      element: <NotFound />,
+      element: <Creation />,
     },
     {
       path: '/team',
@@ -48,7 +50,7 @@ export default function App() {
     },
     {
       path: '/privacy',
-      element: <NotFound />,
+      element: <Privacy />,
     },
   ]);
 
