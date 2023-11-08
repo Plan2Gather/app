@@ -9,6 +9,7 @@ import styles from './app.module.scss';
 
 import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
+import NotFound from './pages/not-found/not-found';
 
 export default function App() {
   const [queryClient] = useState(() => {
@@ -24,6 +25,7 @@ export default function App() {
   const trpcClient = useMemo(() => trpc.createClient(trpcClientOptions()), []);
 
   const router = createBrowserRouter([
+    { path: '*', element: <NotFound /> },
     {
       path: '/',
       element: <Homepage />,
