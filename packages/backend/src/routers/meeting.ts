@@ -2,17 +2,17 @@ import { z } from 'zod';
 
 import t from '../trpc';
 import { meetingDataSchema, meetingFormDataSchema } from '../types/schema';
-
+import { nanoid } from 'nanoid'
 import type { MeetingData } from '../types/schema';
 
 export default t.router({
   get: t.procedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => ctx.env.kvDao.getMeeting(input.id)),
   put: t.procedure
     .input(meetingFormDataSchema)
     .mutation(async ({ ctx, input }) => {
-      const meetingId = crypto.randomUUID();
+      const meetingId = nanoid();
       const meeting: MeetingData = {
         id: meetingId,
         ...input,
@@ -32,7 +32,7 @@ export default t.router({
       return 'ok';
     }),
   remove: t.procedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.env.kvDao.removeMeeting(input.id);
 

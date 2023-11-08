@@ -75,7 +75,7 @@ export const meetingFormDataSchema = z.object({
  */
 export const meetingDataSchema = z.object({
   ...meetingFormDataSchema.shape,
-  id: z.string().uuid(),
+  id: z.string(),
   availability: userAvailabilitySchema,
   creationDate: validDatetimeSchema,
 });
