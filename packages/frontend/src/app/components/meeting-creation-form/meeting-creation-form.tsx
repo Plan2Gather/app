@@ -1,4 +1,4 @@
-import { Button, Stack, AutocompleteProps, Box } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { DateTime } from 'luxon';
 import { zones } from 'tzdata';
 import {
