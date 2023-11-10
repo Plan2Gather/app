@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import { Link, styled } from '@mui/material';
+import { Divider, Link, styled } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -67,6 +67,40 @@ export default function Privacy() {
         We use Your Personal data to provide and improve the Service. By using
         the Service, You agree to the collection and use of information in
         accordance with this Privacy Policy.
+      </Typography>
+      <Divider />
+      <Typography component="h3" variant="h5">
+        Summary of the policy
+      </Typography>
+      <Typography gutterBottom>
+        <BulletedList>
+          <BulletedListItem>
+            <strong>Data Collection & Cookies:</strong> We collect the necessary
+            data for organizing meetings and use cookies to match previous
+            responses to users.
+          </BulletedListItem>
+          <BulletedListItem>
+            <strong>Optional Email Feature:</strong> You have the option to use
+            your email to receive a link to edit your availability or to invite
+            others.
+          </BulletedListItem>
+          <BulletedListItem>
+            <strong>Public Data:</strong> All meeting details and availabilities
+            are publicly accessible, as anyone with the meeting link can view
+            them.
+          </BulletedListItem>
+          <BulletedListItem>
+            <strong>Data Deletion:</strong> Meeting data is automatically
+            deleted after 90 days.
+          </BulletedListItem>
+          <BulletedListItem>
+            <strong>Adaptive Policy:</strong> This policy is designed to be
+            forward-looking, providing a broad framework that covers both our
+            current services and any future enhancements. We are committed to
+            evolving our privacy practices responsibly and transparently as our
+            services grow.
+          </BulletedListItem>
+        </BulletedList>
       </Typography>
       <Accordion>
         <AccordionSummary>Interpretation and Definitions</AccordionSummary>
