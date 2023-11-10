@@ -3,7 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import EventIcon from '@mui/icons-material/Event'; // or any other relevant icon
+import GroupsIcon from '@mui/icons-material/Groups'; // or any other relevant icon
 
 export default function CreateMeetingButton() {
   const theme = useTheme();
@@ -11,7 +11,7 @@ export default function CreateMeetingButton() {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const route = '/meeting-creation';
-  const icon = <EventIcon />;
+  const icon = <GroupsIcon />;
 
   return isMobile ? (
     <IconButton
