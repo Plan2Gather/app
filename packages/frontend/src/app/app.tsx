@@ -9,7 +9,6 @@ import styles from './app.module.scss';
 
 import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
-import Creation from './pages/meeting-creation/meeting-creation';
 import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
 
@@ -34,7 +33,7 @@ export default function App() {
     },
     {
       path: '/meeting-creation',
-      element: <Creation />,
+      element: <NotFound />,
     },
     {
       path: '/team',
