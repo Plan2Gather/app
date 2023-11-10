@@ -1,24 +1,21 @@
 import Typography from '@mui/material/Typography';
 import { Box, Button } from '@mui/material';
+import { Container } from '@mui/system';
 
 export default function Homepage() {
   return (
-    <>
-      <Typography
-        component="h1"
-        variant="h2"
-        align="center"
-        color="text.primary"
-        gutterBottom
-      >
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        justifyContent: 'center',
+      }}
+    >
+      <Typography variant="h1" align="center" color="text.primary">
         Plan2Gather
       </Typography>
-      <Typography
-        variant="h5"
-        align="center"
-        color="text.secondary"
-        component="p"
-      >
+      <Typography variant="h6" align="center" color="text.secondary">
         Discover the lightning-speed hangout harmonizer
       </Typography>
       <Box
@@ -28,9 +25,9 @@ export default function Homepage() {
         paddingTop={2}
       >
         <Button variant="contained" href="/meeting-creation">
-          Get Started
+          Plan a Gathering
         </Button>
       </Box>
-    </>
+    </Container>
   );
 }
