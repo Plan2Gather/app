@@ -3,17 +3,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {
   AppBar,
   Box,
-  Button,
   Container,
   CssBaseline,
   GlobalStyles,
-  Grid,
   Link,
   Toolbar,
   Typography,
   TypographyOwnProps,
+  responsiveFontSizes,
   useMediaQuery,
 } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import CreateMeetingButton from '../create-meeting-button/create-meeting-button';
 
 function Copyright(props: TypographyOwnProps) {
   return (
@@ -66,11 +67,13 @@ export default function Layout(props: LayoutProps) {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const mdTheme = useMemo(
     () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-        },
-      }),
+      responsiveFontSizes(
+        createTheme({
+          palette: {
+            mode: prefersDarkMode ? 'dark' : 'light',
+          },
+        })
+      ),
     [prefersDarkMode]
   );
 
@@ -112,23 +115,26 @@ export default function Layout(props: LayoutProps) {
                 variant="button"
                 color="text.primary"
                 href="/guide"
-                sx={{ my: 1, mx: 1.5 }}
+                sx={{ mx: 1.5 }}
               >
                 Help
               </Link>
             </nav>
-            <Button
-              href="/meeting-creation"
-              variant="outlined"
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              Create Meeting
-            </Button>
+            <CreateMeetingButton />
           </Toolbar>
         </AppBar>
         {/* End Header */}
         {/* Main */}
-        <Container maxWidth="md" sx={{ paddingY: '20px' }} component="main">
+        <Container
+          maxWidth="md"
+          sx={{
+            paddingY: 1.5,
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          component="main"
+        >
           {children}
         </Container>
         {/* End Main */}
@@ -144,14 +150,13 @@ export default function Layout(props: LayoutProps) {
             component="footer"
             sx={{
               borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-              mt: 8,
-              py: [3, 6],
+              py: [1.5, 1.5],
             }}
           >
-            <Grid container spacing={4} justifyContent="space-evenly">
+            <Grid container spacing={2} justifyContent="space-evenly">
               {footers.map((footer) => (
-                <Grid item xs={6} sm={3} key={footer.title}>
-                  <Typography variant="h6" color="text.primary" gutterBottom>
+                <Grid xs={4} sm={3} key={footer.title}>
+                  <Typography variant="h6" gutterBottom>
                     {footer.title}
                   </Typography>
                   <ul>

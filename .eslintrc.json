@@ -18,7 +18,14 @@
           "typescript": {}
         }
       },
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_"
+          }
+        ]
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
