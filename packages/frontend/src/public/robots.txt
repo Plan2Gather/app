@@ -1,0 +1,7 @@
+# Block all crawlers for /meetings
+User-agent: *
+Disallow: /meetings/
+
+# Allow all crawlers
+User-agent: *
+Allow: /
