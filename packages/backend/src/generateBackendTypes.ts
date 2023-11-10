@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { readFileSync, writeFileSync } from 'fs';
 import { parse } from 'toml';
 import { resolve } from 'path';
