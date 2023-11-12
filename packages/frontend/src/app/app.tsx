@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import createIDBPersister from '../utils/idbPersister';
 import { trpc, trpcClientOptions } from '../trpc';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -56,9 +58,11 @@ export default function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <Layout>
-          <RouterProvider router={router} />
-        </Layout>
+        <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="en">
+          <Layout>
+            <RouterProvider router={router} />
+          </Layout>
+        </LocalizationProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );
