@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
+import { GatheringData } from '@plan2gather/backend/types';
 import Filter from './filter';
 import '@testing-library/jest-dom';
-import { GatheringData } from '@plan2gather/backend/types';
 
 describe('Filter', () => {
   it('should render', () => {
