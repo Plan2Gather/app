@@ -22,9 +22,9 @@ function CustomDay({ selectedDay, day, ...other }: CustomDayProps) {
     false;
 
   // Apply custom styles if 'isSelected' is true
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return (
     <PickersDay
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...other}
       day={day}
       selected={isSelected}
