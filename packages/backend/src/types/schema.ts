@@ -57,17 +57,28 @@ export const availabilitySchema = z.array(dateRangeSchema);
  */
 export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
 
+export const meetingFormDetailsSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().optional(),
+  timezone: z.string().min(1), // TODO: Validate timezone
+});
+
+export type MeetingFormDetails = z.infer<typeof meetingFormDetailsSchema>;
+
 /**
  * Meeting form data schema.
  *
  * The meeting form data is the required data to create a meeting.
  */
-export const meetingFormDataSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  timezone: z.string(),
+export const meetingFormPeriodsSchema = z.object({
   allowedPeriods: availabilitySchema,
 });
+
+export type MeetingFormPeriods = z.infer<typeof meetingFormPeriodsSchema>;
+
+export const meetingFormDataSchema = meetingFormDetailsSchema.merge(
+  meetingFormPeriodsSchema
+);
 
 export type MeetingFormData = z.infer<typeof meetingFormDataSchema>;
 

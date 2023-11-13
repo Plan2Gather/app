@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 
-import MeetingCreationForm from '../../components/meeting-creation-form/meeting-creation-form';
+import GatheringCreationStepper from '../../components/gathering-creation-stepper/gathering-creation-stepper';
 
 export default function Creation() {
   return (
@@ -12,9 +12,9 @@ export default function Creation() {
         color="text.primary"
         gutterBottom
       >
-        Create a meeting
+        Plan a Gathering
       </Typography>
-      <MeetingCreationForm />
+      <GatheringCreationStepper />
     </>
   );
 }

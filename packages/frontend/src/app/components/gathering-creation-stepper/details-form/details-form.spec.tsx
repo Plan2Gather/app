@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Creation from './meeting-creation';
+import DetailsForm from './details-form';
 
-describe('Meeting Creation', () => {
+describe('DetailsForm', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Creation />);
+    const { baseElement } = render(<DetailsForm />);
     expect(baseElement).toBeTruthy();
   });
 });

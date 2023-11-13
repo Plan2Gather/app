@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import WeekdayPicker from './weekday-picker';
+import Creation from './gathering-creation';
 
-describe('WeekdayPicker', () => {
+describe('Gathering Creation', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<WeekdayPicker />);
+    const { baseElement } = render(<Creation />);
     expect(baseElement).toBeTruthy();
   });
 });

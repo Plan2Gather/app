@@ -1,6 +1,7 @@
 import Typography from '@mui/material/Typography';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { Container } from '@mui/system';
+import CreateGatheringButton from '../../components/create-gathering-button/create-gathering-button';
 
 export default function Homepage() {
   return (
@@ -24,9 +25,7 @@ export default function Homepage() {
         alignItems="center"
         paddingTop={2}
       >
-        <Button variant="contained" href="/meeting-creation">
-          Plan a Gathering
-        </Button>
+        <CreateGatheringButton size="large" />
       </Box>
     </Container>
   );
