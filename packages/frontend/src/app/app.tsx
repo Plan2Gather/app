@@ -9,6 +9,7 @@ import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
 import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
+import Contact from './pages/contact/contact';
 
 export default function App() {
   const [queryClient] = useState(() => {
@@ -39,7 +40,7 @@ export default function App() {
     },
     {
       path: '/contact',
-      element: <NotFound />,
+      element: <Contact />,
     },
     {
       path: '/guide',
