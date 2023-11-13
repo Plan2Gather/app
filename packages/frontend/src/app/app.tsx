@@ -4,11 +4,10 @@ import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import createIDBPersister from '../utils/idbPersister';
 import { trpc, trpcClientOptions } from '../trpc';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
 
 import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
+import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
 
 export default function App() {
@@ -29,6 +28,26 @@ export default function App() {
     {
       path: '/',
       element: <Homepage />,
+    },
+    {
+      path: '/create',
+      element: <NotFound />,
+    },
+    {
+      path: '/team',
+      element: <NotFound />,
+    },
+    {
+      path: '/contact',
+      element: <NotFound />,
+    },
+    {
+      path: '/guide',
+      element: <NotFound />,
+    },
+    {
+      path: '/privacy',
+      element: <Privacy />,
     },
   ]);
 

@@ -1,0 +1,7 @@
+# Block all crawlers for /gatherings
+User-agent: *
+Disallow: /gatherings/
+
+# Allow all crawlers
+User-agent: *
+Allow: /

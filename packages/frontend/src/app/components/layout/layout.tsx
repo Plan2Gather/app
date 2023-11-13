@@ -1,19 +1,19 @@
 import { ReactNode, useMemo } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  GlobalStyles,
-  Grid,
-  Link,
-  Toolbar,
-  Typography,
-  TypographyOwnProps,
-  useMediaQuery,
-} from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
+import Link from '@mui/material/Link';
+import Toolbar from '@mui/material/Toolbar';
+import Typography, { TypographyOwnProps } from '@mui/material/Typography';
+import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Grid from '@mui/material/Unstable_Grid2';
+import CreateGatheringButton from '../create-gathering-button/create-gathering-button';
+import BulletedListItem from '../bulleted-list/bulleted-list-item';
+import BulletedList from '../bulleted-list/bulleted-list';
 
 function Copyright(props: TypographyOwnProps) {
   return (
@@ -23,6 +23,7 @@ function Copyright(props: TypographyOwnProps) {
       align="center"
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
+      data-testid="copyright"
     >
       {'Copyright © '}
       <Link color="inherit" href="/">
@@ -44,9 +45,9 @@ const footers = [
   {
     title: 'Resources',
     description: [
-      { text: 'Getting Started Guide', link: '/guide' },
+      { text: 'Getting started', link: '/guide' },
       {
-        text: 'Source Code on GitHub',
+        text: 'Source code',
         link: 'https://github.com/cjlawson02/plan2gather',
       },
     ],
@@ -66,11 +67,13 @@ export default function Layout(props: LayoutProps) {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const mdTheme = useMemo(
     () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-        },
-      }),
+      responsiveFontSizes(
+        createTheme({
+          palette: {
+            mode: prefersDarkMode ? 'dark' : 'light',
+          },
+        })
+      ),
     [prefersDarkMode]
   );
 
@@ -103,7 +106,12 @@ export default function Layout(props: LayoutProps) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              <Link href="/" underline="none" color="inherit">
+              <Link
+                href="/"
+                underline="none"
+                color="inherit"
+                data-testid="website-title-link"
+              >
                 Plan2Gather
               </Link>
             </Typography>
@@ -112,23 +120,26 @@ export default function Layout(props: LayoutProps) {
                 variant="button"
                 color="text.primary"
                 href="/guide"
-                sx={{ my: 1, mx: 1.5 }}
+                sx={{ mx: 1.5 }}
               >
                 Help
               </Link>
             </nav>
-            <Button
-              href="/meeting-creation"
-              variant="outlined"
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              Create Meeting
-            </Button>
+            <CreateGatheringButton variant="toolbar" />
           </Toolbar>
         </AppBar>
         {/* End Header */}
         {/* Main */}
-        <Container maxWidth="md" sx={{ paddingY: '20px' }} component="main">
+        <Container
+          maxWidth="md"
+          sx={{
+            paddingY: 1.5,
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          component="main"
+        >
           {children}
         </Container>
         {/* End Main */}
@@ -144,19 +155,17 @@ export default function Layout(props: LayoutProps) {
             component="footer"
             sx={{
               borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-              mt: 8,
-              py: [3, 6],
+              py: [1.5, 1.5],
             }}
+            data-testid="footer"
           >
-            <Grid container spacing={4} justifyContent="space-evenly">
+            <Grid container spacing={2} justifyContent="space-evenly">
               {footers.map((footer) => (
-                <Grid item xs={6} sm={3} key={footer.title}>
-                  <Typography variant="h6" color="text.primary" gutterBottom>
-                    {footer.title}
-                  </Typography>
-                  <ul>
+                <Grid xs={4} sm={3} key={footer.title}>
+                  <Typography variant="h6">{footer.title}</Typography>
+                  <BulletedList>
                     {footer.description.map((item) => (
-                      <li key={item.text}>
+                      <BulletedListItem key={item.text} sx={{ mt: 0, mb: 0 }}>
                         <Link
                           href={item.link}
                           variant="subtitle1"
@@ -164,13 +173,13 @@ export default function Layout(props: LayoutProps) {
                         >
                           {item.text}
                         </Link>
-                      </li>
+                      </BulletedListItem>
                     ))}
-                  </ul>
+                  </BulletedList>
                 </Grid>
               ))}
             </Grid>
-            <Copyright sx={{ mt: 5 }} />
+            <Copyright sx={{ mt: 1 }} />
           </Container>
         </Box>
         {/* End footer */}
