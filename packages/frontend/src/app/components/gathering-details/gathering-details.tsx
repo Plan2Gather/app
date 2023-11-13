@@ -3,22 +3,22 @@ import {GatheringFormDetails } from "@plan2gather/backend/types";
 import Typography from '@mui/material/Typography'
 
 /* eslint-disable-next-line */
-export interface MeetingDetailsProps {
-  meetingData: GatheringFormDetails;
+export interface GatheringDetailsProps {
+  gatheringData: GatheringFormDetails;
 }
 
-export function MeetingDetails({meetingData}: MeetingDetailsProps) {
+export function GatheringDetails({gatheringData}: GatheringDetailsProps) {
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return (
     <>
       <Typography variant="h4" component="h2">
-        {meetingData.name}
+        {gatheringData.name}
       </Typography>
       <Typography variant="body1">
-      {meetingData.description}
+      {gatheringData.description}
       </Typography>
       <Typography variant="body2">
-        Event Timezone: {meetingData.timezone}
+        Event Timezone: {gatheringData.timezone}
       </Typography>
       <Typography variant="body2">
         Your Timezone: {userTimezone}
@@ -27,4 +27,4 @@ export function MeetingDetails({meetingData}: MeetingDetailsProps) {
   );
 }
 
-export default MeetingDetails;
+export default GatheringDetails;

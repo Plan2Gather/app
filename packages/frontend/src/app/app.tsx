@@ -2,8 +2,6 @@ import { useMemo, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import createIDBPersister from '../utils/idbPersister';
 import { trpc, trpcClientOptions } from '../trpc';
 
@@ -11,7 +9,7 @@ import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
 import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
-import Creation from './pages/gathering-creation/gathering-creation';
+import Creation from './pages/meeting-creation/meeting-creation';
 
 export default function App() {
   const [queryClient] = useState(() => {
@@ -34,7 +32,7 @@ export default function App() {
     },
     {
       path: '/create',
-      element: <Creation />,
+      element: <NotFound />,
     },
     {
       path: '/team',
@@ -57,11 +55,9 @@ export default function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="en">
-          <Layout>
-            <RouterProvider router={router} />
-          </Layout>
-        </LocalizationProvider>
+        <Layout>
+          <RouterProvider router={router} />
+        </Layout>
       </QueryClientProvider>
     </trpc.Provider>
   );

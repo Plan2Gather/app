@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MeetingDetails } from './meeting-details';
+import { GatheringDetails } from './gathering-details';
 
-const meta: Meta<typeof MeetingDetails> = {
-  component: MeetingDetails,
-  title: 'MeetingDetails',
+const meta: Meta<typeof GatheringDetails> = {
+  component: GatheringDetails,
+  title: 'GatheringDetails',
 };
 export default meta;
-type Story = StoryObj<typeof MeetingDetails>;
+type Story = StoryObj<typeof GatheringDetails>;
 
 export const Primary: Story = {
   args: {
-    meetingData: {
+    gatheringData: {
       name: 'Test Meeting',
       description: 'This is a test meeting',
       timezone: 'America/New_York',
