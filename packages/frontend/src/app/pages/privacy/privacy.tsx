@@ -76,7 +76,7 @@ export default function Privacy() {
         <BulletedList>
           <BulletedListItem>
             <strong>Data Collection & Cookies:</strong> We collect the necessary
-            data for organizing meetings and use cookies to match previous
+            data for organizing gatherings and use cookies to match previous
             responses to users.
           </BulletedListItem>
           <BulletedListItem>
@@ -85,12 +85,12 @@ export default function Privacy() {
             others.
           </BulletedListItem>
           <BulletedListItem>
-            <strong>Public Data:</strong> All meeting details and availabilities
-            are publicly accessible, as anyone with the meeting link can view
-            them.
+            <strong>Public Data:</strong> All gathering details and
+            availabilities are publicly accessible, as anyone with the gathering
+            link can view them.
           </BulletedListItem>
           <BulletedListItem>
-            <strong>Data Deletion:</strong> Meeting data is automatically
+            <strong>Data Deletion:</strong> Gathering data is automatically
             deleted after 90 days.
           </BulletedListItem>
           <BulletedListItem>

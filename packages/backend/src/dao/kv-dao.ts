@@ -3,14 +3,14 @@ import { TRPCError } from '@trpc/server';
 import type { KVNamespaceListOptions } from '@cloudflare/workers-types';
 import KvWrapper from './kv-wrapper';
 
-import { ALL_MEETING_KEY, BulkKey, BulkKeyMap } from '../utils/const';
-import { MeetingData, meetingDataSchema } from '../types/schema';
+import { ALL_GATHERING_KEY, BulkKey, BulkKeyMap } from '../utils/const';
+import { GatheringData, gatheringDataSchema } from '../types/schema';
 
 const KV_REQUESTS_PER_TRIGGER = 1000;
 const EXPIRATION_TTL = 60 * 60 * 24 * 7; // 7 days
 
 export default class KVDAO {
-  constructor(private meetingsNamespace: KvWrapper) {}
+  constructor(private gatheringsNamespace: KvWrapper) {}
 
   getBulkNamespace(bulkKey: BulkKey): {
     namespace: KvWrapper;
@@ -20,9 +20,9 @@ export default class KVDAO {
       BulkKey,
       { namespace: KvWrapper; parser: z.ZodTypeAny }
     > = {
-      meetings: {
-        namespace: this.meetingsNamespace,
-        parser: meetingDataSchema,
+      gatherings: {
+        namespace: this.gatheringsNamespace,
+        parser: gatheringDataSchema,
       },
     };
 
@@ -65,54 +65,59 @@ export default class KVDAO {
     return Promise.all(keys.map((key) => namespace.getUnsafe(key))) as never;
   }
 
-  async getAllMeetings() {
-    const meetingList = await this.meetingsNamespace.safeGet(
-      z.array(meetingDataSchema),
-      ALL_MEETING_KEY
+  async getAllGatherings() {
+    const gatheringList = await this.gatheringsNamespace.safeGet(
+      z.array(gatheringDataSchema),
+      ALL_GATHERING_KEY
     );
-    if (!meetingList.success) {
+    if (!gatheringList.success) {
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
-        message: 'Could not find any meetings.',
+        message: 'Could not find any gatherings.',
       });
     }
 
-    return meetingList.data;
+    return gatheringList.data;
   }
 
-  private async putAllMeetings(meetingList: MeetingData[]) {
-    await this.meetingsNamespace.put(
-      z.array(meetingDataSchema),
-      ALL_MEETING_KEY,
-      meetingList
+  private async putAllGatherings(gatheringList: GatheringData[]) {
+    await this.gatheringsNamespace.put(
+      z.array(gatheringDataSchema),
+      ALL_GATHERING_KEY,
+      gatheringList
     );
   }
 
-  getMeeting(id: string) {
-    return this.meetingsNamespace.get(meetingDataSchema, id);
+  getGathering(id: string) {
+    return this.gatheringsNamespace.get(gatheringDataSchema, id);
   }
 
-  async putMeeting(meeting: MeetingData) {
-    await this.meetingsNamespace.put(meetingDataSchema, meeting.id, meeting, {
-      expirationTtl: EXPIRATION_TTL,
-    });
+  async putGathering(gathering: GatheringData) {
+    await this.gatheringsNamespace.put(
+      gatheringDataSchema,
+      gathering.id,
+      gathering,
+      {
+        expirationTtl: EXPIRATION_TTL,
+      }
+    );
 
-    return meeting;
+    return gathering;
   }
 
-  async updateMeeting(meeting: MeetingData) {
-    const existingMeeting = await this.getMeeting(meeting.id);
-    if (!existingMeeting) {
+  async updateGathering(gathering: GatheringData) {
+    const existingGathering = await this.getGathering(gathering.id);
+    if (!existingGathering) {
       throw new TRPCError({
         code: 'NOT_FOUND',
-        message: 'Could not find meeting to update.',
+        message: 'Could not find gathering to update.',
       });
     }
 
-    await this.putMeeting(meeting);
+    await this.putGathering(gathering);
   }
 
-  async removeMeeting(id: string) {
-    await this.meetingsNamespace.delete(id);
+  async removeGathering(id: string) {
+    await this.gatheringsNamespace.delete(id);
   }
 }

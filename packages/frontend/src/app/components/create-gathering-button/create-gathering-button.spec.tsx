@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { ReactElement } from 'react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
 import mediaQuery from 'css-mediaquery';

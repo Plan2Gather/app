@@ -57,40 +57,40 @@ export const availabilitySchema = z.array(dateRangeSchema);
  */
 export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
 
-export const meetingFormDetailsSchema = z.object({
+export const gatheringFormDetailsSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   timezone: z.string().min(1), // TODO: Validate timezone
 });
 
-export type MeetingFormDetails = z.infer<typeof meetingFormDetailsSchema>;
+export type GreetingFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
 
 /**
- * Meeting form data schema.
+ * Gathering form data schema.
  *
- * The meeting form data is the required data to create a meeting.
+ * The gathering form data is the required data to create a gathering.
  */
-export const meetingFormPeriodsSchema = z.object({
+export const gatheringFormPeriodsSchema = z.object({
   allowedPeriods: availabilitySchema,
 });
 
-export type MeetingFormPeriods = z.infer<typeof meetingFormPeriodsSchema>;
+export type GreetingFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
 
-export const meetingFormDataSchema = meetingFormDetailsSchema.merge(
-  meetingFormPeriodsSchema
+export const gatheringFormDataSchema = gatheringFormDetailsSchema.merge(
+  gatheringFormPeriodsSchema
 );
 
-export type MeetingFormData = z.infer<typeof meetingFormDataSchema>;
+export type GreetingFormData = z.infer<typeof gatheringFormDataSchema>;
 
 /**
- * Meeting data schema.
- * The meeting data is the meeting form data with an ID and user availability.
+ * Gathering data schema.
+ * The gathering data is the gathering form data with an ID and user availability.
  */
-export const meetingDataSchema = z.object({
-  ...meetingFormDataSchema.shape,
+export const gatheringDataSchema = z.object({
+  ...gatheringFormDataSchema.shape,
   id: z.string().uuid(),
   availability: userAvailabilitySchema,
   creationDate: validDatetimeSchema,
 });
 
-export type MeetingData = z.infer<typeof meetingDataSchema>;
+export type GatheringData = z.infer<typeof gatheringDataSchema>;
