@@ -1,4 +1,4 @@
-import { renderWithTheme } from '../../../utils/theme-test-helper';
+import { renderWithTheme } from '../../../utils/theme-test-helper.spec';
 import Creation from './gathering-creation';
 
 describe('Gathering Creation', () => {

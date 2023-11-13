@@ -9,9 +9,6 @@ export const trpcClientOptions = () => ({
   links: [
     httpLink({
       url: config.clientEnv.url,
-      headers() {
-        return {};
-      },
     }),
   ],
 });

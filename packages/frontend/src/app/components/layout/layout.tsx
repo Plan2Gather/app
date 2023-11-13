@@ -26,6 +26,7 @@ function Copyright(props: TypographyOwnProps) {
       align="center"
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
+      data-testid="copyright"
     >
       {'Copyright © '}
       <Link color="inherit" href="/">
@@ -108,7 +109,12 @@ export default function Layout(props: LayoutProps) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              <Link href="/" underline="none" color="inherit">
+              <Link
+                href="/"
+                underline="none"
+                color="inherit"
+                data-testid="website-title-link"
+              >
                 Plan2Gather
               </Link>
             </Typography>
@@ -154,6 +160,7 @@ export default function Layout(props: LayoutProps) {
               borderTop: (theme) => `1px solid ${theme.palette.divider}`,
               py: [1.5, 1.5],
             }}
+            data-testid="footer"
           >
             <Grid container spacing={2} justifyContent="space-evenly">
               {footers.map((footer) => (

@@ -1,4 +1,4 @@
-import { renderWithTheme } from '../../../utils/theme-test-helper';
+import { renderWithTheme } from '../../../utils/theme-test-helper.spec';
 import GatheringCreationStepper from './gathering-creation-stepper';
 
 describe('GatheringCreationStepper', () => {
