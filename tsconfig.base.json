@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@plan2gather/backend": ["packages/backend/src/index.ts"],
-      "@plan2gather/backend/types": ["packages/backend/src/types/index.ts"],
+      "@plan2gather/backend/types": ["packages/backend/src/types/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
