@@ -3,7 +3,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { useMemo, useState, useRef } from 'react';
 import { Container, StepContent, Theme, useMediaQuery } from '@mui/material';
-import { MeetingFormDetails } from '@plan2gather/backend';
+import { GatheringFormDetails } from '@plan2gather/backend/types';
 import StepperControls from './stepper-controls/stepper-controls';
 import DetailsForm from './details-form/details-form';
 import PossibleDates, {
@@ -23,7 +23,7 @@ export default function GatheringCreationStepper() {
   const [activeStep, setActiveStep] = useState(0);
 
   // Keeps track of the details
-  const [details, setDetails] = useState<MeetingFormDetails | null>(null);
+  const [details, setDetails] = useState<GatheringFormDetails | null>(null);
 
   // Keeps track of the periods
   const [possibleDates, setPossibleDates] =

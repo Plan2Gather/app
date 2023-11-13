@@ -63,7 +63,7 @@ export const gatheringFormDetailsSchema = z.object({
   timezone: z.string().min(1), // TODO: Validate timezone
 });
 
-export type GreetingFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
+export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
 
 /**
  * Gathering form data schema.
@@ -74,13 +74,13 @@ export const gatheringFormPeriodsSchema = z.object({
   allowedPeriods: availabilitySchema,
 });
 
-export type GreetingFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
+export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
 
 export const gatheringFormDataSchema = gatheringFormDetailsSchema.merge(
   gatheringFormPeriodsSchema
 );
 
-export type GreetingFormData = z.infer<typeof gatheringFormDataSchema>;
+export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
 
 /**
  * Gathering data schema.

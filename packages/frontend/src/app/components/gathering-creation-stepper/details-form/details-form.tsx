@@ -8,15 +8,15 @@ import {
   useForm,
 } from 'react-hook-form-mui';
 import {
-  MeetingFormDetails,
-  meetingFormDetailsSchema,
+  GatheringFormDetails,
+  gatheringFormDetailsSchema,
 } from '@plan2gather/backend/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 
 import { FormStepProps } from '../types';
 
-type DetailsFormProps = FormStepProps<MeetingFormDetails>;
+type DetailsFormProps = FormStepProps<GatheringFormDetails>;
 
 export default function DetailsForm({
   formData,
@@ -35,8 +35,8 @@ export default function DetailsForm({
   // Guess the user's timezone
   const guessedTimezone = DateTime.local().zoneName ?? '';
 
-  const formContext = useForm<MeetingFormDetails>({
-    resolver: zodResolver(meetingFormDetailsSchema),
+  const formContext = useForm<GatheringFormDetails>({
+    resolver: zodResolver(gatheringFormDetailsSchema),
     defaultValues: formData ?? {
       timezone: guessedTimezone,
     },
