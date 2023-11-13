@@ -69,39 +69,37 @@ export default function Privacy() {
         accordance with this Privacy Policy.
       </Typography>
       <Divider />
-      <Typography component="h3" variant="h5">
+      <Typography component="h3" variant="h5" gutterBottom>
         Summary of the policy
       </Typography>
-      <Typography gutterBottom>
-        <BulletedList>
-          <BulletedListItem>
-            <strong>Data Collection & Cookies:</strong> We collect the necessary
-            data for organizing gatherings and use cookies to match previous
-            responses to users.
-          </BulletedListItem>
-          <BulletedListItem>
-            <strong>Optional Email Feature:</strong> You have the option to use
-            your email to receive a link to edit your availability or to invite
-            others.
-          </BulletedListItem>
-          <BulletedListItem>
-            <strong>Public Data:</strong> All gathering details and
-            availabilities are publicly accessible, as anyone with the gathering
-            link can view them.
-          </BulletedListItem>
-          <BulletedListItem>
-            <strong>Data Deletion:</strong> Gathering data is automatically
-            deleted after 90 days.
-          </BulletedListItem>
-          <BulletedListItem>
-            <strong>Adaptive Policy:</strong> This policy is designed to be
-            forward-looking, providing a broad framework that covers both our
-            current services and any future enhancements. We are committed to
-            evolving our privacy practices responsibly and transparently as our
-            services grow.
-          </BulletedListItem>
-        </BulletedList>
-      </Typography>
+      <BulletedList>
+        <BulletedListItem>
+          <strong>Data Collection & Cookies:</strong> We collect the necessary
+          data for organizing gatherings and use cookies to match previous
+          responses to users.
+        </BulletedListItem>
+        <BulletedListItem>
+          <strong>Optional Email Feature:</strong> You have the option to use
+          your email to receive a link to edit your availability or to invite
+          others.
+        </BulletedListItem>
+        <BulletedListItem>
+          <strong>Public Data:</strong> All gathering details and availabilities
+          are publicly accessible, as anyone with the gathering link can view
+          them.
+        </BulletedListItem>
+        <BulletedListItem>
+          <strong>Data Deletion:</strong> Gathering data is automatically
+          deleted after 90 days.
+        </BulletedListItem>
+        <BulletedListItem>
+          <strong>Adaptive Policy:</strong> This policy is designed to be
+          forward-looking, providing a broad framework that covers both our
+          current services and any future enhancements. We are committed to
+          evolving our privacy practices responsibly and transparently as our
+          services grow.
+        </BulletedListItem>
+      </BulletedList>
       <Accordion>
         <AccordionSummary>Interpretation and Definitions</AccordionSummary>
         <AccordionDetails>

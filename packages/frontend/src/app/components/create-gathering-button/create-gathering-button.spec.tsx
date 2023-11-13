@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import CreateGatheringButton from './create-gathering-button';
-import { renderWithTheme } from '../../../utils/theme-test-helper';
+import { renderWithTheme } from '../../../utils/theme-test-helper.spec';
 
 type ButtonConfig = {
   variant: 'toolbar' | 'homepage';
