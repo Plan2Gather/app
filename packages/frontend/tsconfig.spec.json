@@ -20,7 +20,8 @@
     "src/**/*.spec.js",
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/utils/theme-test-helper.tsx"
   ],
   "types": ["@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts"]
 }
