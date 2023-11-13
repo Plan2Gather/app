@@ -32,7 +32,7 @@ export default function App() {
       element: <Homepage />,
     },
     {
-      path: '/meeting-creation',
+      path: '/create',
       element: <NotFound />,
     },
     {

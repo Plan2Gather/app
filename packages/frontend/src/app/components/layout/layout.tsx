@@ -14,7 +14,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import CreateMeetingButton from '../create-meeting-button/create-meeting-button';
+import CreateGatheringButton from '../create-gathering-button/create-gathering-button';
 import BulletedListItem from '../bulleted-list/bulleted-list-item';
 import BulletedList from '../bulleted-list/bulleted-list';
 
@@ -122,7 +122,7 @@ export default function Layout(props: LayoutProps) {
                 Help
               </Link>
             </nav>
-            <CreateMeetingButton />
+            <CreateGatheringButton />
           </Toolbar>
         </AppBar>
         {/* End Header */}

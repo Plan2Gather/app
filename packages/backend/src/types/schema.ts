@@ -58,11 +58,11 @@ export const availabilitySchema = z.array(dateRangeSchema);
 export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
 
 /**
- * Meeting form data schema.
+ * Gathering form data schema.
  *
- * The meeting form data is the required data to create a meeting.
+ * The gathering form data is the required data to create a gathering.
  */
-export const meetingFormDataSchema = z.object({
+export const gatheringFormDataSchema = z.object({
   name: z.string(),
   description: z.string(),
   timezone: z.string(),
@@ -70,14 +70,14 @@ export const meetingFormDataSchema = z.object({
 });
 
 /**
- * Meeting data schema.
- * The meeting data is the meeting form data with an ID and user availability.
+ * Gathering data schema.
+ * The gathering data is the gathering form data with an ID and user availability.
  */
-export const meetingDataSchema = z.object({
-  ...meetingFormDataSchema.shape,
+export const gatheringDataSchema = z.object({
+  ...gatheringFormDataSchema.shape,
   id: z.string().uuid(),
   availability: userAvailabilitySchema,
   creationDate: validDatetimeSchema,
 });
 
-export type MeetingData = z.infer<typeof meetingDataSchema>;
+export type GatheringData = z.infer<typeof gatheringDataSchema>;

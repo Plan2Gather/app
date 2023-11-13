@@ -24,7 +24,7 @@ export default function Homepage() {
         alignItems="center"
         paddingTop={2}
       >
-        <Button variant="contained" href="/meeting-creation">
+        <Button variant="contained" href="/create">
           Plan a Gathering
         </Button>
       </Box>

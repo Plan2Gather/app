@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
 import mediaQuery from 'css-mediaquery';
-import CreateMeetingButton from './create-meeting-button';
+import CreateGatheringButton from './create-gathering-button';
 
 // Create a matchMedia mock function using the helper you provided
 function createMatchMedia(width: number) {
@@ -44,24 +44,24 @@ function renderWithTheme(
   return render(ui, { wrapper: Wrapper });
 }
 
-describe('CreateMeetingButton', () => {
+describe('CreateGatheringButton', () => {
   // Test for non-mobile screens
   it('renders outlined Button with text for non-mobile screens', () => {
-    renderWithTheme(<CreateMeetingButton />, {
+    renderWithTheme(<CreateGatheringButton />, {
       themeOptions: {},
       width: 1024,
     }); // desktop screen width
-    const button = screen.getByTestId('create-meeting-button');
+    const button = screen.getByTestId('create-gathering-button');
     expect(button).toBeInTheDocument();
   });
 
   // Test for mobile screens
   it('renders IconButton for mobile screens', () => {
-    renderWithTheme(<CreateMeetingButton />, {
+    renderWithTheme(<CreateGatheringButton />, {
       themeOptions: {},
       width: 320,
     }); // mobile screen width
-    const iconButton = screen.getByTestId('create-meeting-icon-button');
+    const iconButton = screen.getByTestId('create-gathering-icon-button');
     expect(iconButton).toBeInTheDocument();
   });
 });
