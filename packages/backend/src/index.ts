@@ -3,8 +3,6 @@ import { Env, getCloudflareEnv } from './env';
 import t from './trpc';
 import gatheringRouter from './routers/gathering';
 
-export * from './types/schema';
-
 export const appRouter = t.router({
   gatherings: gatheringRouter,
 });
