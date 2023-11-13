@@ -1,7 +1,6 @@
 main = "src/index.ts"
 compatibility_date = "2023-10-16"
 account_id = "c5d18577a688210711261e1b3c2ffb71"
-usage_model = "bundled"
 workers_dev = false
 
 rules = [{ type = "ESModule", globs = ["**/*.js"] }]
@@ -48,3 +47,4 @@ kv_namespaces = [
 [dev]
 port = 3001
 ip = 'localhost'
+local_protocol = "https"

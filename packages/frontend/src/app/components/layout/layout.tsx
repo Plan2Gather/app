@@ -15,6 +15,8 @@ import {
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import CreateMeetingButton from '../create-meeting-button/create-meeting-button';
+import BulletedListItem from '../bulleted-list/bulleted-list-item';
+import BulletedList from '../bulleted-list/bulleted-list';
 
 function Copyright(props: TypographyOwnProps) {
   return (
@@ -45,9 +47,9 @@ const footers = [
   {
     title: 'Resources',
     description: [
-      { text: 'Getting Started Guide', link: '/guide' },
+      { text: 'Getting started', link: '/guide' },
       {
-        text: 'Source Code on GitHub',
+        text: 'Source code',
         link: 'https://github.com/cjlawson02/plan2gather',
       },
     ],
@@ -156,12 +158,10 @@ export default function Layout(props: LayoutProps) {
             <Grid container spacing={2} justifyContent="space-evenly">
               {footers.map((footer) => (
                 <Grid xs={4} sm={3} key={footer.title}>
-                  <Typography variant="h6" gutterBottom>
-                    {footer.title}
-                  </Typography>
-                  <ul>
+                  <Typography variant="h6">{footer.title}</Typography>
+                  <BulletedList>
                     {footer.description.map((item) => (
-                      <li key={item.text}>
+                      <BulletedListItem key={item.text} sx={{ mt: 0, mb: 0 }}>
                         <Link
                           href={item.link}
                           variant="subtitle1"
@@ -169,13 +169,13 @@ export default function Layout(props: LayoutProps) {
                         >
                           {item.text}
                         </Link>
-                      </li>
+                      </BulletedListItem>
                     ))}
-                  </ul>
+                  </BulletedList>
                 </Grid>
               ))}
             </Grid>
-            <Copyright sx={{ mt: 5 }} />
+            <Copyright sx={{ mt: 1 }} />
           </Container>
         </Box>
         {/* End footer */}
