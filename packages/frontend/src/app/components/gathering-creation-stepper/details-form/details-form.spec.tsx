@@ -4,7 +4,15 @@ import DetailsForm from './details-form';
 
 describe('DetailsForm', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<DetailsForm />);
+    const mockOnSuccessfulSubmit = vi.fn();
+
+    const { baseElement } = render(
+      <DetailsForm
+        formData={[]}
+        setSubmitRef={() => {}}
+        onSuccessfulSubmit={mockOnSuccessfulSubmit}
+      />
+    );
     expect(baseElement).toBeTruthy();
   });
 });

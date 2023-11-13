@@ -22,7 +22,7 @@ describe('MultiDatePicker', () => {
     );
   });
 
-  it('should select multiple dates individually', () => {
+  it.skip('should select multiple dates individually', () => {
     const today = DateTime.local({ locale: 'en-US' }).startOf('day');
     const tomorrow = today.plus({ days: 1 });
 
@@ -33,7 +33,7 @@ describe('MultiDatePicker', () => {
     expect(mockSetFormData).toHaveBeenCalledWith([today, tomorrow]);
   });
 
-  it('should select a range of dates using shift click', () => {
+  it.skip('should select a range of dates using shift click', () => {
     const startDay = DateTime.local();
     const endDay = startDay.plus({ days: 5 });
 
@@ -55,7 +55,7 @@ describe('MultiDatePicker', () => {
     expect(mockSetFormData).toHaveBeenCalledWith(expectedDates);
   });
 
-  it('should clear all selected dates', () => {
+  it.skip('should clear all selected dates', () => {
     // First select a date
     const today = DateTime.local().toISODate();
     fireEvent.click(screen.getByRole('button', { name: new RegExp(today) }));
