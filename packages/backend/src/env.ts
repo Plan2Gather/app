@@ -7,7 +7,7 @@ export class Env {
   kvDao: KVDAO;
 
   constructor(env: CloudflareEnv) {
-    this.kvDao = new KVDAO(new KvWrapper(env.PLAN2GATHER_MEETINGS));
+    this.kvDao = new KVDAO(new KvWrapper(env.PLAN2GATHER_GATHERINGS));
   }
 }
 
@@ -19,7 +19,7 @@ const kvNamespaceParser = z.custom<KVNamespace>(
   (n) => n && n !== null && typeof n === 'object'
 );
 const cloudflareEnvParser = z.object({
-  PLAN2GATHER_MEETINGS: kvNamespaceParser,
+  PLAN2GATHER_GATHERINGS: kvNamespaceParser,
   IS_DEPLOYED: z.boolean(),
 });
 

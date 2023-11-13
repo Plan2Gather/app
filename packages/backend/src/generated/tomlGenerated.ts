@@ -18,7 +18,7 @@ export const LOCAL_ENV: APIEnv = {
 };
 
 export const cloudflareNamespaceInformation = {
-    PLAN2GATHER_MEETINGS: {
+    PLAN2GATHER_GATHERINGS: {
         dev: "f203873043104e6fba47e9d855fe755f",
         beta: "3686c37a82d3448f910ca2378ff6f6f7",
         prod: "624e6665714c4c81932fe6e98746bc73",
