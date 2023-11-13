@@ -1,34 +1,42 @@
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
+import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import GroupsIcon from '@mui/icons-material/Groups'; // or any other relevant icon
 
-export default function CreateGatheringButton() {
-  const theme = useTheme();
-  // This will be true if the screen width is less than 'sm'
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+export default function CreateGatheringButton({
+  variant,
+}: {
+  variant: 'toolbar' | 'homepage';
+}) {
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down('sm')
+  );
   const route = '/create';
   const icon = <GroupsIcon />;
+  const isToolbar = variant === 'toolbar';
+  const text = 'Plan a Gathering';
 
-  return isMobile ? (
-    <IconButton
-      href={route}
-      color="inherit"
-      data-testid="create-gathering-icon-button"
-    >
-      {icon}
-    </IconButton>
-  ) : (
+  if (isToolbar) {
+    return isMobile ? (
+      <IconButton href={route} color="inherit">
+        {icon}
+      </IconButton>
+    ) : (
+      <Button href={route} startIcon={icon} variant="outlined">
+        {text}
+      </Button>
+    );
+  }
+
+  return (
     <Button
       href={route}
-      variant="outlined"
-      startIcon={icon}
+      startIcon={(isMobile || variant !== 'homepage') && icon}
+      variant={variant === 'homepage' ? 'contained' : 'outlined'}
       data-testid="create-gathering-button"
     >
-      Plan a Gathering
+      {text}
     </Button>
   );
 }
