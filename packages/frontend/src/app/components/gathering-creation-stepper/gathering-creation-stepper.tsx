@@ -1,8 +1,11 @@
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
+import StepContent from '@mui/material/StepContent';
+import Container from '@mui/material/Container';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useMemo, useState, useRef } from 'react';
-import { Container, StepContent, Theme, useMediaQuery } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 import { GatheringFormDetails } from '@plan2gather/backend/types';
 import StepperControls from './stepper-controls/stepper-controls';
 import DetailsForm from './details-form/details-form';
