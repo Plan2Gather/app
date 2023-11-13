@@ -1,5 +1,7 @@
 import Typography from '@mui/material/Typography';
-import { Divider, Link, styled } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Link from '@mui/material/Link';
+import { styled } from '@mui/material/styles';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
