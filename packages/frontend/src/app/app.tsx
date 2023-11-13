@@ -4,8 +4,6 @@ import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import createIDBPersister from '../utils/idbPersister';
 import { trpc, trpcClientOptions } from '../trpc';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
 
 import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
