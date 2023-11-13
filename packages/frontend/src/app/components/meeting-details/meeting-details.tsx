@@ -1,13 +1,13 @@
 import React from 'react';
-import { MeetingData } from "@plan2gather/backend/types";
+import {GatheringFormDetails } from "@plan2gather/backend/types";
 import Typography from '@mui/material/Typography'
 
 /* eslint-disable-next-line */
 export interface MeetingDetailsProps {
-  meetingData: MeetingData;
+  meetingData: GatheringFormDetails;
 }
 
-export function MeetingDetails({ meetingData }: MeetingDetailsProps) {
+export function MeetingDetails({meetingData}: MeetingDetailsProps) {
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return (
     <>
