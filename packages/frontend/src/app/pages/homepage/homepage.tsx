@@ -25,7 +25,7 @@ export default function Homepage() {
         alignItems="center"
         paddingTop={2}
       >
-        <CreateGatheringButton size="large" />
+        <CreateGatheringButton variant="homepage" />
       </Box>
     </Container>
   );

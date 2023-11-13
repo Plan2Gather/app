@@ -122,7 +122,7 @@ export default function Layout(props: LayoutProps) {
                 Help
               </Link>
             </nav>
-            <CreateGatheringButton size="icon" />
+            <CreateGatheringButton variant="toolbar" />
           </Toolbar>
         </AppBar>
         {/* End Header */}

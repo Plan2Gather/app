@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import { useMemo, useState } from 'react';
 import { DateTime } from 'luxon';
-import MultiSelectDatePicker from './multi-date-picker';
-import DayOfWeekPicker from './day-of-week-picker';
+import MultiDatePicker from './multi-date-picker/multi-date-picker';
+import DayOfWeekPicker from './day-of-week-picker/day-of-week-picker';
 import { FormStepProps } from '../types';
 
 export interface PossibleDateSelection {
@@ -49,7 +49,7 @@ export default function PossibleDates({
         );
       case 'date':
         return (
-          <MultiSelectDatePicker
+          <MultiDatePicker
             formData={selectedDates}
             setFormData={setSelectedDates}
             setSubmitRef={setSubmitRef}

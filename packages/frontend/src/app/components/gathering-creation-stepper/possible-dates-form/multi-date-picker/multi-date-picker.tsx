@@ -9,7 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { DateCalendar, PickersDay, PickersDayProps } from '@mui/x-date-pickers';
 import { DateTime } from 'luxon';
 import { useEffect, useRef, useState } from 'react';
-import { FormStepProps } from '../types';
+import { FormStepProps } from '../../types';
 
 interface CustomDayProps extends PickersDayProps<DateTime> {
   // eslint-disable-next-line react/require-default-props
@@ -23,19 +23,26 @@ function CustomDay({ selectedDay, day, ...other }: CustomDayProps) {
 
   // Apply custom styles if 'isSelected' is true
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <PickersDay {...other} day={day} selected={isSelected} />;
+  return (
+    <PickersDay
+      {...other}
+      day={day}
+      selected={isSelected}
+      data-testid={`day-${day.toISODate()}`}
+    />
+  );
 }
 
-interface MultiSelectDatePickerProps extends FormStepProps<DateTime[]> {
+interface MultiDatePickerProps extends FormStepProps<DateTime[]> {
   setFormData: (data: DateTime[]) => void;
 }
 
-function MultiSelectDatePicker({
+export default function MultiDatePicker({
   formData,
   setFormData,
   setSubmitRef,
   onSuccessfulSubmit,
-}: MultiSelectDatePickerProps) {
+}: MultiDatePickerProps) {
   const shiftKeyPressed = useRef(false);
 
   const [error, setError] = useState(false);
@@ -146,5 +153,3 @@ function MultiSelectDatePicker({
     </FormControl>
   );
 }
-
-export default MultiSelectDatePicker;

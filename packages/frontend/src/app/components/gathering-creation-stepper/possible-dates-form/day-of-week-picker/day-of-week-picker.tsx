@@ -3,7 +3,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useEffect, useState } from 'react';
 
-import { FormStepProps } from '../types';
+import { FormStepProps } from '../../types';
 
 interface DayOfWeekPickerProps extends FormStepProps<string[]> {
   setFormData: (data: string[]) => void;
