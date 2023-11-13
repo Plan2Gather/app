@@ -19,7 +19,7 @@ export default function CreateGatheringButton({
 
   if (isToolbar) {
     return isMobile ? (
-      <IconButton href={route} color="inherit">
+      <IconButton href={route} color="primary">
         {icon}
       </IconButton>
     ) : (
