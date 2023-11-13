@@ -1,18 +1,15 @@
 import { ReactNode, useMemo } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {
-  AppBar,
-  Box,
-  Container,
-  CssBaseline,
-  GlobalStyles,
-  Link,
-  Toolbar,
-  Typography,
-  TypographyOwnProps,
-  responsiveFontSizes,
-  useMediaQuery,
-} from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
+import Link from '@mui/material/Link';
+import Toolbar from '@mui/material/Toolbar';
+import Typography, { TypographyOwnProps } from '@mui/material/Typography';
+import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Grid from '@mui/material/Unstable_Grid2';
 import CreateGatheringButton from '../create-gathering-button/create-gathering-button';
 import BulletedListItem from '../bulleted-list/bulleted-list-item';
