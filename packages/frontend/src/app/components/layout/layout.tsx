@@ -119,10 +119,18 @@ export default function Layout(props: LayoutProps) {
               <Link
                 variant="button"
                 color="text.primary"
-                href="/guide"
-                sx={{ mx: 1.5 }}
+                href="/contact"
+                sx={{ marginRight: 1.5 }}
               >
-                Help
+                Contact
+              </Link>
+              <Link
+                variant="button"
+                color="text.primary"
+                href="/guide"
+                sx={{ marginRight: 1.5 }}
+              >
+                Guide
               </Link>
             </nav>
             <CreateGatheringButton variant="toolbar" />
@@ -161,7 +169,7 @@ export default function Layout(props: LayoutProps) {
           >
             <Grid container spacing={2} justifyContent="space-evenly">
               {footers.map((footer) => (
-                <Grid xs={4} sm={3} key={footer.title}>
+                <Grid xs={6} sm={3} md={2} key={footer.title}>
                   <Typography variant="h6">{footer.title}</Typography>
                   <BulletedList>
                     {footer.description.map((item) => (
