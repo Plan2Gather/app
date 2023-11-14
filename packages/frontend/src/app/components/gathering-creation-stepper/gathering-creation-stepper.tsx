@@ -4,7 +4,7 @@ import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { useMemo, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Theme } from '@mui/material/styles';
 import { GatheringFormDetails } from '@plan2gather/backend/types';
 import StepperControls from './stepper-controls/stepper-controls';
@@ -13,6 +13,7 @@ import PossibleDates, {
   PossibleDateSelection,
 } from './possible-dates-form/possible-dates-form';
 import Confirmation from './confirmation/confirmation';
+import TimePeriods from './time-periods/time-periods';
 
 const steps = [
   'Details',
@@ -89,7 +90,7 @@ export default function GatheringCreationStepper() {
         setActiveStep((prevStep) => prevStep + 1);
       }}
     />,
-    <div>Time Periods</div>,
+    <TimePeriods />,
     <Confirmation />,
   ];
 
@@ -105,7 +106,6 @@ export default function GatheringCreationStepper() {
   );
 
   return (
-    // TODO: fix mobile stepper
     <>
       <Stepper
         activeStep={activeStep}

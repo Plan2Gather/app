@@ -32,40 +32,28 @@ export default function PossibleDates({
     formData?.type === 'date' ? (formData.data as DateTime[]) : []
   );
 
-  const pickerElement = useMemo(() => {
-    switch (selectedScheduleType) {
-      case 'dayOfWeek':
-        return (
-          <DayOfWeekPicker
-            formData={selectedDaysOfWeek}
-            setFormData={setSelectedDaysOfWeek}
-            setSubmitRef={setSubmitRef}
-            onSuccessfulSubmit={(data) => {
-              onSuccessfulSubmit({ type: 'dayOfWeek', data });
-            }}
-          />
-        );
-      case 'date':
-        return (
-          <MultiDatePicker
-            formData={selectedDates}
-            setFormData={setSelectedDates}
-            setSubmitRef={setSubmitRef}
-            onSuccessfulSubmit={(data) => {
-              onSuccessfulSubmit({ type: 'date', data });
-            }}
-          />
-        );
-      default:
-        return undefined;
-    }
-  }, [
-    selectedScheduleType,
-    selectedDaysOfWeek,
-    selectedDates,
-    onSuccessfulSubmit,
-    setSubmitRef,
-  ]);
+  const pickerElement = {
+    dayOfWeek: (
+      <DayOfWeekPicker
+        formData={selectedDaysOfWeek}
+        setFormData={setSelectedDaysOfWeek}
+        setSubmitRef={setSubmitRef}
+        onSuccessfulSubmit={(data) => {
+          onSuccessfulSubmit({ type: 'dayOfWeek', data });
+        }}
+      />
+    ),
+    date: (
+      <MultiDatePicker
+        formData={selectedDates}
+        setFormData={setSelectedDates}
+        setSubmitRef={setSubmitRef}
+        onSuccessfulSubmit={(data) => {
+          onSuccessfulSubmit({ type: 'date', data });
+        }}
+      />
+    ),
+  };
 
   return (
     <>
@@ -91,7 +79,7 @@ export default function PossibleDates({
           <FormControlLabel value="date" control={<Radio />} label="Date" />
         </RadioGroup>
       </FormControl>
-      {pickerElement}
+      {pickerElement[selectedScheduleType]}
     </>
   );
 }
