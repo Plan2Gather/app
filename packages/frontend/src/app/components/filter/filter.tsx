@@ -34,6 +34,7 @@ export default function Filter({ data }: FilterProps) {
     <FormGroup>
       {userLabels.map((userLabel) => (
         <FormControlLabel
+          key={userLabel}
           control={
             <Checkbox
               checked={state[userLabel]}
