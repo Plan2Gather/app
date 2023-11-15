@@ -1,8 +1,6 @@
-import React from 'react';
 import { GatheringFormDetails } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
 
-/* eslint-disable-next-line */
 export interface GatheringDetailsProps {
   gatheringData: GatheringFormDetails;
 }
