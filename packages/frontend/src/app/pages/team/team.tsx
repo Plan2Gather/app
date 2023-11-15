@@ -3,10 +3,10 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import chrisImage from '../../../assets/chris.jpg';
-import naomiImage from '../../../assets/naomi.jpg';
-import samImage from '../../../assets/sam.jpg';
-import spencerImage from '../../../assets/spencer.jpg';
+// import chrisImage from '../../../assets/chris.jpg';
+// import naomiImage from '../../../assets/naomi.jpg';
+// import samImage from '../../../assets/sam.jpg';
+// import spencerImage from '../../../assets/spencer.jpg';
 
 export default function Team() {
   const teamMembers = [
@@ -32,7 +32,8 @@ export default function Team() {
       id: 4,
       name: 'Spencer Perley',
       major: '3rd Year Computer Science',
-      image: 'https://avatars.githubusercontent.com/u/63747892?s=40&u=cee118b809262c9533aa708b57437f0eb257c818&v=4',
+      image:
+        'https://avatars.githubusercontent.com/u/63747892?s=40&u=cee118b809262c9533aa708b57437f0eb257c818&v=4',
     },
   ];
 
