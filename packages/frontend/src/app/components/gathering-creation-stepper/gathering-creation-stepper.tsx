@@ -4,7 +4,7 @@ import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useMemo, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Theme } from '@mui/material/styles';
 import { GatheringFormDetails } from '@plan2gather/backend/types';
 import StepperControls from './stepper-controls/stepper-controls';
@@ -13,6 +13,7 @@ import PossibleDates, {
   PossibleDateSelection,
 } from './possible-dates-form/possible-dates-form';
 import Confirmation from './confirmation/confirmation';
+import TimePeriods from './time-periods/time-periods';
 
 const steps = [
   'Details',
@@ -72,42 +73,30 @@ export default function GatheringCreationStepper() {
   };
 
   // Gets the component for the current step
-  const stepComponent = useMemo(() => {
-    switch (activeStep) {
-      case 0:
-        return (
-          <DetailsForm
-            formData={details}
-            setSubmitRef={setSubmitRef}
-            onSuccessfulSubmit={(data) => {
-              setDetails(data);
-              setActiveStep((prevStep) => prevStep + 1);
-            }}
-          />
-        );
-      case 1:
-        return (
-          <PossibleDates
-            formData={possibleDates}
-            setSubmitRef={setSubmitRef}
-            onSuccessfulSubmit={(data) => {
-              setPossibleDates(data);
-              setActiveStep((prevStep) => prevStep + 1);
-            }}
-          />
-        );
-      case 2:
-        return <div>Time Periods</div>;
-      case 3:
-        return <Confirmation />;
-      default:
-        throw new Error('Invalid step');
-    }
-  }, [activeStep, details, possibleDates]);
+  const stepComponents = [
+    <DetailsForm
+      formData={details}
+      setSubmitRef={setSubmitRef}
+      onSuccessfulSubmit={(data) => {
+        setDetails(data);
+        setActiveStep((prevStep) => prevStep + 1);
+      }}
+    />,
+    <PossibleDates
+      formData={possibleDates}
+      setSubmitRef={setSubmitRef}
+      onSuccessfulSubmit={(data) => {
+        setPossibleDates(data);
+        setActiveStep((prevStep) => prevStep + 1);
+      }}
+    />,
+    <TimePeriods />,
+    <Confirmation />,
+  ];
 
-  const content = (
+  const createContent = (child: React.ReactNode) => (
     <>
-      <Container>{stepComponent}</Container>
+      <Container>{child}</Container>
       <StepperControls
         activeStep={activeStep}
         setActiveStep={handleSetStep}
@@ -117,21 +106,22 @@ export default function GatheringCreationStepper() {
   );
 
   return (
-    // TODO: fix mobile stepper
     <>
       <Stepper
         activeStep={activeStep}
         sx={{ paddingBottom: 2 }}
         orientation={isSmallScreen ? 'vertical' : 'horizontal'}
       >
-        {steps.map((label) => (
+        {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
-            {isSmallScreen && <StepContent>{content}</StepContent>}
+            {isSmallScreen && (
+              <StepContent>{createContent(stepComponents[index])}</StepContent>
+            )}
           </Step>
         ))}
       </Stepper>
-      {!isSmallScreen && content}
+      {!isSmallScreen && createContent(stepComponents[activeStep])}
     </>
   );
 }

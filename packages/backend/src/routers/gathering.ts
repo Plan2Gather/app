@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { nanoid } from 'nanoid';
 
 import t from '../trpc';
 import { gatheringDataSchema, gatheringFormDataSchema } from '../types/schema';
@@ -7,12 +8,12 @@ import type { GatheringData } from '../types/schema';
 
 export default t.router({
   get: t.procedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string() }))
     .query(({ input, ctx }) => ctx.env.kvDao.getGathering(input.id)),
   put: t.procedure
     .input(gatheringFormDataSchema)
     .mutation(async ({ ctx, input }) => {
-      const gatheringId = crypto.randomUUID();
+      const gatheringId = nanoid();
       const gathering: GatheringData = {
         id: gatheringId,
         ...input,
@@ -32,7 +33,7 @@ export default t.router({
       return 'ok';
     }),
   remove: t.procedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.env.kvDao.removeGathering(input.id);
 

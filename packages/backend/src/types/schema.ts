@@ -88,7 +88,7 @@ export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
  */
 export const gatheringDataSchema = z.object({
   ...gatheringFormDataSchema.shape,
-  id: z.string().uuid(),
+  id: z.string(),
   availability: userAvailabilitySchema,
   creationDate: validDatetimeSchema,
 });
