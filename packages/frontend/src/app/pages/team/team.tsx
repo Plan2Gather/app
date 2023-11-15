@@ -3,10 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-// import chrisImage from '../../../assets/chris.jpg';
-// import naomiImage from '../../../assets/naomi.jpg';
-// import samImage from '../../../assets/sam.jpg';
-// import spencerImage from '../../../assets/spencer.jpg';
+
 
 export default function Team() {
   const teamMembers = [
