@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 
-
 export default function Team() {
   const teamMembers = [
     {
