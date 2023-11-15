@@ -6,7 +6,10 @@ import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState, useRef } from 'react';
 import { Theme } from '@mui/material/styles';
-import { GatheringFormDetails } from '@plan2gather/backend/types';
+import {
+  GatheringFormData,
+  GatheringFormDetails,
+} from '@plan2gather/backend/types';
 import StepperControls from './stepper-controls/stepper-controls';
 import DetailsForm from './details-form/details-form';
 import PossibleDates, {
@@ -32,6 +35,10 @@ export default function GatheringCreationStepper() {
   // Keeps track of the periods
   const [possibleDates, setPossibleDates] =
     useState<PossibleDateSelection | null>(null);
+
+  //
+  const [gatheringFormData, setGatheringFormData] =
+    useState<GatheringFormData | null>(null);
 
   // Ref to the form submit function
   const formSubmitRef = useRef<() => Promise<void>>(async () => {});
@@ -59,6 +66,17 @@ export default function GatheringCreationStepper() {
           formSubmitRef.current();
           break;
         case 2:
+          // Validate the time periods form
+          formSubmitRef.current().then(() => {
+            setGatheringFormData({
+              name: details!.name,
+              description: details?.description,
+              timezone: details!.timezone,
+              // TODO: gather allowed periods
+              allowedPeriods: [],
+            });
+          });
+
           break;
         case 3:
           // User hit finish, submit to the backend
@@ -91,7 +109,7 @@ export default function GatheringCreationStepper() {
       }}
     />,
     <TimePeriods />,
-    <Confirmation />,
+    <Confirmation gatheringData={gatheringFormData!} />,
   ];
 
   const createContent = (child: React.ReactNode) => (

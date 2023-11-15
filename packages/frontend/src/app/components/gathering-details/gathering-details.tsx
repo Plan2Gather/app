@@ -1,8 +1,8 @@
-import { GatheringFormDetails } from '@plan2gather/backend/types';
+import { GatheringData } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
 
 export interface GatheringDetailsProps {
-  gatheringData: GatheringFormDetails;
+  gatheringData: Pick<GatheringData, 'name' | 'description' | 'timezone'>;
 }
 
 export function GatheringDetails({ gatheringData }: GatheringDetailsProps) {

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 
 import { GatheringDetails } from './gathering-details';
 
-const defaultMeetingData = {
+const defaultGatheringData = {
   name: 'Test Gathering',
   description: 'Test Gathering Description',
   timezone: 'America/New_York',
@@ -13,7 +13,7 @@ const defaultMeetingData = {
 describe('GatheringDetails', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <GatheringDetails gatheringData={defaultMeetingData} />
+      <GatheringDetails gatheringData={defaultGatheringData} />
     );
     expect(baseElement).toBeTruthy();
   });
