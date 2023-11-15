@@ -30,5 +30,6 @@
     ".storybook/*.js",
     ".storybook/*.ts",
     ".storybook/*.jsx",
-    ".storybook/*.tsx"]
+    ".storybook/*.tsx"
+  ]
 }
