@@ -10,7 +10,6 @@ import Layout from './components/layout/layout';
 import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
 import Contact from './pages/contact/contact';
-import GatheringView from './pages/gathering-view/gathering-view';
 
 export default function App() {
   const [queryClient] = useState(() => {
@@ -34,10 +33,6 @@ export default function App() {
     {
       path: '/create',
       element: <NotFound />,
-    },
-    {
-      path: '/gathering/:id',
-      element: <GatheringView />,
     },
     {
       path: '/team',
