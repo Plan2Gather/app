@@ -17,7 +17,7 @@ export const Primary: Story = {
       allowedPeriods: [{ start: '', end: '' }],
       id: '123',
       availability: [{ start: '', end: '' }],
-      creationDate: ''
+      creationDate: '',
     },
   },
 };
