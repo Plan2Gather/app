@@ -3,6 +3,10 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import chrisImage from '../../../assets/chris.jpg';
+import naomiImage from '../../../assets/naomi.jpg';
+import samImage from '../../../assets/sam.jpg';
+import spencerImage from '../../../assets/spencer.jpg';
 
 export default function Team() {
   const teamMembers = [
@@ -10,25 +14,25 @@ export default function Team() {
       id: 1,
       name: 'Chris Lawson',
       major: '4th Year Computer Science',
-      image: 'chris.png', // Add the path to your image, take github profile pics
+      image: 'https://avatars.githubusercontent.com/u/7269141?s=60&v=4', // Add the path to your image, take github profile pics
     },
     {
       id: 2,
       name: 'Naomi Nayman',
       major: '3rd Year Computer Science',
-      image: 'naomi.png',
+      image: 'https://avatars.githubusercontent.com/u/97060752?v=4',
     },
     {
       id: 3,
       name: 'Sam Bock',
       major: '3rd Year Computer Science',
-      image: 'sam.png',
+      image: 'https://avatars.githubusercontent.com/u/63836618?s=40&v=4',
     },
     {
       id: 4,
       name: 'Spencer Perley',
       major: '3rd Year Computer Science',
-      image: 'spencer.png',
+      image: 'https://avatars.githubusercontent.com/u/63747892?s=40&u=cee118b809262c9533aa708b57437f0eb257c818&v=4',
     },
   ];
 
