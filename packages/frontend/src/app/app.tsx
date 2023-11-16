@@ -9,6 +9,7 @@ import Homepage from './pages/homepage/homepage';
 import Layout from './components/layout/layout';
 import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
+import Team from './pages/team/team';
 import Contact from './pages/contact/contact';
 
 export default function App() {
@@ -36,7 +37,7 @@ export default function App() {
     },
     {
       path: '/team',
-      element: <NotFound />,
+      element: <Team />,
     },
     {
       path: '/contact',
