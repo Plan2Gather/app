@@ -11,18 +11,21 @@ export default function Team() {
       name: 'Chris Lawson',
       major: '4th Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/7269141?s=60&v=4', // Add the path to your image, take github profile pics
+      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
     },
     {
       id: 2,
       name: 'Naomi Nayman',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/97060752?v=4',
+      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
     },
     {
       id: 3,
       name: 'Sam Bock',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/63836618?s=40&v=4',
+      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
     },
     {
       id: 4,
@@ -30,6 +33,7 @@ export default function Team() {
       major: '3rd Year Computer Science',
       image:
         'https://avatars.githubusercontent.com/u/63747892?s=40&u=cee118b809262c9533aa708b57437f0eb257c818&v=4',
+      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
     },
   ];
 
@@ -56,6 +60,9 @@ export default function Team() {
               paragraph
             >
               {member.major}
+            </Typography>
+            <Typography variant="body1" align="center" paragraph>
+              {member.bio}
             </Typography>
           </Grid>
         ))}
