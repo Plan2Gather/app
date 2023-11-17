@@ -12,6 +12,7 @@ import Layout from './components/layout/layout';
 import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
 import Creation from './pages/gathering-creation/gathering-creation';
+import Team from './pages/team/team';
 import Contact from './pages/contact/contact';
 import GatheringView from './pages/gathering-view/gathering-view';
 
@@ -44,7 +45,7 @@ export default function App() {
     },
     {
       path: '/team',
-      element: <NotFound />,
+      element: <Team />,
     },
     {
       path: '/contact',
