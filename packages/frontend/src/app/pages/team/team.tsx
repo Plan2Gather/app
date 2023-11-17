@@ -18,7 +18,7 @@ export default function Team() {
       name: 'Naomi Nayman',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/97060752?v=4',
-      bio: 'I\'m from Chicago... blah blah...etc',
+      bio: "I'm from Chicago... blah blah...etc",
     },
     {
       id: 3,
