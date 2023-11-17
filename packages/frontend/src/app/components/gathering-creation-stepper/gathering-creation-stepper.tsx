@@ -9,6 +9,7 @@ import { Theme } from '@mui/material/styles';
 import {
   GatheringFormData,
   GatheringFormDetails,
+  Availability,
 } from '@plan2gather/backend/types';
 import StepperControls from './stepper-controls/stepper-controls';
 import DetailsForm from './details-form/details-form';
@@ -32,9 +33,13 @@ export default function GatheringCreationStepper() {
   // Keeps track of the details
   const [details, setDetails] = useState<GatheringFormDetails | null>(null);
 
-  // Keeps track of the periods
+  // Keeps track of the possible dates
   const [possibleDates, setPossibleDates] =
     useState<PossibleDateSelection | null>(null);
+
+  // Keeps track of the time periods
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [timePeriods, setTimePeriods] = useState<Availability>([]);
 
   //
   const [gatheringFormData, setGatheringFormData] =

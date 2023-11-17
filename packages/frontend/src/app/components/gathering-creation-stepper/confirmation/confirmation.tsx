@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import { GatheringFormData } from '@plan2gather/backend/types';
-import { GatheringDetails } from '../../gathering-details/gathering-details';
+import GatheringDetails from '../../gathering-details/gathering-details';
 
 interface ConfirmationProps {
   gatheringData: GatheringFormData;

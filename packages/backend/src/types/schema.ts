@@ -50,6 +50,8 @@ export const dayOfWeekSchema = z.coerce
  */
 export const availabilitySchema = z.array(dateRangeSchema);
 
+export type Availability = z.infer<typeof availabilitySchema>;
+
 /**
  * User availability schema.
  *

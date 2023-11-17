@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { GatheringDetails } from '../../components/gathering-details/gathering-details';
+import GatheringDetails from '../../components/gathering-details/gathering-details';
 import { trpc } from '../../../trpc';
 import NotFound from '../not-found/not-found';
 

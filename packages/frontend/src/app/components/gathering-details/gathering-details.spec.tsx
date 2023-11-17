@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 
 import { GatheringFormData } from '@plan2gather/backend/types';
-import { GatheringDetails } from './gathering-details';
+import GatheringDetails from './gathering-details';
 
 const defaultGatheringData: GatheringFormData = {
   name: 'Test Gathering',

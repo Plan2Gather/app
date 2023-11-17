@@ -5,7 +5,9 @@ export interface GatheringDetailsProps {
   gatheringData: Pick<GatheringData, 'name' | 'description' | 'timezone'>;
 }
 
-export function GatheringDetails({ gatheringData }: GatheringDetailsProps) {
+export default function GatheringDetails({
+  gatheringData,
+}: GatheringDetailsProps) {
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return (
     <>
