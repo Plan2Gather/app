@@ -1,4 +1,3 @@
-import React from 'react';
 import List from '@mui/material/List';
 import { SxProps } from '@mui/system';
 import { Theme } from '@mui/material/styles';

@@ -3,7 +3,6 @@ import Homepage from './homepage';
 
 const meta: Meta<typeof Homepage> = {
   component: Homepage,
-  title: 'Homepage',
 };
 export default meta;
 

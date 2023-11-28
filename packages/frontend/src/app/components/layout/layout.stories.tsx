@@ -3,7 +3,6 @@ import Layout from './layout';
 
 const meta: Meta<typeof Layout> = {
   component: Layout,
-  title: 'Layout',
 };
 export default meta;
 

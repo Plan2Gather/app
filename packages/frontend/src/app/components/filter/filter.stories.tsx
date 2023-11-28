@@ -3,7 +3,6 @@ import Filter from './filter';
 
 const meta: Meta<typeof Filter> = {
   component: Filter,
-  title: 'Filter',
 };
 export default meta;
 

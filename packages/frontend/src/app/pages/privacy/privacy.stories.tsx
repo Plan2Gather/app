@@ -3,7 +3,6 @@ import Privacy from './privacy';
 
 const meta: Meta<typeof Privacy> = {
   component: Privacy,
-  title: 'Privacy',
 };
 export default meta;
 
