@@ -22,7 +22,7 @@ export default function Team() {
       name: 'Sam Bock',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/63836618',
-      bio: 'Insert a bio for yourself',
+      bio: 'I am a 3rd year Computer Science major at Cal Poly SLO. I am interested in artificial intelligence, machine learning, and cybersecurity. I am currently working as an AI/ML reserach intern at Lockheed Martin Space. On my free time, you can find me baking, playing video games, and hanging out with friends.',
     },
     {
       name: 'Spencer Perley',
