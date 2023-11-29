@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * A valid datetime string with an offset.
  */
-export const validDatetimeSchema = z.string().datetime({ offset: true });
+export const validDatetimeSchema = z.string().datetime();
 
 /**
  * Date range schema with start and end dates.
@@ -30,18 +30,7 @@ export const dateRangeSchema = z
     }
   );
 
-/**
- * Day of the week schema.
- *
- * The day of the week is required to be an integer between 0 and 6,
- * where 0 is Sunday and 6 is Saturday.
- */
-export const dayOfWeekSchema = z.coerce
-  .number()
-  .int()
-  .refine((value) => value >= 0 && value <= 6, {
-    message: 'Day of the week should be an integer between 0 and 6.',
-  });
+export type DateRange = z.infer<typeof dateRangeSchema>;
 
 /**
  * Availability schema.
@@ -52,6 +41,10 @@ export const availabilitySchema = z.array(dateRangeSchema);
 
 export type Availability = z.infer<typeof availabilitySchema>;
 
+export const scheduleTypeSchema = z.enum(['dayOfWeek', 'date']);
+
+export type ScheduleType = z.infer<typeof scheduleTypeSchema>;
+
 /**
  * User availability schema.
  *
@@ -60,9 +53,9 @@ export type Availability = z.infer<typeof availabilitySchema>;
 export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
 
 export const gatheringFormDetailsSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(1, { message: 'A gathering name is required.' }),
   description: z.string().optional(),
-  timezone: z.string().min(1), // TODO: Validate timezone
+  timezone: z.string().min(1, { message: 'A timezone is required.' }),
 });
 
 export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
@@ -73,6 +66,7 @@ export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
  * The gathering form data is the required data to create a gathering.
  */
 export const gatheringFormPeriodsSchema = z.object({
+  scheduleType: scheduleTypeSchema,
   allowedPeriods: availabilitySchema,
 });
 

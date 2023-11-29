@@ -3,7 +3,6 @@ import PossibleDates from './possible-dates-form';
 
 const meta: Meta<typeof PossibleDates> = {
   component: PossibleDates,
-  title: 'PossibleDates',
 };
 export default meta;
 

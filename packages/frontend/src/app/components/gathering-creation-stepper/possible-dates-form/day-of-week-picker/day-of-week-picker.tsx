@@ -6,6 +6,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useEffect, useState } from 'react';
 
 import { FormStepProps } from '../../types';
+import Utils from '../../../../../utils/utils';
+import type { Weekday } from '../../../../../utils/utils';
 
 interface DayOfWeekPickerProps extends FormStepProps<string[]> {
   setFormData: (data: string[]) => void;
@@ -19,9 +21,9 @@ export default function DayOfWeekPicker({
 }: DayOfWeekPickerProps) {
   const handleChange = (
     _: React.MouseEvent<HTMLElement>,
-    newDays: string[]
+    newDays: Weekday[]
   ) => {
-    setFormData(newDays);
+    setFormData(Utils.sortWeekdays(newDays));
   };
   const [error, setError] = useState(false);
 
@@ -37,29 +39,14 @@ export default function DayOfWeekPicker({
     });
   }, [setSubmitRef, formData, onSuccessfulSubmit]);
 
-  const children = [
-    <ToggleButton value="sunday" key="sunday" aria-label="Sunday">
-      S
-    </ToggleButton>,
-    <ToggleButton value="monday" key="monday" aria-label="Monday">
-      M
-    </ToggleButton>,
-    <ToggleButton value="tuesday" key="tuesday" aria-label="Tuesday">
-      T
-    </ToggleButton>,
-    <ToggleButton value="wednesday" key="wednesday" aria-label="Wednesday">
-      W
-    </ToggleButton>,
-    <ToggleButton value="thursday" key="thursday" aria-label="Thursday">
-      T
-    </ToggleButton>,
-    <ToggleButton value="friday" key="friday" aria-label="Friday">
-      F
-    </ToggleButton>,
-    <ToggleButton value="saturday" key="saturday" aria-label="Saturday">
-      S
-    </ToggleButton>,
-  ];
+  const children = Utils.weekdays.map((day) => {
+    const capitalizedDay = day.charAt(0).toUpperCase() + day.slice(1);
+    return (
+      <ToggleButton value={day} key={day} aria-label={capitalizedDay}>
+        {capitalizedDay[0]}
+      </ToggleButton>
+    );
+  });
 
   return (
     <FormControl error={error} required>

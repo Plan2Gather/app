@@ -3,7 +3,6 @@ import DetailsForm from './details-form';
 
 const meta: Meta<typeof DetailsForm> = {
   component: DetailsForm,
-  title: 'DetailsForm',
 };
 export default meta;
 

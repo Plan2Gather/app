@@ -139,7 +139,7 @@ export default function Layout(props: LayoutProps) {
         {/* End Header */}
         {/* Main */}
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           sx={{
             paddingY: 1.5,
             flexGrow: 1,
@@ -159,7 +159,7 @@ export default function Layout(props: LayoutProps) {
           }}
         >
           <Container
-            maxWidth="md"
+            maxWidth="lg"
             component="footer"
             sx={{
               borderTop: (theme) => `1px solid ${theme.palette.divider}`,

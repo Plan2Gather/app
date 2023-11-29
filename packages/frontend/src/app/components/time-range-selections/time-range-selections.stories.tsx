@@ -1,10 +1,10 @@
 import type { Meta } from '@storybook/react';
-import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import TimePeriods from './time-periods';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import TimeRangeSelections from './time-range-selections';
 
-const meta: Meta<typeof TimePeriods> = {
-  component: TimePeriods,
+const meta: Meta<typeof TimeRangeSelections> = {
+  component: TimeRangeSelections,
   decorators: [
     (Story) => (
       <LocalizationProvider dateAdapter={AdapterLuxon}>

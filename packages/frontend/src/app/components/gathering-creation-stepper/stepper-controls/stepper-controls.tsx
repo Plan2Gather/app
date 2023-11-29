@@ -11,11 +11,7 @@ export default function StepperControls(props: StepperControlsProps) {
   const { activeStep, setActiveStep, numSteps } = props;
 
   const handleNext = () => {
-    if (activeStep === numSteps - 1) {
-      // TODO: User hit finish, submit to the backend
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {

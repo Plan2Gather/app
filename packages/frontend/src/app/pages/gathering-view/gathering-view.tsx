@@ -1,22 +1,23 @@
 import { useParams } from 'react-router';
+import CircularProgress from '@mui/material/CircularProgress';
 import GatheringDetails from '../../components/gathering-details/gathering-details';
 import { trpc } from '../../../trpc';
 import NotFound from '../not-found/not-found';
 
 export default function GatheringView() {
-  const { gatheringId } = useParams();
+  const { id } = useParams();
 
-  if (!gatheringId) {
+  if (!id) {
     return <NotFound />;
   }
 
-  const { data: gatheringData } = trpc.gatherings.get.useQuery({
-    id: gatheringId,
+  const { data, isLoading } = trpc.gatherings.get.useQuery({
+    id,
   });
 
-  if (!gatheringData) {
-    return <NotFound />;
-  }
-
-  return <GatheringDetails gatheringData={gatheringData} />;
+  return isLoading ? (
+    <CircularProgress />
+  ) : (
+    <GatheringDetails gatheringData={data!} />
+  );
 }

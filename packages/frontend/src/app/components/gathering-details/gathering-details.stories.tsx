@@ -3,7 +3,6 @@ import GatheringDetails from './gathering-details';
 
 const meta: Meta<typeof GatheringDetails> = {
   component: GatheringDetails,
-  title: 'GatheringDetails',
 };
 export default meta;
 type Story = StoryObj<typeof GatheringDetails>;

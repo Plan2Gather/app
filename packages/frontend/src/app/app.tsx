@@ -44,10 +44,6 @@ export default function App() {
       element: <GatheringView />,
     },
     {
-      path: '/gathering/:id',
-      element: <GatheringView />,
-    },
-    {
       path: '/team',
       element: <Team />,
     },

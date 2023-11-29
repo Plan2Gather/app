@@ -6,6 +6,7 @@ import {
   AutocompleteElement,
   FormContainer,
   TextFieldElement,
+  TextareaAutosizeElement,
   useForm,
 } from 'react-hook-form-mui';
 import {
@@ -15,7 +16,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid from '@mui/material/Unstable_Grid2';
 import { FormStepProps } from '../types';
 
 type DetailsFormProps = FormStepProps<GatheringFormDetails>;
@@ -78,39 +79,41 @@ export default function DetailsForm({
       </Typography>
       <FormContainer formContext={formContext} onSuccess={onSuccessfulSubmit}>
         <Stack spacing={2} direction="column">
-          <TextFieldElement
-            name="name"
-            label="Gathering Name"
-            helperText="This name will be shared with all participants."
-            required
-          />
-          <TextFieldElement
-            name="description"
-            label="Gathering Description"
-            helperText="Optionally include a description of your gathering."
-          />
-          <AutocompleteElement
-            name="timezone"
-            label="Gathering Timezone"
-            options={allTimeZones}
-            autocompleteProps={{
-              isOptionEqualToValue: (option, value) => option === value,
-              getOptionLabel: (option) => option.replace(/_/g, ' '),
-              filterOptions: (options, { inputValue }) => {
-                const normalizedInput = inputValue
-                  .toLowerCase()
-                  .replace(/\s/g, '_'); // Replace spaces with underscores and make lowercase for comparison
-                return options.filter((option) =>
-                  option.toLowerCase().includes(normalizedInput)
-                );
-              },
-            }}
-            textFieldProps={{
-              helperText:
-                'The user will be notfied if their timezone is different from the gathering timezone.',
-            }}
-            required
-          />
+          <Stack spacing={2} maxWidth="sm" sx={{ alignSelf: 'center' }}>
+            <TextFieldElement
+              name="name"
+              label="Gathering Name"
+              helperText="This name will be shared with all participants."
+              required
+            />
+            <TextareaAutosizeElement
+              name="description"
+              label="Gathering Description"
+              helperText="Optionally include a description of your gathering."
+            />
+            <AutocompleteElement
+              name="timezone"
+              label="Gathering Timezone"
+              options={allTimeZones}
+              autocompleteProps={{
+                isOptionEqualToValue: (option, value) => option === value,
+                getOptionLabel: (option) => option.replace(/_/g, ' '),
+                filterOptions: (options, { inputValue }) => {
+                  const normalizedInput = inputValue
+                    .toLowerCase()
+                    .replace(/\s/g, '_'); // Replace spaces with underscores and make lowercase for comparison
+                  return options.filter((option) =>
+                    option.toLowerCase().includes(normalizedInput)
+                  );
+                },
+              }}
+              textFieldProps={{
+                helperText:
+                  'The user will be notified if their timezone is different from the gathering timezone.',
+              }}
+              required
+            />
+          </Stack>
           {selectedTimezone && (
             <Grid container sx={{ textAlign: 'center' }}>
               <Grid xs={12} sm={diffTimezone ? 5 : 12}>

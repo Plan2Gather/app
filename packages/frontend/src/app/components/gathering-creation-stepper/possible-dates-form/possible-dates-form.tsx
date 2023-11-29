@@ -6,12 +6,13 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { DateTime } from 'luxon';
+import { ScheduleType } from '@plan2gather/backend/types';
 import MultiDatePicker from './multi-date-picker/multi-date-picker';
 import DayOfWeekPicker from './day-of-week-picker/day-of-week-picker';
 import { FormStepProps } from '../types';
 
 export interface PossibleDateSelection {
-  type: 'dayOfWeek' | 'date';
+  type: ScheduleType;
   data: string[] | DateTime[];
 }
 
@@ -20,9 +21,8 @@ export default function PossibleDates({
   setSubmitRef,
   onSuccessfulSubmit,
 }: FormStepProps<PossibleDateSelection>) {
-  const [selectedScheduleType, setSelectedScheduleType] = useState<
-    'dayOfWeek' | 'date'
-  >(formData?.type || 'dayOfWeek');
+  const [selectedScheduleType, setSelectedScheduleType] =
+    useState<ScheduleType>(formData?.type || 'dayOfWeek');
 
   const [selectedDaysOfWeek, setSelectedDaysOfWeek] = useState<string[]>(
     formData?.type === 'dayOfWeek' ? (formData.data as string[]) : []

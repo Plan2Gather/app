@@ -7,6 +7,7 @@ const defaultGatheringData: GatheringFormData = {
   name: 'Test Gathering',
   description: 'Test Gathering Description',
   timezone: 'America/New_York',
+  scheduleType: 'dayOfWeek',
   allowedPeriods: [
     {
       start: '2021-10-10T12:00:00.000Z',
@@ -18,7 +19,11 @@ const defaultGatheringData: GatheringFormData = {
 describe('Confirmation', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <Confirmation gatheringData={defaultGatheringData} />
+      <Confirmation
+        formData={defaultGatheringData}
+        setSubmitRef={() => {}}
+        onSuccessfulSubmit={() => {}}
+      />
     );
     expect(baseElement).toBeTruthy();
   });

@@ -9,8 +9,8 @@ import { Theme } from '@mui/material/styles';
 import {
   GatheringFormData,
   GatheringFormDetails,
-  Availability,
 } from '@plan2gather/backend/types';
+import { useNavigate } from 'react-router';
 import StepperControls from './stepper-controls/stepper-controls';
 import DetailsForm from './details-form/details-form';
 import PossibleDates, {
@@ -18,6 +18,8 @@ import PossibleDates, {
 } from './possible-dates-form/possible-dates-form';
 import Confirmation from './confirmation/confirmation';
 import TimePeriods from './time-periods/time-periods';
+import { trpc } from '../../../trpc';
+import { DateRangeLuxon } from '../time-range-selections/time-range-picker/time-range-picker';
 
 const steps = [
   'Details',
@@ -39,9 +41,9 @@ export default function GatheringCreationStepper() {
 
   // Keeps track of the time periods
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [timePeriods, setTimePeriods] = useState<Availability>([]);
+  const [timePeriods, setTimePeriods] = useState([] as DateRangeLuxon[]);
 
-  //
+  // Keeps track of the combined form data for the confirmation step
   const [gatheringFormData, setGatheringFormData] =
     useState<GatheringFormData | null>(null);
 
@@ -54,6 +56,14 @@ export default function GatheringCreationStepper() {
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
+
+  const navigate = useNavigate();
+
+  const createGathering = trpc.gatherings.put.useMutation({
+    onSuccess: (data) => {
+      navigate(`/gathering/${data}`);
+    },
+  });
 
   // Handles setting the step
   const handleSetStep = (callback: (prevStep: number) => number) => {
@@ -72,20 +82,11 @@ export default function GatheringCreationStepper() {
           break;
         case 2:
           // Validate the time periods form
-          formSubmitRef.current().then(() => {
-            setGatheringFormData({
-              name: details!.name,
-              description: details?.description,
-              timezone: details!.timezone,
-              // TODO: gather allowed periods
-              allowedPeriods: [],
-            });
-          });
-
+          formSubmitRef.current();
           break;
         case 3:
           // User hit finish, submit to the backend
-          // trpc.meetings.put.useMutation().mutate();
+          createGathering.mutate(gatheringFormData!);
           break;
         default:
           throw new Error('Invalid step');
@@ -113,8 +114,31 @@ export default function GatheringCreationStepper() {
         setActiveStep((prevStep) => prevStep + 1);
       }}
     />,
-    <TimePeriods />,
-    <Confirmation gatheringData={gatheringFormData!} />,
+    <TimePeriods
+      possibleDates={possibleDates!}
+      formData={timePeriods}
+      setSubmitRef={setSubmitRef}
+      onSuccessfulSubmit={(data) => {
+        setTimePeriods(data);
+
+        setGatheringFormData({
+          name: details!.name,
+          description: details?.description,
+          timezone: details!.timezone,
+          scheduleType: possibleDates!.type,
+          allowedPeriods: [], // TODO: Implement this
+        });
+        setActiveStep((prevStep) => prevStep + 1);
+      }}
+    />,
+    <Confirmation
+      formData={gatheringFormData}
+      setSubmitRef={setSubmitRef}
+      onSuccessfulSubmit={(data) => {
+        createGathering.mutate(data);
+        setActiveStep((prevStep) => prevStep + 1);
+      }}
+    />,
   ];
 
   const createContent = (child: React.ReactNode) => (

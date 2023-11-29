@@ -4,7 +4,15 @@ import TimePeriods from './time-periods';
 
 describe('TimePeriods', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<TimePeriods />);
+    const mockOnSuccessfulSubmit = vi.fn();
+    const { baseElement } = render(
+      <TimePeriods
+        possibleDates={{ type: 'date', data: [] }}
+        formData={[]}
+        setSubmitRef={() => {}}
+        onSuccessfulSubmit={mockOnSuccessfulSubmit}
+      />
+    );
     expect(baseElement).toBeTruthy();
   });
 });
