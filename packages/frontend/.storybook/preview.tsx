@@ -1,9 +1,7 @@
-import {
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-  responsiveFontSizes,
-} from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import createTheme from '@mui/material/styles/createTheme';
+import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import { StoryFn } from '@storybook/react';
 
 const theme = responsiveFontSizes(
