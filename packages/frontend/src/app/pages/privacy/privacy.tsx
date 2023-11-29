@@ -10,7 +10,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 
 import BulletedList from '../../components/bulleted-list/bulleted-list';
-import BulletedListItem from '../../components/bulleted-list/bulleted-list-item';
+import BulletedListItem from '../../components/bulleted-list/bulleted-list-item/bulleted-list-item';
 
 const Accordion = styled((props: AccordionProps) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
