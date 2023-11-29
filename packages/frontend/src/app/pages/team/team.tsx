@@ -16,7 +16,7 @@ export default function Team() {
       name: 'Naomi Nayman',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/97060752',
-      bio: "I'm from Chicago... blah blah...etc",
+      bio: "I'm a 3rd-year Computer Science student at Cal Poly SLO and I'm interested in information technology, specifically database administration. I'm originally from Chicago and when I'm offline you can probably find me hammocking, reading, or with my friends.",
     },
     {
       name: 'Sam Bock',
