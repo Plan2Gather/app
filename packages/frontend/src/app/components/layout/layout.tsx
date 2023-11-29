@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,7 +12,7 @@ import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Grid from '@mui/material/Unstable_Grid2';
 import CreateGatheringButton from '../create-gathering-button/create-gathering-button';
-import BulletedListItem from '../bulleted-list/bulleted-list-item';
+import BulletedListItem from '../bulleted-list/bulleted-list-item/bulleted-list-item';
 import BulletedList from '../bulleted-list/bulleted-list';
 
 function Copyright(props: TypographyOwnProps) {
@@ -60,7 +60,7 @@ const footers = [
 
 /* eslint-disable-next-line */
 export interface LayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function Layout(props: LayoutProps) {

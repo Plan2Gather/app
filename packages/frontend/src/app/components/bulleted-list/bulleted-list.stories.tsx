@@ -1,10 +1,9 @@
 import type { Meta } from '@storybook/react';
 import BulletedList from './bulleted-list';
-import BulletedListItem from './bulleted-list-item';
+import BulletedListItem from './bulleted-list-item/bulleted-list-item';
 
 const meta: Meta<typeof BulletedList> = {
   component: BulletedList,
-  title: 'BulletedList',
 };
 export default meta;
 
