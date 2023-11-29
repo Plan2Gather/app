@@ -11,7 +11,7 @@ export default function Team() {
       name: 'Chris Lawson',
       major: '4th Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/7269141?s=60&v=4', // Add the path to your image, take github profile pics
-      bio: 'Insert a bio for yourself',
+      bio: "I'm a 4th-year Computer Science student and a Junior Software Developer at Amazon, where I work on full stack web applications. When I'm not coding, I'm likely to be found hiking, mountain biking, or skiing. At Plan2Gather, I'm excited to contribute to a platform that simplifies and enriches the way we plan and connect.",
     },
     {
       id: 2,
