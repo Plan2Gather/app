@@ -11,8 +11,10 @@ export const Primary = {
   args: {
     data: {
       availability: {
-        'user test 1': {},
-        'user test 2': {},
+        'Naomi': {},
+        'Chris': {},
+        'Sam': {},
+        'Spencer': {},
       },
     },
   },

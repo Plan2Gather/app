@@ -30,21 +30,36 @@ export default function Filter({ data }: FilterProps) {
     });
   };
 
+  // Function to get the list of checked checkboxes
+  const getCheckedAttendees = () => {
+    return userLabels.filter((label) => state[label]);
+  };
+
   return (
-    <FormGroup>
-      {userLabels.map((userLabel) => (
-        <FormControlLabel
-          key={userLabel}
-          control={
-            <Checkbox
-              checked={state[userLabel]}
-              onChange={handleChange}
-              name={userLabel}
-            />
-          }
-          label={userLabel}
-        />
-      ))}
-    </FormGroup>
+    <div>
+      <FormGroup>
+        {userLabels.map((userLabel) => (
+          <FormControlLabel
+            key={userLabel}
+            control={
+              <Checkbox
+                checked={state[userLabel]}
+                onChange={handleChange}
+                name={userLabel}
+              />
+            }
+            label={userLabel}
+          />
+        ))}
+      </FormGroup>
+      <div>
+        <strong>Checked Attendees:</strong>
+        <ul>
+          {getCheckedAttendees().map((label) => (
+            <li key={label}>{label}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }
