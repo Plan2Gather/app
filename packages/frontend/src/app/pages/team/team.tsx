@@ -10,25 +10,25 @@ export default function Team() {
       name: 'Chris Lawson',
       major: '4th Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/7269141', // Add the path to your image, take github profile pics
-      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
+      bio: "I'm a 4th-year Computer Science student and a Junior Software Developer at Amazon, where I work on full stack web applications. When I'm not coding, I'm likely to be found hiking, mountain biking, or skiing. At Plan2Gather, I'm excited to contribute to a platform that simplifies and enriches the way we plan and connect.",
     },
     {
       name: 'Naomi Nayman',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/97060752',
-      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
+      bio: "I'm a 3rd-year Computer Science student at Cal Poly SLO and I'm interested in information technology, specifically database administration. I'm originally from Chicago and when I'm offline you can probably find me hammocking, reading, or with my friends.",
     },
     {
       name: 'Sam Bock',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/63836618',
-      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
+      bio: 'I am a 3rd year Computer Science major at Cal Poly SLO. I am interested in artificial intelligence, machine learning, and cybersecurity. I am currently working as an AI/ML reserach intern at Lockheed Martin Space. On my free time, you can find me baking, playing video games, and hanging out with friends.',
     },
     {
       name: 'Spencer Perley',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/63747892',
-      bio: 'Insert a bio for yourself in packages/frontend/src/app/pages/team/team.tsx',
+      bio: 'I love problem solving and creating new things weather that be writing code or cooking. Depending on location when I am not working i am either backcountry skiing or surfing!',
     },
   ];
 
