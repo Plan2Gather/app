@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { GatheringFormDetails , Weekday } from '@plan2gather/backend/types';
+import { GatheringFormDetails, Weekday } from '@plan2gather/backend/types';
 import { DateTime } from 'luxon';
 import { DateRangeLuxon } from '../time-range-selections/time-range-picker/time-range-picker';
 
