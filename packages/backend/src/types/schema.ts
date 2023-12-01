@@ -58,6 +58,8 @@ export type Availability = z.infer<typeof availabilitySchema>;
  */
 export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
 
+export type UserAvailability = z.infer<typeof userAvailabilitySchema>;
+
 export const gatheringFormDetailsSchema = z.object({
   name: z.string().min(1, { message: 'A gathering name is required.' }),
   description: z.string().optional(),

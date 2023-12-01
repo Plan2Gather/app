@@ -1,12 +1,17 @@
 //ToDo: add tests but will push first becase I think we may change the inputs and output formats
-
+import type { UserAvailability } from '@plan2gather/backend/types';
 /*
 takes: a list of a list of time periods
 
 returns a list of time periods as well as 
 */
 
-export function combineTimeSlots(groupTimePeriods : [number,number][][]): [number,number,number][]{
+export function createMeshedGroupData(groupAvalabilities : [UserAvailability]){
+    returnd
+    return
+}
+
+function combineTimeSlots(groupTimePeriods : [number,number][][]): [number,number,number][]{
 
     let finalResult: [number,number,number][]= [];
     let slotSet: number[] = [];
