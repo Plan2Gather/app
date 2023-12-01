@@ -10,10 +10,10 @@ export const Primary = {
   args: {
     data: {
       availability: {
-        Naomi: {},
-        Chris: {},
-        Sam: {},
-        Spencer: {},
+        'Naomi': {},
+        'Chris': {},
+        'Sam': {},
+        'Spencer': {},
       },
     },
   },
