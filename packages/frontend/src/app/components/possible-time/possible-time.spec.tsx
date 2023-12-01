@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-
+import GatheringDetails from '../gathering-details/gathering-details';
 import { PossibleTimeData } from '@plan2gather/backend/types';
 import PossibleTime from './possible-time';
 
