@@ -31,9 +31,7 @@ export default function Filter({ data }: FilterProps) {
   };
 
   // Function to get the list of checked checkboxes
-  const getCheckedAttendees = () => {
-    return userLabels.filter((label) => state[label]);
-  };
+  const getCheckedAttendees = () => userLabels.filter((label) => state[label]);
 
   return (
     <div>

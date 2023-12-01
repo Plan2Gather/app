@@ -30,25 +30,26 @@ export const dateRangeSchema = z
     }
   );
 
-/**
- * Day of the week schema.
- *
- * The day of the week is required to be an integer between 0 and 6,
- * where 0 is Sunday and 6 is Saturday.
- */
-export const dayOfWeekSchema = z.coerce
-  .number()
-  .int()
-  .refine((value) => value >= 0 && value <= 6, {
-    message: 'Day of the week should be an integer between 0 and 6.',
-  });
+export type DateRange = z.infer<typeof dateRangeSchema>;
 
-/**
- * Availability schema.
- *
- * The availability is an array of date ranges.
- */
-export const availabilitySchema = z.array(dateRangeSchema);
+export const weekdaySchema = z.enum([
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+]);
+
+export type Weekday = z.infer<typeof weekdaySchema>;
+
+export const availabilitySchema = z.record(
+  weekdaySchema,
+  z.array(dateRangeSchema)
+);
+
+export type Availability = z.infer<typeof availabilitySchema>;
 
 /**
  * User availability schema.
@@ -57,27 +58,42 @@ export const availabilitySchema = z.array(dateRangeSchema);
  */
 export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
 
+export const gatheringFormDetailsSchema = z.object({
+  name: z.string().min(1, { message: 'A gathering name is required.' }),
+  description: z.string().optional(),
+  timezone: z.string().min(1, { message: 'A timezone is required.' }),
+});
+
+export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
+
 /**
  * Gathering form data schema.
  *
  * The gathering form data is the required data to create a gathering.
  */
-export const gatheringFormDataSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  timezone: z.string(),
+export const gatheringFormPeriodsSchema = z.object({
   allowedPeriods: availabilitySchema,
 });
+
+export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
+
+export const gatheringFormDataSchema = gatheringFormDetailsSchema.merge(
+  gatheringFormPeriodsSchema
+);
+
+export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
 
 /**
  * Gathering data schema.
  * The gathering data is the gathering form data with an ID and user availability.
  */
-export const gatheringDataSchema = z.object({
-  ...gatheringFormDataSchema.shape,
-  id: z.string(),
-  availability: userAvailabilitySchema,
-  creationDate: validDatetimeSchema,
-});
+export const gatheringDataSchema = z
+  .object({
+    ...gatheringFormDataSchema.shape,
+    id: z.string(),
+    availability: userAvailabilitySchema,
+    creationDate: validDatetimeSchema,
+  })
+  .readonly();
 
 export type GatheringData = z.infer<typeof gatheringDataSchema>;
