@@ -11,13 +11,13 @@ export function createMeshedGroupData(groupAvalabilities : [UserAvailability]){
     return
 }
 
-function combineTimeSlots(groupTimePeriods : [number,number][][]): [number,number,number][]{
+function combineTimeSlots(groupTimePeriods : [{name :string, avalable : [number,number][]}]): [number,number,string[]][]{
 
-    let finalResult: [number,number,number][]= [];
+    let finalResult: [number,number,string[]][]= [];
     let slotSet: number[] = [];
 
     for (const individualTimePeriods of groupTimePeriods) {
-        for (const timePeriod of individualTimePeriods){
+        for (const timePeriod of individualTimePeriods.avalable){
             addToSortedSet(slotSet,timePeriod[0]); //add start and end to uniqu
             addToSortedSet(slotSet,timePeriod[1]);
         } 
@@ -26,17 +26,17 @@ function combineTimeSlots(groupTimePeriods : [number,number][][]): [number,numbe
     
 
     for (let i = 0; i < (slotSet.length-1); i++) {
-        let isAvalableCount:number = 0;
+        let peopleWhoAreAvalable : string[] = [];
         for (const individualTimePeriods of groupTimePeriods) {
-            if (isAvalable(individualTimePeriods,slotSet[i],slotSet[i+1])){
-                isAvalableCount++;
+            if (isAvalable(individualTimePeriods.avalable,slotSet[i],slotSet[i+1])){
+                peopleWhoAreAvalable.push(individualTimePeriods.name);
                 //console.log('returned true \n individualTimePeriods: %o start: %d, end %d', individualTimePeriods,slotSet[i],slotSet[i+1]);
             }else{
                 //console.log('returned false \n individualTimePeriods: %o start: %d, end %d', individualTimePeriods,slotSet[i],slotSet[i+1]);
             }
             
         }
-        finalResult.push([slotSet[i],slotSet[i+1],isAvalableCount])
+        finalResult.push([slotSet[i],slotSet[i+1],peopleWhoAreAvalable])
     }
     
     return finalResult;
