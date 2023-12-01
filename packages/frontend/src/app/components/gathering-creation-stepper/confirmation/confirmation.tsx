@@ -15,9 +15,9 @@ const Confirmation = forwardRef<unknown, unknown>((_none, ref) => {
       <Typography variant="h5">Confirm Gathering</Typography>
       <GatheringDetails
         gatheringData={{
-          name: details?.name,
+          name: details!.name,
           description: details?.description,
-          timezone: details?.timezone,
+          timezone: details!.timezone,
         }}
       />
     </>

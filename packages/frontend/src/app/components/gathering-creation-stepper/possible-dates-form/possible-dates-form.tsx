@@ -12,8 +12,10 @@ import Utils from '../../../../utils/utils';
 const PossibleDates = forwardRef<unknown, unknown>((_none, ref) => {
   const store = useGatheringStepperFormData();
 
-  const formContext = useForm<Weekday[]>({
-    defaultValues: store.possibleDates ?? [],
+  const formContext = useForm<{ possibleDates: Weekday[] }>({
+    defaultValues: {
+      possibleDates: store.possibleDates ?? [],
+    },
   });
 
   useImperativeHandle(ref, () => ({
@@ -21,7 +23,7 @@ const PossibleDates = forwardRef<unknown, unknown>((_none, ref) => {
       const isFormValid = await new Promise((resolve) => {
         formContext.handleSubmit(
           (data) => {
-            store.setPossibleDates(data);
+            store.setPossibleDates(data.possibleDates);
             resolve(true);
           },
           () => resolve(false)
