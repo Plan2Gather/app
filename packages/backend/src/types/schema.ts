@@ -97,3 +97,11 @@ export const gatheringDataSchema = z
   .readonly();
 
 export type GatheringData = z.infer<typeof gatheringDataSchema>;
+
+
+export const PossibleTimeData = z.object({
+  id: z.string(),
+  username: z.string(),
+  time: validDatetimeSchema,
+  gatheringId: z.string(), 
+})
