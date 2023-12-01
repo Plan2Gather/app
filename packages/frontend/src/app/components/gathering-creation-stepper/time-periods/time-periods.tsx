@@ -16,17 +16,20 @@ const TimePeriods = forwardRef<unknown, unknown>((_none, ref) => {
   const days = store.possibleDates;
 
   const selectionRefs = useRef(
-    days.reduce((acc, day) => {
-      acc[day] = createRef();
-      return acc;
-    }, {} as Record<Weekday, React.RefObject<{ submit: () => Promise<boolean> }>>)
+    days.reduce(
+      (acc, day) => {
+        acc[day] = createRef();
+        return acc;
+      },
+      {} as Record<Weekday, React.RefObject<{ submit: () => Promise<boolean> }>>
+    )
   );
 
   useImperativeHandle(ref, () => ({
     submit: async () => {
       const isFormValid = await new Promise((resolve) => {
-        const promises = days.map((day) =>
-          selectionRefs.current[day].current?.submit()
+        const promises = days.map(
+          (day) => selectionRefs.current[day].current?.submit()
         );
 
         Promise.all(promises).then((results) => {

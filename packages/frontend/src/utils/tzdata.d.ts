@@ -8,7 +8,7 @@ declare module 'tzdata' {
     string | number, // time indication
     string | null, // letters representing the type of day or null
     number, // offset in minutes from GMT
-    string // letter representing the time status (Standard, Daylight, etc.)
+    string, // letter representing the time status (Standard, Daylight, etc.)
   ];
 
   export type LocationTimezoneRules = TimeRule[];
