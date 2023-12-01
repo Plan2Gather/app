@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import createTheme from '@mui/material/styles/createTheme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -139,7 +140,7 @@ export default function Layout(props: LayoutProps) {
         {/* End Header */}
         {/* Main */}
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           sx={{
             paddingY: 1.5,
             flexGrow: 1,
@@ -159,7 +160,7 @@ export default function Layout(props: LayoutProps) {
           }}
         >
           <Container
-            maxWidth="md"
+            maxWidth="lg"
             component="footer"
             sx={{
               borderTop: (theme) => `1px solid ${theme.palette.divider}`,
