@@ -12,7 +12,6 @@ describe('PossibleDatesForm', () => {
       <LocalizationProvider dateAdapter={AdapterLuxon}>
         <PossibleDatesForm
           formData={{ type: 'date', data: [] }}
-          setSubmitRef={() => {}}
           onSuccessfulSubmit={mockOnSuccessfulSubmit}
         />
       </LocalizationProvider>

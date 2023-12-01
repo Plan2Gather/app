@@ -82,11 +82,13 @@ export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
  * Gathering data schema.
  * The gathering data is the gathering form data with an ID and user availability.
  */
-export const gatheringDataSchema = z.object({
-  ...gatheringFormDataSchema.shape,
-  id: z.string(),
-  availability: userAvailabilitySchema,
-  creationDate: validDatetimeSchema,
-});
+export const gatheringDataSchema = z
+  .object({
+    ...gatheringFormDataSchema.shape,
+    id: z.string(),
+    availability: userAvailabilitySchema,
+    creationDate: validDatetimeSchema,
+  })
+  .readonly();
 
 export type GatheringData = z.infer<typeof gatheringDataSchema>;

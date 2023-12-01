@@ -11,7 +11,6 @@ describe('DayOfWeekPicker', () => {
       <DayOfWeekPicker
         formData={[]}
         setFormData={mockSetFormData}
-        setSubmitRef={() => {}}
         onSuccessfulSubmit={mockOnSuccessfulSubmit}
       />
     );

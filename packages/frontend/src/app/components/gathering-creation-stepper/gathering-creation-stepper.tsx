@@ -9,6 +9,7 @@ import { Theme } from '@mui/material/styles';
 import {
   GatheringFormData,
   GatheringFormDetails,
+  gatheringFormDataSchema,
 } from '@plan2gather/backend/types';
 import { useNavigate } from 'react-router';
 import StepperControls from './stepper-controls/stepper-controls';
@@ -20,43 +21,28 @@ import Confirmation from './confirmation/confirmation';
 import TimePeriods from './time-periods/time-periods';
 import { trpc } from '../../../trpc';
 import { DateRangeLuxon } from '../time-range-selections/time-range-picker/time-range-picker';
+import { Weekday } from '../../../utils/utils';
 
-const steps = [
-  'Details',
-  'Possible Dates',
-  'Time Periods',
-  'Confirm Gathering',
-];
+type GatheringStepperFormData = {
+  details: GatheringFormDetails | null;
+  possibleDates: PossibleDateSelection | null;
+  timePeriods: Record<Weekday, DateRangeLuxon[]> | null;
+};
 
 export default function GatheringCreationStepper() {
   // Keeps track of the current step in the stepper
   const [activeStep, setActiveStep] = useState(0);
-
-  // Keeps track of the details
-  const [details, setDetails] = useState<GatheringFormDetails | null>(null);
-
-  // Keeps track of the possible dates
-  const [possibleDates, setPossibleDates] =
-    useState<PossibleDateSelection | null>(null);
-
-  // Keeps track of the time periods
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [timePeriods, setTimePeriods] = useState([] as DateRangeLuxon[]);
-
-  // Keeps track of the combined form data for the confirmation step
-  const [gatheringFormData, setGatheringFormData] =
-    useState<GatheringFormData | null>(null);
-
+  const [formData, setFormData] = useState<GatheringStepperFormData>({
+    details: null,
+    possibleDates: null,
+    timePeriods: null,
+  });
   // Ref to the form submit function
-  const formSubmitRef = useRef<() => Promise<void>>(async () => {});
-  const setSubmitRef = (ref: () => Promise<void>) => {
-    formSubmitRef.current = ref;
-  };
+  const formSubmitRef = useRef();
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
-
   const navigate = useNavigate();
 
   const createGathering = trpc.gatherings.put.useMutation({
@@ -71,72 +57,72 @@ export default function GatheringCreationStepper() {
 
     // When navigating forward, we need to do form validation
     if (step > activeStep) {
-      switch (activeStep) {
-        case 0:
-          // Validate the details form
-          formSubmitRef.current();
-          break;
-        case 1:
-          // Validate the possible dates form
-          formSubmitRef.current();
-          break;
-        case 2:
-          // Validate the time periods form
-          formSubmitRef.current();
-          break;
-        case 3:
-          // User hit finish, submit to the backend
-          createGathering.mutate(gatheringFormData!);
-          break;
-        default:
-          throw new Error('Invalid step');
-      }
+      formSubmitRef.current?.submit();
     } else {
       setActiveStep(step);
     }
   };
 
-  // Gets the component for the current step
+  const handleNextStep = (newData: Partial<GatheringStepperFormData>) => {
+    setFormData((prev) => ({ ...prev, ...newData }));
+    setActiveStep((prevStep) => prevStep + 1);
+  };
+
+  const transformToGatheringData = (
+    data: GatheringStepperFormData
+  ): GatheringFormData | null => {
+    if (
+      data.details &&
+      data.possibleDates &&
+      data.timePeriods &&
+      data.possibleDates.data
+    ) {
+      return {
+        name: data.details.name,
+        description: data.details.description,
+        timezone: data.details.timezone,
+        scheduleType: data.possibleDates.type,
+        allowedPeriods: [],
+      };
+    }
+    return null;
+  };
+
+  const steps = [
+    'Details',
+    'Possible Dates',
+    'Time Periods',
+    'Confirm Gathering',
+  ];
+
   const stepComponents = [
     <DetailsForm
-      formData={details}
-      setSubmitRef={setSubmitRef}
+      formData={formData.details}
+      ref={formSubmitRef}
       onSuccessfulSubmit={(data) => {
-        setDetails(data);
-        setActiveStep((prevStep) => prevStep + 1);
+        handleNextStep({ details: data });
       }}
     />,
     <PossibleDates
-      formData={possibleDates}
-      setSubmitRef={setSubmitRef}
-      onSuccessfulSubmit={(data) => {
-        setPossibleDates(data);
-        setActiveStep((prevStep) => prevStep + 1);
-      }}
+      formData={formData.possibleDates}
+      ref={formSubmitRef}
+      onSuccessfulSubmit={(data) => handleNextStep({ possibleDates: data })}
     />,
     <TimePeriods
-      possibleDates={possibleDates!}
-      formData={timePeriods}
-      setSubmitRef={setSubmitRef}
-      onSuccessfulSubmit={(data) => {
-        setTimePeriods(data);
-
-        setGatheringFormData({
-          name: details!.name,
-          description: details?.description,
-          timezone: details!.timezone,
-          scheduleType: possibleDates!.type,
-          allowedPeriods: [], // TODO: Implement this
-        });
-        setActiveStep((prevStep) => prevStep + 1);
-      }}
+      possibleDates={formData.possibleDates!}
+      ref={formSubmitRef}
+      timezone={formData.details?.timezone}
+      formData={formData.timePeriods}
+      onSuccessfulSubmit={(data) => handleNextStep({ timePeriods: data })}
     />,
     <Confirmation
-      formData={gatheringFormData}
-      setSubmitRef={setSubmitRef}
-      onSuccessfulSubmit={(data) => {
-        createGathering.mutate(data);
-        setActiveStep((prevStep) => prevStep + 1);
+      formData={transformToGatheringData(formData)}
+      ref={formSubmitRef}
+      onSuccessfulSubmit={() => {
+        const data = transformToGatheringData(formData);
+        if (data) {
+          createGathering.mutate(gatheringFormDataSchema.parse(data));
+        }
       }}
     />,
   ];

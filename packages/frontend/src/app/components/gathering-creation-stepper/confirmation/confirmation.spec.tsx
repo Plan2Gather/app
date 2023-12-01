@@ -21,7 +21,6 @@ describe('Confirmation', () => {
     const { baseElement } = render(
       <Confirmation
         formData={defaultGatheringData}
-        setSubmitRef={() => {}}
         onSuccessfulSubmit={() => {}}
       />
     );

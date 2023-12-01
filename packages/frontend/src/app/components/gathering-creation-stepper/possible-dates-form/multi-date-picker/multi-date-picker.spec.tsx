@@ -15,7 +15,6 @@ describe('MultiDatePicker', () => {
         <MultiDatePicker
           formData={[]}
           setFormData={mockSetFormData}
-          setSubmitRef={() => {}}
           onSuccessfulSubmit={mockOnSuccessfulSubmit}
         />
       </LocalizationProvider>

@@ -7,11 +7,7 @@ describe('DetailsForm', () => {
     const mockOnSuccessfulSubmit = vi.fn();
 
     const { baseElement } = render(
-      <DetailsForm
-        formData={[]}
-        setSubmitRef={() => {}}
-        onSuccessfulSubmit={mockOnSuccessfulSubmit}
-      />
+      <DetailsForm formData={[]} onSuccessfulSubmit={mockOnSuccessfulSubmit} />
     );
     expect(baseElement).toBeTruthy();
   });
