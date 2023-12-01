@@ -1,16 +1,14 @@
 import { render } from '@testing-library/react';
 
-import DayOfWeekPicker from './day-of-week-picker';
+import TimePeriods from './time-periods';
 
-describe('DayOfWeekPicker', () => {
-  const mockSetFormData = vi.fn();
-  const mockOnSuccessfulSubmit = vi.fn();
-
+describe('TimePeriods', () => {
   it('should render successfully', () => {
+    const mockOnSuccessfulSubmit = vi.fn();
     const { baseElement } = render(
-      <DayOfWeekPicker
+      <TimePeriods
+        possibleDates={{ type: 'date', data: [] }}
         formData={[]}
-        setFormData={mockSetFormData}
         onSuccessfulSubmit={mockOnSuccessfulSubmit}
       />
     );

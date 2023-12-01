@@ -1,12 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-export type Weekday =
-  | 'sunday'
-  | 'monday'
-  | 'tuesday'
-  | 'wednesday'
-  | 'thursday'
-  | 'friday'
-  | 'saturday';
+
+import { Weekday } from '@plan2gather/backend/types';
 
 export default class Utils {
   private static _weekdays: Weekday[] = [

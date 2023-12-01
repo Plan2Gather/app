@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * A valid datetime string with an offset.
  */
-export const validDatetimeSchema = z.string().datetime();
+export const validDatetimeSchema = z.string().datetime({ offset: true });
 
 /**
  * Date range schema with start and end dates.
@@ -32,18 +32,24 @@ export const dateRangeSchema = z
 
 export type DateRange = z.infer<typeof dateRangeSchema>;
 
-/**
- * Availability schema.
- *
- * The availability is an array of date ranges.
- */
-export const availabilitySchema = z.array(dateRangeSchema);
+export const weekdaySchema = z.enum([
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+]);
+
+export type Weekday = z.infer<typeof weekdaySchema>;
+
+export const availabilitySchema = z.record(
+  weekdaySchema,
+  z.array(dateRangeSchema)
+);
 
 export type Availability = z.infer<typeof availabilitySchema>;
-
-export const scheduleTypeSchema = z.enum(['dayOfWeek', 'date']);
-
-export type ScheduleType = z.infer<typeof scheduleTypeSchema>;
 
 /**
  * User availability schema.
@@ -66,7 +72,6 @@ export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
  * The gathering form data is the required data to create a gathering.
  */
 export const gatheringFormPeriodsSchema = z.object({
-  scheduleType: scheduleTypeSchema,
   allowedPeriods: availabilitySchema,
 });
 

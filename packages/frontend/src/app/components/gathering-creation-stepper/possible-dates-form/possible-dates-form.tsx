@@ -5,7 +5,7 @@ import {
   ToggleButtonGroupElement,
   useForm,
 } from 'react-hook-form-mui';
-import type { Weekday } from '../../../../utils/utils';
+import { Weekday } from '@plan2gather/backend/types';
 import useGatheringStepperFormData from '../gathering-creation.store';
 import Utils from '../../../../utils/utils';
 
