@@ -11,11 +11,11 @@ import Stack from '@mui/material/Stack';
 import { useForm, FormContainer } from 'react-hook-form-mui';
 import { v4 as uuidv4 } from 'uuid';
 import { DateTime } from 'luxon';
+import { Weekday } from '@plan2gather/backend/types';
 import TimeRangePicker, {
   DateRangeLuxon,
 } from './time-range-picker/time-range-picker';
 import useGatheringStepperFormData from '../gathering-creation-stepper/gathering-creation.store';
-import { Weekday } from '@plan2gather/backend/types';
 
 type TimeRangeSelectionsProps = {
   day: Weekday;
