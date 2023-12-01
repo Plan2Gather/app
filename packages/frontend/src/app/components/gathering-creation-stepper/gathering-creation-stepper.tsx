@@ -18,15 +18,11 @@ import PossibleDates, {
   PossibleDateSelection,
 } from './possible-dates-form/possible-dates-form';
 import Confirmation from './confirmation/confirmation';
-import TimePeriods from './time-periods/time-periods';
 import { trpc } from '../../../trpc';
-import { DateRangeLuxon } from '../time-range-selections/time-range-picker/time-range-picker';
-import { Weekday } from '../../../utils/utils';
 
 type GatheringStepperFormData = {
   details: GatheringFormDetails | null;
   possibleDates: PossibleDateSelection | null;
-  timePeriods: Record<Weekday, DateRangeLuxon[]> | null;
 };
 
 export default function GatheringCreationStepper() {
@@ -35,10 +31,9 @@ export default function GatheringCreationStepper() {
   const [formData, setFormData] = useState<GatheringStepperFormData>({
     details: null,
     possibleDates: null,
-    timePeriods: null,
   });
   // Ref to the form submit function
-  const formSubmitRef = useRef();
+  const formSubmitRef = useRef<{ submit: () => void }>();
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
@@ -71,12 +66,7 @@ export default function GatheringCreationStepper() {
   const transformToGatheringData = (
     data: GatheringStepperFormData
   ): GatheringFormData | null => {
-    if (
-      data.details &&
-      data.possibleDates &&
-      data.timePeriods &&
-      data.possibleDates.data
-    ) {
+    if (data.details && data.possibleDates && data.possibleDates.data) {
       return {
         name: data.details.name,
         description: data.details.description,
@@ -88,12 +78,7 @@ export default function GatheringCreationStepper() {
     return null;
   };
 
-  const steps = [
-    'Details',
-    'Possible Dates',
-    'Time Periods',
-    'Confirm Gathering',
-  ];
+  const steps = ['Details', 'Possible Dates', 'Confirm Gathering'];
 
   const stepComponents = [
     <DetailsForm
@@ -107,13 +92,6 @@ export default function GatheringCreationStepper() {
       formData={formData.possibleDates}
       ref={formSubmitRef}
       onSuccessfulSubmit={(data) => handleNextStep({ possibleDates: data })}
-    />,
-    <TimePeriods
-      possibleDates={formData.possibleDates!}
-      ref={formSubmitRef}
-      timezone={formData.details?.timezone}
-      formData={formData.timePeriods}
-      onSuccessfulSubmit={(data) => handleNextStep({ timePeriods: data })}
     />,
     <Confirmation
       formData={transformToGatheringData(formData)}
