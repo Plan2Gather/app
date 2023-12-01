@@ -6,34 +6,24 @@ import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState, useRef } from 'react';
 import { Theme } from '@mui/material/styles';
-import {
-  GatheringFormData,
-  GatheringFormDetails,
-  gatheringFormDataSchema,
-} from '@plan2gather/backend/types';
+import { GatheringFormData } from '@plan2gather/backend/types';
 import { useNavigate } from 'react-router';
 import StepperControls from './stepper-controls/stepper-controls';
 import DetailsForm from './details-form/details-form';
-import PossibleDates, {
-  PossibleDateSelection,
-} from './possible-dates-form/possible-dates-form';
+import PossibleDates from './possible-dates-form/possible-dates-form';
 import Confirmation from './confirmation/confirmation';
 import { trpc } from '../../../trpc';
-
-type GatheringStepperFormData = {
-  details: GatheringFormDetails | null;
-  possibleDates: PossibleDateSelection | null;
-};
+import useGatheringStepperFormData, {
+  GatheringStepperFormData,
+} from './gathering-creation.store';
 
 export default function GatheringCreationStepper() {
   // Keeps track of the current step in the stepper
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState<GatheringStepperFormData>({
-    details: null,
-    possibleDates: null,
-  });
   // Ref to the form submit function
-  const formSubmitRef = useRef<{ submit: () => void }>();
+  const formSubmitRef = useRef<{ submit: () => Promise<boolean> }>();
+
+  const store = useGatheringStepperFormData();
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
@@ -46,32 +36,15 @@ export default function GatheringCreationStepper() {
     },
   });
 
-  // Handles setting the step
-  const handleSetStep = (callback: (prevStep: number) => number) => {
-    const step = callback(activeStep);
-
-    // When navigating forward, we need to do form validation
-    if (step > activeStep) {
-      formSubmitRef.current?.submit();
-    } else {
-      setActiveStep(step);
-    }
-  };
-
-  const handleNextStep = (newData: Partial<GatheringStepperFormData>) => {
-    setFormData((prev) => ({ ...prev, ...newData }));
-    setActiveStep((prevStep) => prevStep + 1);
-  };
-
   const transformToGatheringData = (
     data: GatheringStepperFormData
   ): GatheringFormData | null => {
-    if (data.details && data.possibleDates && data.possibleDates.data) {
+    if (data.details && data.possibleDates) {
       return {
         name: data.details.name,
         description: data.details.description,
         timezone: data.details.timezone,
-        scheduleType: data.possibleDates.type,
+        scheduleType: 'dayOfWeek',
         allowedPeriods: [],
       };
     }
@@ -80,29 +53,34 @@ export default function GatheringCreationStepper() {
 
   const steps = ['Details', 'Possible Dates', 'Confirm Gathering'];
 
-  const stepComponents = [
-    <DetailsForm
-      formData={formData.details}
-      ref={formSubmitRef}
-      onSuccessfulSubmit={(data) => {
-        handleNextStep({ details: data });
-      }}
-    />,
-    <PossibleDates
-      formData={formData.possibleDates}
-      ref={formSubmitRef}
-      onSuccessfulSubmit={(data) => handleNextStep({ possibleDates: data })}
-    />,
-    <Confirmation
-      formData={transformToGatheringData(formData)}
-      ref={formSubmitRef}
-      onSuccessfulSubmit={() => {
-        const data = transformToGatheringData(formData);
-        if (data) {
-          createGathering.mutate(gatheringFormDataSchema.parse(data));
+  // Handles setting the step
+  const handleSetStep = async (callback: (prevStep: number) => number) => {
+    const step = callback(activeStep);
+
+    // When navigating forward, we need to do form validation
+    if (step > activeStep) {
+      const valid = await formSubmitRef.current?.submit();
+      if (valid) {
+        if (steps.length === step) {
+          const data = transformToGatheringData(store);
+          if (data) {
+            createGathering.mutate(data);
+          } else {
+            console.error('Failed to create gathering');
+          }
+        } else {
+          setActiveStep(step);
         }
-      }}
-    />,
+      }
+    } else {
+      setActiveStep(step);
+    }
+  };
+
+  const stepComponents = [
+    <DetailsForm ref={formSubmitRef} />,
+    <PossibleDates ref={formSubmitRef} />,
+    <Confirmation ref={formSubmitRef} />,
   ];
 
   const createContent = (child: React.ReactNode) => (
