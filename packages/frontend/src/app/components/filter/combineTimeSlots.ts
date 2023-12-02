@@ -7,11 +7,14 @@ returns a list of time periods as well as
 */
 
 export function createMeshedGroupData(groupAvalabilities : [UserAvailability]){
-    returnd
+    periodsByDay : {name :string, avalable : [number,number][]}[][] = [];
+    for (const individualAvalability of groupAvalabilities){
+        periodsByDay
+    }
     return
 }
 
-function combineTimeSlots(groupTimePeriods : [{name :string, avalable : [number,number][]}]): [number,number,string[]][]{
+function combineTimeSlots(groupTimePeriods : {name :string, avalable : [number,number][]}[]): [number,number,string[]][]{
 
     let finalResult: [number,number,string[]][]= [];
     let slotSet: number[] = [];
