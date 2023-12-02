@@ -100,8 +100,10 @@ export type GatheringData = z.infer<typeof gatheringDataSchema>;
 
 export const PossibleTimeSchema = z.object({
   id: z.string(),
-  username: z.string(),
-  time: validDatetimeSchema,
+  users: z.array(z.string()),
+  /* make time schema like this: 2023-11-12 @ 9:45 pm - 12:00am */
+  startDatetime: validDatetimeSchema,
+  endDatetime: validDatetimeSchema,
   gatheringId: z.string(),
 });
 

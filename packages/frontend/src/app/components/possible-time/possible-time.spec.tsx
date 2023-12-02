@@ -4,8 +4,9 @@ import PossibleTime from './possible-time';
 
 const defaultTimeData: PossibleTimeData = {
   id: '123',
-  time: '2021-10-10T12:00:00.000Z',
-  username: 'testuser',
+  startDatetime: '2021-10-10T12:00:00.000Z',
+  endDatetime: '2021-10-10T13:00:00.000Z',
+  users: ['testuser', 'testuser2'],
   gatheringId: '1234',
 };
 

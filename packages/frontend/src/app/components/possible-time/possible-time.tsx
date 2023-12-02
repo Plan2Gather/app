@@ -6,7 +6,9 @@ import Tooltip from '@mui/material/Tooltip';
 import AvatarGroup from '@mui/material/AvatarGroup';
 
 export interface PossibleTimeProps {
-  timeData: Pick<PossibleTimeData, 'id' | 'username' | 'time' | 'gatheringId'>;
+  timeData: Pick<PossibleTimeData, 'id' |'startDatetime' | 'endDatetime' |'users' | 'gatheringId'>;
+  users: string[];
+
 }
 
 function stringToColor(string: string) {
@@ -49,8 +51,11 @@ function stringAvatar(name: string) {
   };
 }
 
-export default function PossibleTime({ timeData }: PossibleTimeProps) {
-  const users = ['Kent Dodds', 'John Smith', 'Jane Doe', 'Test', 'Hi'];
+export default function PossibleTime({ timeData}: PossibleTimeProps) {
+  const { startDatetime, endDatetime } = timeData;
+  const start = new Date(startDatetime);
+  const end = new Date(endDatetime);
+  const {users} = timeData;
   const maxAmt = 3;
   const [displayedUsers, setDisplayedUsers] = useState<string[]>([]);
   const [overflowUsers, setOverflowUsers] = useState<string[]>([]);
@@ -61,8 +66,18 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
   }, [users]);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-      <AvatarGroup max={maxAmt}>
+    
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+    <div style={{ border: '1px solid gray', padding: '10px'}}>
+    <Typography variant="body" sx={{ mb: 2 }}>
+      {start.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
+      {' @ '}
+      {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      {' - '}
+      {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+    </Typography>
+
+    <AvatarGroup max={maxAmt}>
         {displayedUsers.map((user) => (
           <Tooltip title={user} key={user}>
             <Avatar {...stringAvatar(user)} />
@@ -74,6 +89,7 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
           <Avatar>+{overflowUsers.length}</Avatar>
         </Tooltip>
       )}
+    </div>
     </div>
   );
 }
