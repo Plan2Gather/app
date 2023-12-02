@@ -27,7 +27,7 @@ export default function App() {
     });
     return client;
   });
-  const trpcClient = useMemo(() => trpc.createClient(trpcClientOptions()), []);
+  const trpcClient = useMemo(() => trpc.createClient(trpcClientOptions), []);
 
   const router = createBrowserRouter([
     { path: '*', element: <NotFound /> },
