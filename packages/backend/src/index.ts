@@ -27,11 +27,7 @@ export default {
       IS_DEPLOYED: isDeployed,
       ...rawEnv,
     });
-    const polyratingsEnv = new Env(cloudflareEnv);
-
-    if (!cloudflareEnv.IS_DEPLOYED) {
-      // await ensureLocalDb(cloudflareEnv, polyratingsEnv);
-    }
+    const plan2GatherEnv = new Env(cloudflareEnv);
 
     return fetchRequestHandler({
       endpoint: '',
@@ -40,7 +36,10 @@ export default {
       batching: {
         enabled: false,
       },
-      createContext: async () => ({ env: polyratingsEnv }),
+      createContext: async ({ req }) => ({
+        env: plan2GatherEnv,
+        userId: req.headers.get('X-User-Identifier'),
+      }),
       responseMeta: () => ({
         headers: {
           'Access-Control-Max-Age': '1728000',
