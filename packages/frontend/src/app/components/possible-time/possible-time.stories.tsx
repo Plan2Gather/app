@@ -1,22 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import GatheringDetails from './gathering-details';
+import PossibleTime from './possible-time';
 
-const meta: Meta<typeof GatheringDetails> = {
-  component: GatheringDetails,
+const meta: Meta<typeof PossibleTime> = {
+  component: PossibleTime,
 };
 export default meta;
-type Story = StoryObj<typeof GatheringDetails>;
+type Story = StoryObj<typeof PossibleTime>;
 
 export const Primary: Story = {
   args: {
-    gatheringData: {
-      name: 'Test Meeting',
-      description: 'This is a test meeting',
-      timezone: 'America/New_York',
-      allowedPeriods: [{ start: '', end: '' }],
-      id: '123',
-      availability: [{ start: '', end: '' }],
-      creationDate: '',
-    },
+    timeData: {
+      "id": "123",
+      "time": "2021-10-10T12:00:00.000Z",
+      "username": "testuser",
+      "gatheringId": "1234"
+    }
   },
 };

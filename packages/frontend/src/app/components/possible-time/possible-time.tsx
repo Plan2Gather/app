@@ -1,24 +1,22 @@
 import { PossibleTimeData } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
+import { Avatar } from '@mui/material';
 
 export interface PossibleTimeProps {
-  possibleTime: Pick<PossibleTime, 'name' | 'description' | 'timezone'>;
+  timeData: Pick<PossibleTimeData, 'id' | 'username' | 'time' | 'gatheringId'>;
 }
 
 export default function PossibleTime({
-  gatheringData,
-}: GatheringDetailsProps) {
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  timeData,
+}: PossibleTimeProps) {
   return (
     <>
-      <Typography variant="h4" component="h2">
-        {gatheringData.name}
-      </Typography>
-      <Typography variant="body1">{gatheringData.description}</Typography>
+
       <Typography variant="body2">
-        Event Timezone: {gatheringData.timezone}
+        Time Range: {timeData.time}
       </Typography>
-      <Typography variant="body2">Your Timezone: {userTimezone}</Typography>
+      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+
     </>
   );
 }
