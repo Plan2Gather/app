@@ -1,7 +1,6 @@
 import { PossibleTimeData } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import AvatarGroup from '@mui/material/AvatarGroup';
 
@@ -53,9 +52,7 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
   const users = ['Kent Dodds', 'John Smith', 'Jane Doe', 'Test', 'Hi'];
   const maxAmt = 4;
   return (
-    <>
-      <Typography variant="body2">Time Range: {timeData.time}</Typography>
-
+    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
       <AvatarGroup max={maxAmt}>
         {users.map((user) => (
           <Tooltip title={user} key={user}>
@@ -63,6 +60,6 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
           </Tooltip>
         ))}
       </AvatarGroup>
-    </>
+    </div>
   );
 }
