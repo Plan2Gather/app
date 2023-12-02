@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { PossibleTimeData } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
@@ -50,16 +51,29 @@ function stringAvatar(name: string) {
 
 export default function PossibleTime({ timeData }: PossibleTimeProps) {
   const users = ['Kent Dodds', 'John Smith', 'Jane Doe', 'Test', 'Hi'];
-  const maxAmt = 4;
+  const maxAmt = 3;
+  const [displayedUsers, setDisplayedUsers] = useState<string[]>([]);
+  const [overflowUsers, setOverflowUsers] = useState<string[]>([]);
+
+  useEffect(() => {
+    setDisplayedUsers(users.slice(0, maxAmt));
+    setOverflowUsers(users.slice(maxAmt));
+  }, [users]);
+
   return (
     <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
       <AvatarGroup max={maxAmt}>
-        {users.map((user) => (
+        {displayedUsers.map((user) => (
           <Tooltip title={user} key={user}>
             <Avatar {...stringAvatar(user)} />
           </Tooltip>
         ))}
       </AvatarGroup>
+      {overflowUsers.length > 0 && (
+        <Tooltip title={overflowUsers.join(', ')}>
+          <Avatar>+{overflowUsers.length}</Avatar>
+        </Tooltip>
+      )}
     </div>
   );
 }
