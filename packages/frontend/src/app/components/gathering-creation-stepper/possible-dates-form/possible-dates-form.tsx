@@ -6,27 +6,30 @@ import {
   useForm,
 } from 'react-hook-form-mui';
 import { Weekday } from '@plan2gather/backend/types';
-import useGatheringStepperFormData from '../gathering-creation.store';
+import { GatheringStepperFormData } from '../gathering-creation.store';
 import Utils from '../../../../utils/utils';
 
-const PossibleDates = forwardRef<unknown, unknown>((_none, ref) => {
-  const store = useGatheringStepperFormData();
-
+const PossibleDates = forwardRef<
+  unknown,
+  { initial: GatheringStepperFormData['possibleDates'] }
+>(({ initial }, ref) => {
   const formContext = useForm<{ possibleDates: Weekday[] }>({
     defaultValues: {
-      possibleDates: store.possibleDates ?? [],
+      possibleDates: initial ?? [],
     },
   });
 
   useImperativeHandle(ref, () => ({
     submit: async () => {
-      const isFormValid = await new Promise((resolve) => {
+      const isFormValid = await new Promise<{
+        valid: boolean;
+        data?: GatheringStepperFormData['possibleDates'];
+      }>((resolve) => {
         formContext.handleSubmit(
           (data) => {
-            store.setPossibleDates(data.possibleDates);
-            resolve(true);
+            resolve({ valid: true, data: data.possibleDates });
           },
-          () => resolve(false)
+          () => resolve({ valid: false })
         )();
       });
 

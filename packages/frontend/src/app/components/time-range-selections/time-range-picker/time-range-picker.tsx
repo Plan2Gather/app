@@ -3,32 +3,23 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircleOutline';
-import { DateTime } from 'luxon';
 import { TimePickerElement, TimePickerElementProps } from 'react-hook-form-mui';
 import { useState } from 'react';
 
-export type DateRangeLuxon = {
-  start: DateTime | null;
-  end: DateTime | null;
-  id: string;
-};
-
 interface TimeRangeProps {
-  range: DateRangeLuxon;
   onRemove: () => void;
   timezone: string;
   namePrefix: string;
 }
 
 export default function TimeRangePicker({
-  range,
   onRemove,
   timezone,
   namePrefix,
 }: TimeRangeProps) {
   const timeSteps = { hours: 1, minutes: 15 };
 
-  const [startTime, setStartTime] = useState(range.start);
+  const [startTime, setStartTime] = useState(null);
 
   const timePickerProps = (name: 'start' | 'end'): TimePickerElementProps => ({
     name: `${namePrefix}_${name}`,

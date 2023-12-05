@@ -17,9 +17,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { forwardRef, useImperativeHandle } from 'react';
 
 import Grid from '@mui/material/Unstable_Grid2';
-import useGatheringStepperFormData from '../gathering-creation.store';
 
-const DetailsForm = forwardRef<unknown, unknown>((_none, ref) => {
+const DetailsForm = forwardRef<
+  unknown,
+  { initial: GatheringFormDetails | null }
+>(({ initial }, ref) => {
   // Get all valid timezones
   const allTimeZones = Object.entries(zones)
     .filter(([_, v]) => Array.isArray(v))
@@ -39,11 +41,9 @@ const DetailsForm = forwardRef<unknown, unknown>((_none, ref) => {
   // Guess the user's timezone
   const guessedTimezone = DateTime.local().zoneName ?? '';
 
-  const store = useGatheringStepperFormData();
-
   const formContext = useForm<GatheringFormDetails>({
     resolver: zodResolver(gatheringFormDetailsSchema),
-    defaultValues: store.details ?? {
+    defaultValues: initial ?? {
       timezone: guessedTimezone,
     },
   });
@@ -60,13 +60,15 @@ const DetailsForm = forwardRef<unknown, unknown>((_none, ref) => {
 
   useImperativeHandle(ref, () => ({
     submit: async () => {
-      const isFormValid = await new Promise((resolve) => {
+      const isFormValid = await new Promise<{
+        valid: boolean;
+        data?: GatheringFormDetails;
+      }>((resolve) => {
         formContext.handleSubmit(
           (data) => {
-            store.setDetails(data);
-            resolve(true);
+            resolve({ valid: true, data });
           },
-          () => resolve(false)
+          () => resolve({ valid: false })
         )();
       });
 

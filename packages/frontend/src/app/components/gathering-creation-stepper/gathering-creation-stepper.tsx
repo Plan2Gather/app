@@ -4,14 +4,18 @@ import StepLabel from '@mui/material/StepLabel';
 import StepContent from '@mui/material/StepContent';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Theme } from '@mui/material/styles';
 import {
   Availability,
   GatheringFormData,
+  GatheringFormDetails,
   Weekday,
+  availabilitySchema,
 } from '@plan2gather/backend/types';
 import { useNavigate } from 'react-router';
+import { DateTime } from 'luxon';
+import Utils from '../../../utils/utils';
 import StepperControls from './stepper-controls/stepper-controls';
 import DetailsForm from './details-form/details-form';
 import PossibleDates from './possible-dates-form/possible-dates-form';
@@ -21,13 +25,31 @@ import { trpc } from '../../../trpc';
 import useGatheringStepperFormData, {
   GatheringStepperFormData,
 } from './gathering-creation.store';
-import { DateRangeLuxon } from '../time-range-selections/time-range-picker/time-range-picker';
+
+type SubmitFunction = () => Promise<{
+  valid: boolean;
+  data?: GatheringFormDetails | Weekday[] | Record<string, DateTime>;
+}>;
+
+// Define a type for step information
+type StepInfo = {
+  name: string;
+  submitRef: React.RefObject<{ submit: SubmitFunction }>;
+};
 
 export default function GatheringCreationStepper() {
   // Keeps track of the current step in the stepper
   const [activeStep, setActiveStep] = useState(0);
-  // Ref to the form submit function
-  const formSubmitRef = useRef<{ submit: () => Promise<boolean> }>();
+  // Generic ref for all step submit functions
+  const genericSubmitRef = useRef<{ submit: SubmitFunction }>(null);
+
+  // Define your steps with their respective refs
+  const steps: StepInfo[] = [
+    { name: 'Details', submitRef: genericSubmitRef },
+    { name: 'Possible Dates', submitRef: genericSubmitRef },
+    { name: 'Time Periods', submitRef: genericSubmitRef },
+    { name: 'Confirm Gathering', submitRef: genericSubmitRef },
+  ];
 
   const store = useGatheringStepperFormData();
 
@@ -42,97 +64,136 @@ export default function GatheringCreationStepper() {
     },
   });
 
-  const convertTimePeriodsToBackendDates = (
-    tps: Partial<Record<Weekday, DateRangeLuxon[]>>
-  ): Availability => {
-    const result: Availability = {};
+  const convertTimePeriodsToBackendDates = useCallback(
+    (tps: Record<string, DateTime>): Availability => {
+      const convertedSchedule: Partial<
+        Record<Weekday, Array<{ id: string; start: string; end: string }>>
+      > = {};
 
-    Object.keys(tps).forEach((day) => {
-      const timePeriods = tps[day as Weekday];
-      if (timePeriods) {
-        timePeriods.forEach((tp) => {
-          const start = tp.start?.toISO();
-          const end = tp.end?.toISO();
-          if (start && end) {
-            if (!result[day as Weekday]) {
-              result[day as Weekday] = [];
+      Object.keys(tps).forEach((key) => {
+        const match = key.match(/(^[a-zA-Z]+)_(\d+)_(start|end)$/);
+        if (match) {
+          const day = match[1].toLowerCase(); // Convert to lowercase to match the enum values
+          const index = match[2]; // Identifier for the time period
+          const type = match[3] as 'start' | 'end';
+
+          if (Object.values(Utils.weekdays).includes(day as Weekday)) {
+            const weekday = day as Weekday;
+
+            if (!convertedSchedule[weekday]) {
+              convertedSchedule[weekday] = [];
             }
-            result[day as Weekday]!.push({
-              start,
-              end,
-            });
-          } else {
-            throw new Error('Invalid time period');
+
+            let timeSlot = convertedSchedule[weekday]?.find(
+              (slot) => slot.id === index
+            );
+            if (!timeSlot) {
+              timeSlot = { id: index, start: '', end: '' };
+              convertedSchedule[weekday]!.push(timeSlot);
+            }
+
+            timeSlot[type] = tps[key].toISO()!;
           }
-        });
+        }
+      });
+
+      // Validate the overall schedule - this strips the id field
+      const parsedSchedule = availabilitySchema.parse(convertedSchedule);
+
+      return parsedSchedule;
+    },
+    []
+  );
+
+  const transformToGatheringData = useCallback(
+    (data: GatheringStepperFormData): GatheringFormData | null => {
+      if (data.details && data.possibleDates) {
+        const result = {
+          name: data.details.name,
+          description: data.details.description,
+          timezone: data.details.timezone,
+          allowedPeriods: convertTimePeriodsToBackendDates(data.timePeriods),
+        };
+        return result;
       }
-    });
-
-    return result;
-  };
-
-  const transformToGatheringData = (
-    data: GatheringStepperFormData
-  ): GatheringFormData | null => {
-    if (data.details && data.possibleDates) {
-      const result = {
-        name: data.details.name,
-        description: data.details.description,
-        timezone: data.details.timezone,
-        allowedPeriods: convertTimePeriodsToBackendDates(data.timePeriods),
-      };
-      return result;
-    }
-    return null;
-  };
-
-  const steps = [
-    'Details',
-    'Possible Dates',
-    'Time Periods',
-    'Confirm Gathering',
-  ];
+      return null;
+    },
+    [convertTimePeriodsToBackendDates]
+  );
 
   // Handles setting the step
-  const handleSetStep = async (callback: (prevStep: number) => number) => {
-    const step = callback(activeStep);
+  const handleSetStep = useCallback(
+    async (callback: (prevStep: number) => number) => {
+      const step = callback(activeStep);
 
-    // When navigating forward, we need to do form validation
-    if (step > activeStep) {
-      const valid = await formSubmitRef.current?.submit();
-      if (valid) {
-        if (steps.length === step) {
-          const data = transformToGatheringData(store);
-          if (data) {
-            createGathering.mutate(data);
-          } else {
-            throw new Error('Invalid data');
+      // When navigating forward, we need to do form validation
+      if (step > activeStep) {
+        const result = await genericSubmitRef.current?.submit();
+        if (result && result.valid) {
+          // Store the result data based on the active step
+          switch (activeStep) {
+            case 0:
+              store.setDetails(result.data as GatheringFormDetails);
+              break;
+            case 1:
+              store.setPossibleDates(result.data as Weekday[]);
+              break;
+            case 2:
+              store.setTimePeriods(result.data as Record<string, DateTime>);
+              break;
+            case 3:
+            default:
+              break;
           }
-        } else {
-          setActiveStep(step);
+
+          // If we're on the last step, create the gathering
+          if (steps.length === step) {
+            const data = transformToGatheringData(store);
+            if (data) {
+              createGathering.mutate(data);
+            } else {
+              throw new Error('Invalid data');
+            }
+          } else {
+            setActiveStep(step);
+          }
         }
+      } else {
+        setActiveStep(step);
       }
-    } else {
-      setActiveStep(step);
+    },
+    [activeStep, createGathering, steps.length, store, transformToGatheringData]
+  );
+
+  const stepComponents = steps.map((step) => {
+    switch (step.name) {
+      case 'Details':
+        return <DetailsForm initial={store.details} ref={step.submitRef} />;
+      case 'Possible Dates':
+        return (
+          <PossibleDates initial={store.possibleDates} ref={step.submitRef} />
+        );
+      case 'Time Periods':
+        return <TimePeriods initial={store.timePeriods} ref={step.submitRef} />;
+      case 'Confirm Gathering':
+        return <Confirmation initial={store} ref={step.submitRef} />;
+      default:
+        return null;
     }
-  };
+  });
 
-  const stepComponents = [
-    <DetailsForm ref={formSubmitRef} />,
-    <PossibleDates ref={formSubmitRef} />,
-    <TimePeriods ref={formSubmitRef} />,
-    <Confirmation ref={formSubmitRef} />,
-  ];
-
-  const createContent = (child: React.ReactNode) => (
-    <>
-      <Container>{child}</Container>
-      <StepperControls
-        activeStep={activeStep}
-        setActiveStep={handleSetStep}
-        numSteps={steps.length}
-      />
-    </>
+  const createContent = useCallback(
+    (child: React.ReactNode) => (
+      <>
+        <Container>{child}</Container>
+        <StepperControls
+          activeStep={activeStep}
+          setActiveStep={handleSetStep}
+          numSteps={steps.length}
+        />
+      </>
+    ),
+    [activeStep, handleSetStep, steps.length]
   );
 
   return (
@@ -142,9 +203,9 @@ export default function GatheringCreationStepper() {
         sx={{ paddingBottom: 2 }}
         orientation={isSmallScreen ? 'vertical' : 'horizontal'}
       >
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+        {steps.map((step, index) => (
+          <Step key={step.name}>
+            <StepLabel>{step.name}</StepLabel>
             {isSmallScreen && (
               <StepContent>{createContent(stepComponents[index])}</StepContent>
             )}
