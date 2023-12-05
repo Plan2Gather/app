@@ -5,6 +5,7 @@ import { TRPCError } from '@trpc/server';
 import t from '../trpc';
 import {
   gatheringFormDataSchema,
+  gatheringFormDetailsSchema,
   userAvailabilitySchema,
 } from '../types/schema';
 
@@ -51,6 +52,30 @@ export default t.router({
       await ctx.env.kvDao.putGathering(gathering);
 
       return gatheringId;
+    }),
+  putDetails: t.procedure
+    .input(z.object({ id: z.string(), details: gatheringFormDetailsSchema }))
+    .mutation(async ({ ctx, input }) => {
+      // Check if the user is allowed to update the gathering.
+      if (!ctx.userId) {
+        throw new TRPCError({
+          message: 'UserId is required to update a gathering.',
+          code: 'BAD_REQUEST',
+        });
+      }
+
+      const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
+
+      if (gathering.creationUserId !== ctx.userId) {
+        throw new TRPCError({
+          message: 'You are not allowed to update this gathering.',
+          code: 'FORBIDDEN',
+        });
+      }
+
+      await ctx.env.kvDao.putDetails(input.id, input.details);
+
+      return 'ok';
     }),
   putAvailability: t.procedure
     .input(z.object({ id: z.string(), availability: userAvailabilitySchema }))

@@ -3,6 +3,7 @@ import KvWrapper from './kv-wrapper';
 
 import {
   GatheringBackendData,
+  GatheringFormDetails,
   UserAvailability,
   gatheringBackendDataSchema,
   gatheringDataSchema,
@@ -54,6 +55,24 @@ export default class KVDAO {
     );
 
     return gathering;
+  }
+
+  async putDetails(id: string, details: GatheringFormDetails) {
+    const existingGathering = await this.getBackendGathering(id);
+
+    if (!existingGathering) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Could not find gathering with id ${id}`,
+      });
+    }
+
+    const gatheringWithDetails: GatheringBackendData = {
+      ...existingGathering,
+      ...details,
+    };
+
+    await this.putGathering(gatheringWithDetails);
   }
 
   /**

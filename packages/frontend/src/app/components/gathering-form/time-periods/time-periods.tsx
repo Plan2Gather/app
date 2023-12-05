@@ -13,7 +13,7 @@ import TimeRangeSelections from '../../time-range-selections/time-range-selectio
 
 import useGatheringStepperFormData, {
   GatheringStepperFormData,
-} from '../gathering-creation.store';
+} from '../../gathering-creation-stepper/gathering-creation.store';
 
 const TimePeriods = forwardRef<
   unknown,

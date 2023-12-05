@@ -6,7 +6,7 @@ import {
   useForm,
 } from 'react-hook-form-mui';
 import { Weekday } from '@plan2gather/backend/types';
-import { GatheringStepperFormData } from '../gathering-creation.store';
+import { GatheringStepperFormData } from '../../gathering-creation-stepper/gathering-creation.store';
 import Utils from '../../../../utils/utils';
 
 const PossibleDates = forwardRef<
