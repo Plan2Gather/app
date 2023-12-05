@@ -5,17 +5,17 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import PossibleDatesForm from './possible-dates-form';
 
 describe('PossibleDatesForm', () => {
-  it('should render successfully', () => {
-    const mockOnSuccessfulSubmit = vi.fn();
+    it('should render successfully', () => {
+        const mockOnSuccessfulSubmit = vi.fn();
 
-    const { baseElement } = render(
-      <LocalizationProvider dateAdapter={AdapterLuxon}>
-        <PossibleDatesForm
-          formData={{ type: 'date', data: [] }}
-          onSuccessfulSubmit={mockOnSuccessfulSubmit}
-        />
-      </LocalizationProvider>
-    );
-    expect(baseElement).toBeTruthy();
-  });
+        const { baseElement } = render(
+            <LocalizationProvider dateAdapter={AdapterLuxon}>
+                <PossibleDatesForm
+                    formData={{ type: 'date', data: [] }}
+                    onSuccessfulSubmit={mockOnSuccessfulSubmit}
+                />
+            </LocalizationProvider>
+        );
+        expect(baseElement).toBeTruthy();
+    });
 });

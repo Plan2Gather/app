@@ -4,17 +4,17 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import TimeRangePicker from './time-range-picker';
 
 const meta: Meta<typeof TimeRangePicker> = {
-  component: TimeRangePicker,
-  decorators: [
-    (Story) => (
-      <LocalizationProvider dateAdapter={AdapterLuxon}>
-        <Story />
-      </LocalizationProvider>
-    ),
-  ],
+    component: TimeRangePicker,
+    decorators: [
+        (Story) => (
+            <LocalizationProvider dateAdapter={AdapterLuxon}>
+                <Story />
+            </LocalizationProvider>
+        ),
+    ],
 };
 export default meta;
 
 export const Primary = {
-  args: {},
+    args: {},
 };

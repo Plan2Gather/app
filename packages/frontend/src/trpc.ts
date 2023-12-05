@@ -6,9 +6,9 @@ import { config } from './config';
 export const trpc = createTRPCReact<AppRouter>();
 
 export const trpcClientOptions = () => ({
-  links: [
-    httpLink({
-      url: config.clientEnv.url,
-    }),
-  ],
+    links: [
+        httpLink({
+            url: config.clientEnv.url,
+        }),
+    ],
 });

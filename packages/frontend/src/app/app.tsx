@@ -17,59 +17,67 @@ import Contact from './pages/contact/contact';
 import GatheringView from './pages/gathering-view/gathering-view';
 
 export default function App() {
-  const [queryClient] = useState(() => {
-    const client = new QueryClient({
-      defaultOptions: { queries: { staleTime: Infinity, cacheTime: 600000 } },
+    const [queryClient] = useState(() => {
+        const client = new QueryClient({
+            defaultOptions: {
+                queries: { staleTime: Infinity, cacheTime: 600000 },
+            },
+        });
+        persistQueryClient({
+            queryClient: client,
+            persister: createIDBPersister(),
+        });
+        return client;
     });
-    persistQueryClient({
-      queryClient: client,
-      persister: createIDBPersister(),
-    });
-    return client;
-  });
-  const trpcClient = useMemo(() => trpc.createClient(trpcClientOptions()), []);
+    const trpcClient = useMemo(
+        () => trpc.createClient(trpcClientOptions()),
+        []
+    );
 
-  const router = createBrowserRouter([
-    { path: '*', element: <NotFound /> },
-    {
-      path: '/',
-      element: <Homepage />,
-    },
-    {
-      path: '/create',
-      element: <Creation />,
-    },
-    {
-      path: '/gathering/:id',
-      element: <GatheringView />,
-    },
-    {
-      path: '/team',
-      element: <Team />,
-    },
-    {
-      path: '/contact',
-      element: <Contact />,
-    },
-    {
-      path: '/guide',
-      element: <NotFound />,
-    },
-    {
-      path: '/privacy',
-      element: <Privacy />,
-    },
-  ]);
+    const router = createBrowserRouter([
+        { path: '*', element: <NotFound /> },
+        {
+            path: '/',
+            element: <Homepage />,
+        },
+        {
+            path: '/create',
+            element: <Creation />,
+        },
+        {
+            path: '/gathering/:id',
+            element: <GatheringView />,
+        },
+        {
+            path: '/team',
+            element: <Team />,
+        },
+        {
+            path: '/contact',
+            element: <Contact />,
+        },
+        {
+            path: '/guide',
+            element: <NotFound />,
+        },
+        {
+            path: '/privacy',
+            element: <Privacy />,
+        },
+    ]);
 
-  return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="en">
-          <Layout>
-            <RouterProvider router={router} />
-          </Layout>
-        </LocalizationProvider>
-      </QueryClientProvider>
-    </trpc.Provider>
-  );
+    return (
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <LocalizationProvider
+                    dateAdapter={AdapterLuxon}
+                    adapterLocale="en"
+                >
+                    <Layout>
+                        <RouterProvider router={router} />
+                    </Layout>
+                </LocalizationProvider>
+            </QueryClientProvider>
+        </trpc.Provider>
+    );
 }

@@ -16,9 +16,9 @@ assignees: ''
 
 ## Is this a bug or a feature request?
 
-- [ ] Bug
-- [ ] Feature
-- [ ] Other
+-   [ ] Bug
+-   [ ] Feature
+-   [ ] Other
 
 ## Anything Else We Should Know?
 

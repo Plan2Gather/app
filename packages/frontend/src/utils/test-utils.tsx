@@ -6,12 +6,17 @@ import { trpc, trpcClientOptions } from '../trpc';
 
 // eslint-disable-next-line import/prefer-default-export
 export function TRPCWrapper({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
-  const trpcClient = useMemo(() => trpc.createClient(trpcClientOptions()), []);
+    const [queryClient] = useState(() => new QueryClient());
+    const trpcClient = useMemo(
+        () => trpc.createClient(trpcClientOptions()),
+        []
+    );
 
-  return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </trpc.Provider>
-  );
+    return (
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                {children}
+            </QueryClientProvider>
+        </trpc.Provider>
+    );
 }

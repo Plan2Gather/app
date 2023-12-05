@@ -1,29 +1,29 @@
 {
-  "extends": [
-    "plugin:@nx/react",
-    "plugin:react-hooks/recommended",
-    "../../.eslintrc.json"
-  ],
-  "ignorePatterns": ["!**/*"],
-  "parserOptions": {
-    "project": ["packages/frontend/tsconfig.*?.json"]
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "react/react-in-jsx-scope": "off"
-      }
+    "extends": [
+        "plugin:@nx/react",
+        "plugin:react-hooks/recommended",
+        "../../.eslintrc.json"
+    ],
+    "ignorePatterns": ["!**/*"],
+    "parserOptions": {
+        "project": ["packages/frontend/tsconfig.*?.json"]
     },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "react/jsx-filename-extension": [2, { "extensions": [".tsx"] }]
-      }
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
+    "overrides": [
+        {
+            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+            "rules": {
+                "react/react-in-jsx-scope": "off"
+            }
+        },
+        {
+            "files": ["*.ts", "*.tsx"],
+            "rules": {
+                "react/jsx-filename-extension": [2, { "extensions": [".tsx"] }]
+            }
+        },
+        {
+            "files": ["*.js", "*.jsx"],
+            "rules": {}
+        }
+    ]
 }

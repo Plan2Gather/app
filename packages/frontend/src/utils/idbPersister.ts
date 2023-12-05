@@ -1,7 +1,7 @@
 import { get, set, del } from 'idb-keyval';
 import {
-  PersistedClient,
-  Persister,
+    PersistedClient,
+    Persister,
 } from '@tanstack/react-query-persist-client';
 
 // eslint-disable-next-line max-len
@@ -12,15 +12,15 @@ import {
  * @see https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
  */
 export default function createIDBPersister(
-  idbValidKey: IDBValidKey = 'reactQuery'
+    idbValidKey: IDBValidKey = 'reactQuery'
 ) {
-  return {
-    persistClient: async (client: PersistedClient) => {
-      set(idbValidKey, client);
-    },
-    restoreClient: async () => get<PersistedClient>(idbValidKey),
-    removeClient: async () => {
-      await del(idbValidKey);
-    },
-  } as Persister;
+    return {
+        persistClient: async (client: PersistedClient) => {
+            set(idbValidKey, client);
+        },
+        restoreClient: async () => get<PersistedClient>(idbValidKey),
+        removeClient: async () => {
+            await del(idbValidKey);
+        },
+    } as Persister;
 }

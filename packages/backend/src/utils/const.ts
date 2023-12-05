@@ -7,7 +7,7 @@ export const bulkKeys = ['gatherings'] as const;
 export type BulkKey = (typeof bulkKeys)[number];
 
 export type BulkKeyMap = {
-  gatherings: GatheringData[];
+    gatherings: GatheringData[];
 };
 
 export const ALL_GATHERING_KEY = 'all';
