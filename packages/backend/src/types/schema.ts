@@ -28,7 +28,8 @@ export const dateRangeSchema = z
       message: 'End date/time should not be before the start date/time.',
       path: ['end'], // Pointing out the problematic field in the object
     }
-  );
+  )
+  .readonly();
 
 export type DateRange = z.infer<typeof dateRangeSchema>;
 
@@ -56,7 +57,11 @@ export type Availability = z.infer<typeof availabilitySchema>;
  *
  * The user availability is a record of user ID to availability.
  */
-export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
+export const userAvailabilitySchema = z
+  .record(z.string(), availabilitySchema)
+  .readonly();
+
+export type UserAvailability = z.infer<typeof userAvailabilitySchema>;
 
 export const gatheringFormDetailsSchema = z.object({
   name: z.string().min(1, { message: 'A gathering name is required.' }),
@@ -102,3 +107,5 @@ export const gatheringBackendDataSchema = z
   })
   .merge(gatheringDataSchema)
   .readonly();
+
+export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;
