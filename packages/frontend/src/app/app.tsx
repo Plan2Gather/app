@@ -52,10 +52,6 @@ export default function App() {
       element: <Contact />,
     },
     {
-      path: '/guide',
-      element: <NotFound />,
-    },
-    {
       path: '/privacy',
       element: <Privacy />,
     },
