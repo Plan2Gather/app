@@ -17,19 +17,15 @@ import { useNavigate } from 'react-router';
 import { DateTime } from 'luxon';
 import Utils from '../../../utils/utils';
 import StepperControls from './stepper-controls/stepper-controls';
-import DetailsForm from './details-form/details-form';
-import PossibleDates from './possible-dates-form/possible-dates-form';
-import Confirmation from './confirmation/confirmation';
-import TimePeriods from './time-periods/time-periods';
+import DetailsForm from '../gathering-form/details-form/details-form';
+import PossibleDates from '../gathering-form/possible-dates-form/possible-dates-form';
+import Confirmation from '../gathering-form/confirmation/confirmation';
+import TimePeriods from '../gathering-form/time-periods/time-periods';
 import { trpc } from '../../../trpc';
 import useGatheringStepperFormData, {
   GatheringStepperFormData,
 } from './gathering-creation.store';
-
-type SubmitFunction = () => Promise<{
-  valid: boolean;
-  data?: GatheringFormDetails | Weekday[] | Record<string, DateTime>;
-}>;
+import { SubmitFunction } from '../gathering-form/types';
 
 // Define a type for step information
 type StepInfo = {
