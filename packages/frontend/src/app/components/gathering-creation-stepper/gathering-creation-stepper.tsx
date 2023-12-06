@@ -40,15 +40,18 @@ type StepInfo = {
 export default function GatheringCreationStepper() {
   // Keeps track of the current step in the stepper
   const [activeStep, setActiveStep] = useState(0);
-  // Generic ref for all step submit functions
-  const genericSubmitRef = useRef<{ submit: SubmitFunction }>(null);
+
+  const detailsRef = useRef<{ submit: SubmitFunction }>(null);
+  const possibleDatesRef = useRef<{ submit: SubmitFunction }>(null);
+  const timePeriodsRef = useRef<{ submit: SubmitFunction }>(null);
+  const confirmRef = useRef<{ submit: SubmitFunction }>(null);
 
   // Define your steps with their respective refs
   const steps: StepInfo[] = [
-    { name: 'Details', submitRef: genericSubmitRef },
-    { name: 'Possible Dates', submitRef: genericSubmitRef },
-    { name: 'Time Periods', submitRef: genericSubmitRef },
-    { name: 'Confirm Gathering', submitRef: genericSubmitRef },
+    { name: 'Details', submitRef: detailsRef },
+    { name: 'Possible Dates', submitRef: possibleDatesRef },
+    { name: 'Time Periods', submitRef: timePeriodsRef },
+    { name: 'Confirm Gathering', submitRef: confirmRef },
   ];
 
   const store = useGatheringStepperFormData();
@@ -125,10 +128,11 @@ export default function GatheringCreationStepper() {
   const handleSetStep = useCallback(
     async (callback: (prevStep: number) => number) => {
       const step = callback(activeStep);
+      const currentStepRef = steps[activeStep].submitRef;
 
       // When navigating forward, we need to do form validation
       if (step > activeStep) {
-        const result = await genericSubmitRef.current?.submit();
+        const result = await currentStepRef.current?.submit();
         if (result && result.valid) {
           // Store the result data based on the active step
           switch (activeStep) {
