@@ -5,15 +5,19 @@ import Typography from '@mui/material/Typography';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircleOutline';
 import { TimePickerElement, TimePickerElementProps } from 'react-hook-form-mui';
 import { useState } from 'react';
+import { DateRange } from '@plan2gather/backend/types';
+import { DateTime } from 'luxon';
 
 interface TimeRangeProps {
   onRemove: () => void;
-  timezone: string;
+  restriction: DateRange | undefined;
+  timezone: string | undefined;
   namePrefix: string;
 }
 
 export default function TimeRangePicker({
   onRemove,
+  restriction,
   timezone,
   namePrefix,
 }: TimeRangeProps) {
@@ -28,7 +32,15 @@ export default function TimeRangePicker({
     minutesStep: timeSteps.minutes,
     timezone,
     required: true,
+    disableIgnoringDatePartForTimeValidation: true,
   });
+
+  const startRestriction = restriction?.start
+    ? DateTime.fromISO(restriction?.start)
+    : undefined;
+  const endRestriction = restriction?.end
+    ? DateTime.fromISO(restriction?.end)
+    : undefined;
 
   return (
     <Stack
@@ -41,10 +53,16 @@ export default function TimeRangePicker({
       </IconButton>
       <TimePickerElement
         {...timePickerProps('start')}
+        maxTime={endRestriction}
+        minTime={startRestriction}
         onChange={setStartTime}
       />
       <Typography>&ndash;</Typography>
-      <TimePickerElement {...timePickerProps('end')} minTime={startTime} />
+      <TimePickerElement
+        {...timePickerProps('end')}
+        minTime={startTime}
+        maxTime={endRestriction}
+      />
     </Stack>
   );
 }

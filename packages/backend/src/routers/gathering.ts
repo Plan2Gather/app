@@ -6,10 +6,11 @@ import t from '../trpc';
 import {
   gatheringFormDataSchema,
   gatheringFormDetailsSchema,
+  userAvailabilityBackendSchema,
   userAvailabilitySchema,
 } from '../types/schema';
 
-import type { GatheringBackendData } from '../types/schema';
+import type { GatheringBackendData, UserAvailability } from '../types/schema';
 
 export default t.router({
   get: t.procedure
@@ -88,9 +89,40 @@ export default t.router({
         });
       }
 
-      await ctx.env.kvDao.putAvailability(input.id, input.availability);
+      const { userId } = ctx;
+
+      await ctx.env.kvDao.putAvailability(
+        input.id,
+        userAvailabilityBackendSchema.parse({ [userId]: input.availability })
+      );
 
       return 'ok';
+    }),
+  getAvailability: t.procedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
+
+      // We need to parse the user availability to the frontend schema.
+      // This strips the userId from the availability.
+      return Object.values(gathering.availability);
+    }),
+  getOwnAvailability: t.procedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      if (!ctx.userId) {
+        throw new TRPCError({
+          message: 'UserId is required to get your availability.',
+          code: 'BAD_REQUEST',
+        });
+      }
+
+      const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
+
+      // Find the user's availability for the gathering.
+      const availability = gathering.availability[ctx.userId] ?? 'none';
+
+      return availability as UserAvailability | 'none';
     }),
   remove: t.procedure
     .input(z.object({ id: z.string() }))

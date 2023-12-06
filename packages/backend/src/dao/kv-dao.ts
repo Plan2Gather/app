@@ -4,7 +4,7 @@ import KvWrapper from './kv-wrapper';
 import {
   GatheringBackendData,
   GatheringFormDetails,
-  UserAvailability,
+  UserAvailabilityBackend,
   gatheringBackendDataSchema,
   gatheringDataSchema,
 } from '../types/schema';
@@ -81,7 +81,7 @@ export default class KVDAO {
    * @param id - The ID of the gathering to update.
    * @param availability - The availability to add/update.
    */
-  async putAvailability(id: string, availability: UserAvailability) {
+  async putAvailability(id: string, availability: UserAvailabilityBackend) {
     const existingGathering = await this.getBackendGathering(id);
 
     if (!existingGathering) {

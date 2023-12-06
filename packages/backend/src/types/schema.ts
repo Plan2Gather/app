@@ -52,16 +52,33 @@ export const availabilitySchema = z.record(
 
 export type Availability = z.infer<typeof availabilitySchema>;
 
+export const limitedAvailabilitySchema = z.record(
+  weekdaySchema,
+  z.array(dateRangeSchema).length(1)
+);
+
 /**
  * User availability schema.
  *
  * The user availability is a record of user ID to availability.
  */
 export const userAvailabilitySchema = z
-  .record(z.string(), availabilitySchema)
+  .object({
+    name: z.string(),
+    availability: availabilitySchema,
+  })
   .readonly();
 
 export type UserAvailability = z.infer<typeof userAvailabilitySchema>;
+
+export const userAvailabilityBackendSchema = z.record(
+  z.string(),
+  userAvailabilitySchema
+);
+
+export type UserAvailabilityBackend = z.infer<
+  typeof userAvailabilityBackendSchema
+>;
 
 export const gatheringFormDetailsSchema = z.object({
   name: z.string().min(1, { message: 'A gathering name is required.' }),
@@ -77,7 +94,7 @@ export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
  * The gathering form data is the required data to create a gathering.
  */
 export const gatheringFormPeriodsSchema = z.object({
-  allowedPeriods: availabilitySchema,
+  allowedPeriods: limitedAvailabilitySchema,
 });
 
 export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
@@ -95,7 +112,6 @@ export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
 export const gatheringDataSchema = z.object({
   ...gatheringFormDataSchema.shape,
   id: z.string(),
-  availability: userAvailabilitySchema,
   creationDate: validDatetimeSchema,
 });
 
@@ -103,9 +119,10 @@ export type GatheringData = z.infer<typeof gatheringDataSchema>;
 
 export const gatheringBackendDataSchema = z
   .object({
+    ...gatheringDataSchema.shape,
     creationUserId: z.string(),
+    availability: userAvailabilityBackendSchema,
   })
-  .merge(gatheringDataSchema)
   .readonly();
 
 export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;
