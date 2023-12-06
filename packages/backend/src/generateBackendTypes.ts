@@ -4,7 +4,7 @@ import { parse } from 'toml';
 import { resolve } from 'path';
 
 // From https://stackoverflow.com/questions/5612787/converting-an-object-to-a-string
-function objToString(obj: unknown, ndeep = 1): string {
+function objToString(obj: any, ndeep = 1): string {
   if (obj == null) {
     return String(obj);
   }

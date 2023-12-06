@@ -28,7 +28,8 @@ export const dateRangeSchema = z
       message: 'End date/time should not be before the start date/time.',
       path: ['end'], // Pointing out the problematic field in the object
     }
-  );
+  )
+  .readonly();
 
 export type DateRange = z.infer<typeof dateRangeSchema>;
 
@@ -51,12 +52,41 @@ export const availabilitySchema = z.record(
 
 export type Availability = z.infer<typeof availabilitySchema>;
 
+export const limitedAvailabilitySchema = z.record(
+  weekdaySchema,
+  z.array(dateRangeSchema).length(1)
+);
+
 /**
  * User availability schema.
  *
  * The user availability is a record of user ID to availability.
  */
-export const userAvailabilitySchema = z.record(z.string(), availabilitySchema);
+export const userAvailabilitySchema = z
+  .object({
+    name: z.string(),
+    availability: availabilitySchema,
+  })
+  .readonly();
+
+export type UserAvailability = z.infer<typeof userAvailabilitySchema>;
+
+export const userAvailabilityBackendSchema = z.record(
+  z.string(),
+  userAvailabilitySchema
+);
+
+export type UserAvailabilityBackend = z.infer<
+  typeof userAvailabilityBackendSchema
+>;
+
+export const gatheringFormDetailsSchema = z.object({
+  name: z.string().min(1, { message: 'A gathering name is required.' }),
+  description: z.string().optional(),
+  timezone: z.string().min(1, { message: 'A timezone is required.' }),
+});
+
+export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
 
 export const gatheringFormDetailsSchema = z.object({
   name: z.string().min(1, { message: 'A gathering name is required.' }),
@@ -72,7 +102,7 @@ export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
  * The gathering form data is the required data to create a gathering.
  */
 export const gatheringFormPeriodsSchema = z.object({
-  allowedPeriods: availabilitySchema,
+  allowedPeriods: limitedAvailabilitySchema,
 });
 
 export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
@@ -87,24 +117,20 @@ export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
  * Gathering data schema.
  * The gathering data is the gathering form data with an ID and user availability.
  */
-export const gatheringDataSchema = z
-  .object({
-    ...gatheringFormDataSchema.shape,
-    id: z.string(),
-    availability: userAvailabilitySchema,
-    creationDate: validDatetimeSchema,
-  })
-  .readonly();
+export const gatheringDataSchema = z.object({
+  ...gatheringFormDataSchema.shape,
+  id: z.string(),
+  creationDate: validDatetimeSchema,
+});
 
 export type GatheringData = z.infer<typeof gatheringDataSchema>;
 
-export const PossibleTimeSchema = z.object({
-  id: z.string(),
-  users: z.array(z.string()),
-  /* make time schema like this: 2023-11-12 @ 9:45 pm - 12:00am */
-  startDatetime: validDatetimeSchema,
-  endDatetime: validDatetimeSchema,
-  gatheringId: z.string(),
-});
+export const gatheringBackendDataSchema = z
+  .object({
+    ...gatheringDataSchema.shape,
+    creationUserId: z.string(),
+    availability: userAvailabilityBackendSchema,
+  })
+  .readonly();
 
-export type PossibleTimeData = z.infer<typeof PossibleTimeSchema>;
+export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;

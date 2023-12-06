@@ -1,18 +1,11 @@
 import { render } from '@testing-library/react';
-import { GatheringData } from '@plan2gather/backend/types';
 import Filter from './filter';
 import '@testing-library/jest-dom';
 
 describe('Filter', () => {
   it('should render', () => {
-    const mockData = {
-      availability: {
-        label1: true,
-        label2: false,
-        // Add more labels as needed
-      },
-    } as unknown as GatheringData;
-    const { baseElement } = render(<Filter data={mockData} />);
+    const mockData = ['test1', 'test2', 'test3'];
+    const { baseElement } = render(<Filter userLabels={mockData} />);
     expect(baseElement).toBeInTheDocument();
   });
 });
