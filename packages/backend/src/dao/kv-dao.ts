@@ -38,6 +38,48 @@ export default class KVDAO {
   }
 
   /**
+   * Get the gatherings a user owns.
+   * @param userId - The ID of the user to get the gatherings for.
+   * @returns - The IDs of the gatherings the user owns.
+   */
+  async getOwnedGatherings(userId: string) {
+    const gatherings = await this.gatheringsNamespace.getAll(
+      gatheringBackendDataSchema
+    );
+
+    const ownedGatheringIds: string[] = [];
+
+    gatherings.forEach((gathering) => {
+      if (gathering.creationUserId === userId) {
+        ownedGatheringIds.push(gathering.id);
+      }
+    });
+
+    return ownedGatheringIds;
+  }
+
+  /**
+   * Get the gatherings a user is participating in.
+   * @param userId - The ID of the user to get the gatherings for.
+   * @returns - The IDs of the gatherings the user is participating in.
+   */
+  async getParticipatingGatherings(userId: string) {
+    const gatherings = await this.gatheringsNamespace.getAll(
+      gatheringBackendDataSchema
+    );
+
+    const participatingGatheringIds: string[] = [];
+
+    gatherings.forEach((gathering) => {
+      if (gathering.availability[userId]) {
+        participatingGatheringIds.push(gathering.id);
+      }
+    });
+
+    return participatingGatheringIds;
+  }
+
+  /**
    * Add or update a gathering.
    * TODO: The TTL gets reset every time the gathering is updated
    *

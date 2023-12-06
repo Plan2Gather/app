@@ -124,6 +124,26 @@ export default t.router({
 
       return availability as UserAvailability | 'none';
     }),
+  getOwnedGatherings: t.procedure.query(async ({ ctx }) => {
+    if (!ctx.userId) {
+      throw new TRPCError({
+        message: 'UserId is required to get your gatherings.',
+        code: 'BAD_REQUEST',
+      });
+    }
+
+    return ctx.env.kvDao.getOwnedGatherings(ctx.userId);
+  }),
+  getParticipatingGatherings: t.procedure.query(async ({ ctx }) => {
+    if (!ctx.userId) {
+      throw new TRPCError({
+        message: 'UserId is required to get your gatherings.',
+        code: 'BAD_REQUEST',
+      });
+    }
+
+    return ctx.env.kvDao.getParticipatingGatherings(ctx.userId);
+  }),
   remove: t.procedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
