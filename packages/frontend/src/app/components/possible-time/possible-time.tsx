@@ -6,9 +6,11 @@ import Tooltip from '@mui/material/Tooltip';
 import AvatarGroup from '@mui/material/AvatarGroup';
 
 export interface PossibleTimeProps {
-  timeData: Pick<PossibleTimeData, 'id' |'startDatetime' | 'endDatetime' |'users' | 'gatheringId'>;
+  timeData: Pick<
+    PossibleTimeData,
+    'id' | 'startDatetime' | 'endDatetime' | 'users' | 'gatheringId'
+  >;
   users: string[];
-
 }
 
 function stringToColor(string: string) {
@@ -51,11 +53,11 @@ function stringAvatar(name: string) {
   };
 }
 
-export default function PossibleTime({ timeData}: PossibleTimeProps) {
+export default function PossibleTime({ timeData }: PossibleTimeProps) {
   const { startDatetime, endDatetime } = timeData;
   const start = new Date(startDatetime);
   const end = new Date(endDatetime);
-  const {users} = timeData;
+  const { users } = timeData;
   const maxAmt = 3;
   const [displayedUsers, setDisplayedUsers] = useState<string[]>([]);
   const [overflowUsers, setOverflowUsers] = useState<string[]>([]);
@@ -66,30 +68,39 @@ export default function PossibleTime({ timeData}: PossibleTimeProps) {
   }, [users]);
 
   return (
-    
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-    <div style={{ border: '1px solid gray', padding: '10px'}}>
-    <Typography variant="body" sx={{ mb: 2 }}>
-      {start.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
-      {' @ '}
-      {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-      {' - '}
-      {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-    </Typography>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }}
+    >
+      <div style={{ border: '1px solid gray', padding: '10px' }}>
+        <Typography variant="body" sx={{ mb: 2 }}>
+          {start.toLocaleDateString([], {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric',
+          })}
+          {' @ '}
+          {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          {' - '}
+          {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </Typography>
 
-    <AvatarGroup max={maxAmt}>
-        {displayedUsers.map((user) => (
-          <Tooltip title={user} key={user}>
-            <Avatar {...stringAvatar(user)} />
+        <AvatarGroup max={maxAmt}>
+          {displayedUsers.map((user) => (
+            <Tooltip title={user} key={user}>
+              <Avatar {...stringAvatar(user)} />
+            </Tooltip>
+          ))}
+        </AvatarGroup>
+        {overflowUsers.length > 0 && (
+          <Tooltip title={overflowUsers.join(', ')}>
+            <Avatar>+{overflowUsers.length}</Avatar>
           </Tooltip>
-        ))}
-      </AvatarGroup>
-      {overflowUsers.length > 0 && (
-        <Tooltip title={overflowUsers.join(', ')}>
-          <Avatar>+{overflowUsers.length}</Avatar>
-        </Tooltip>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 }
