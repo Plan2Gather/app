@@ -46,7 +46,6 @@ const footers = [
   {
     title: 'Resources',
     description: [
-      { text: 'Getting started', link: '/guide' },
       {
         text: 'Source code',
         link: 'https://github.com/cjlawson02/plan2gather',
@@ -124,14 +123,6 @@ export default function Layout(props: LayoutProps) {
                 sx={{ marginRight: 1.5 }}
               >
                 Contact
-              </Link>
-              <Link
-                variant="button"
-                color="text.primary"
-                href="/guide"
-                sx={{ marginRight: 1.5 }}
-              >
-                Guide
               </Link>
             </nav>
             <CreateGatheringButton variant="toolbar" />
