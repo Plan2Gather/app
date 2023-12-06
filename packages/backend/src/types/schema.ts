@@ -88,14 +88,6 @@ export const gatheringFormDetailsSchema = z.object({
 
 export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
 
-export const gatheringFormDetailsSchema = z.object({
-  name: z.string().min(1, { message: 'A gathering name is required.' }),
-  description: z.string().optional(),
-  timezone: z.string().min(1, { message: 'A timezone is required.' }),
-});
-
-export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
-
 /**
  * Gathering form data schema.
  *
