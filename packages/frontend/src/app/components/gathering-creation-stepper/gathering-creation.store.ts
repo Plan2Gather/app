@@ -1,14 +1,17 @@
 import { create } from 'zustand';
-import { GatheringFormDetails, Weekday } from '@plan2gather/backend/types';
-import { DateTime } from 'luxon';
+import {
+  Availability,
+  GatheringFormDetails,
+  Weekday,
+} from '@plan2gather/backend/types';
 
 export interface GatheringStepperFormData {
   details: GatheringFormDetails | null;
   possibleDates: Weekday[];
-  timePeriods: Record<string, DateTime>;
+  timePeriods: Availability;
   setDetails: (details: GatheringFormDetails) => void;
   setPossibleDates: (possibleDates: Weekday[]) => void;
-  setTimePeriods: (timePeriods: Record<string, DateTime>) => void;
+  setTimePeriods: (timePeriods: Availability) => void;
 }
 
 const useGatheringStepperFormData = create<GatheringStepperFormData>((set) => ({

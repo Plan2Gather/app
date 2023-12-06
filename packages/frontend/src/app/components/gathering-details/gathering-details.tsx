@@ -40,11 +40,13 @@ export default function GatheringDetails({
           </IconButton>
         )}
       </Stack>
-      <Typography variant="body1">{gatheringData.description}</Typography>
+      <Typography variant="subtitle1">{gatheringData.description}</Typography>
       <Typography variant="body2">
         Event Timezone: {gatheringData.timezone}
       </Typography>
-      <Typography variant="body2">Your Timezone: {userTimezone}</Typography>
+      {gatheringData.timezone !== userTimezone && (
+        <Typography variant="body2">Your Timezone: {userTimezone}</Typography>
+      )}
       <DetailsEditDialog
         data={gatheringData as GatheringData}
         open={openEdit}

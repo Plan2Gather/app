@@ -16,11 +16,5 @@ const meta: Meta<typeof TimeRangeSelections> = {
 export default meta;
 
 export const Primary = {
-  args: {
-    timezone: 'America/Los_Angeles',
-    formData: null,
-    onSuccessfulSubmit: () => {
-      console.log('Submitted');
-    },
-  },
+  args: {},
 };

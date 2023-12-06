@@ -17,7 +17,9 @@ export interface DetailsEditDialogProps {
 export default function DetailsEditDialog(props: DetailsEditDialogProps) {
   const { data, onClose, open } = props;
 
-  const formSubmitRef = useRef<{ submit: SubmitFunction }>();
+  const formSubmitRef = useRef<{
+    submit: SubmitFunction<GatheringFormDetails>;
+  }>();
 
   const handleClose = useCallback(() => {
     onClose();
@@ -37,7 +39,7 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
     if (result?.valid && result.data) {
       submitAPI.mutate({
         id: data.id,
-        details: result.data as GatheringFormDetails,
+        details: result.data,
       });
     }
   }, [data.id, submitAPI]);

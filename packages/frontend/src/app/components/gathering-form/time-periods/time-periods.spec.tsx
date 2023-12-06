@@ -1,16 +1,15 @@
-import { render } from '@testing-library/react';
-
 import TimePeriods from './time-periods';
+import { renderWithTheme } from '../../../../utils/theme-test-helper.spec';
 
 describe('TimePeriods', () => {
   it('should render successfully', () => {
-    const mockOnSuccessfulSubmit = vi.fn();
-    const { baseElement } = render(
+    const { baseElement } = renderWithTheme(
       <TimePeriods
-        possibleDates={{ type: 'date', data: [] }}
-        formData={[]}
-        onSuccessfulSubmit={mockOnSuccessfulSubmit}
-      />
+        initial={{ friday: [{ start: '', end: '' }] }}
+        days={['wednesday']}
+        timezone="America/New_York"
+      />,
+      {}
     );
     expect(baseElement).toBeTruthy();
   });

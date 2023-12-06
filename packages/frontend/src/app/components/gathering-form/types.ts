@@ -1,7 +1,4 @@
-import { GatheringFormDetails, Weekday } from '@plan2gather/backend/types';
-import { DateTime } from 'luxon';
-
-export type SubmitFunction = () => Promise<{
+export type SubmitFunction<T> = () => Promise<{
   valid: boolean;
-  data?: GatheringFormDetails | Weekday[] | Record<string, DateTime>;
+  data?: T;
 }>;
