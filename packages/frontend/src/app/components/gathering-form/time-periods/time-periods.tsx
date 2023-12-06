@@ -9,7 +9,7 @@ import { DateTime } from 'luxon';
 import { useForm } from 'react-hook-form';
 import { forwardRef, useImperativeHandle } from 'react';
 import { FormContainer } from 'react-hook-form-mui';
-import TimeRangeSelections from '../../time-range-selections/time-range-selections';
+import TimeRangeSelections from './time-range-selections/time-range-selections';
 
 import useGatheringStepperFormData, {
   GatheringStepperFormData,

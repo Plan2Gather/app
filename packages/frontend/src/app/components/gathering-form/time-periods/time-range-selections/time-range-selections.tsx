@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 import { v4 as uuidv4 } from 'uuid';
 import { Weekday } from '@plan2gather/backend/types';
 import TimeRangePicker from './time-range-picker/time-range-picker';
-import useGatheringStepperFormData from '../gathering-creation-stepper/gathering-creation.store';
+import useGatheringStepperFormData from '../../../gathering-creation-stepper/gathering-creation.store';
 
 type TimeRangeSelectionsProps = {
   day: Weekday;
