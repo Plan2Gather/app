@@ -55,6 +55,10 @@ export default function App() {
       path: '/privacy',
       element: <Privacy />,
     },
+    {
+      path: '/my-meetings',
+      element: <NotFound />,
+    },
   ]);
 
   return (
