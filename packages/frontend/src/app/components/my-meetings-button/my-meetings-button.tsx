@@ -2,7 +2,6 @@ import { Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import GroupsIcon from '@mui/icons-material/Groups'; // or any other relevant icon
 import { ListAlt } from '@mui/icons-material';
 
 export default function MyMeetingsButton({
