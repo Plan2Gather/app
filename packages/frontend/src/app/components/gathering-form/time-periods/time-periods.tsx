@@ -22,6 +22,7 @@ export interface TimePeriodsProps {
   days: Weekday[];
   restrictions?: Availability;
   allowMultiple?: boolean;
+  assumeFullDay?: boolean;
   timezone: string | undefined;
 }
 
@@ -30,7 +31,10 @@ function DayHeaderCell({ day }: { day: Weekday }) {
 }
 
 const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
-  ({ initial, days, restrictions, timezone, allowMultiple }, ref) => {
+  (
+    { initial, days, restrictions, timezone, allowMultiple, assumeFullDay },
+    ref
+  ) => {
     const initialValues = convertBackendDatesToTimePeriods(initial);
     const formContext = useForm<Record<string, DateTime>>({
       defaultValues: initialValues ?? {},
@@ -49,7 +53,9 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
             (data) => {
               resolve({
                 valid: true,
-                data: convertTimePeriodsToBackendDates(data),
+                data: assumeFullDay
+                  ? convertTimePeriodsToBackendDates(data, days)
+                  : convertTimePeriodsToBackendDates(data),
               });
             },
             () => resolve({ valid: false })
@@ -125,4 +131,5 @@ export default TimePeriods;
 TimePeriods.defaultProps = {
   restrictions: undefined,
   allowMultiple: false,
+  assumeFullDay: false,
 };
