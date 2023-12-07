@@ -22,11 +22,19 @@ export interface TimePeriodsProps {
   days: Weekday[];
   restrictions?: Availability;
   allowMultiple?: boolean;
+  assumeFullDay?: boolean;
   timezone: string | undefined;
 }
 
+function DayHeaderCell({ day }: { day: Weekday }) {
+  return <TableCell>{day.charAt(0).toUpperCase() + day.slice(1)}</TableCell>;
+}
+
 const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
-  ({ initial, days, restrictions, timezone, allowMultiple }, ref) => {
+  (
+    { initial, days, restrictions, timezone, allowMultiple, assumeFullDay },
+    ref
+  ) => {
     const initialValues = convertBackendDatesToTimePeriods(initial);
     const formContext = useForm<Record<string, DateTime>>({
       defaultValues: initialValues ?? {},
@@ -45,7 +53,9 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
             (data) => {
               resolve({
                 valid: true,
-                data: convertTimePeriodsToBackendDates(data),
+                data: assumeFullDay
+                  ? convertTimePeriodsToBackendDates(data, days)
+                  : convertTimePeriodsToBackendDates(data),
               });
             },
             () => resolve({ valid: false })
@@ -65,9 +75,7 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
                 <Fragment key={day}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>
-                        {day.charAt(0).toUpperCase() + day.slice(1)}
-                      </TableCell>
+                      <DayHeaderCell day={day} />
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -90,9 +98,7 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
                 <TableHead>
                   <TableRow>
                     {days.map((day) => (
-                      <TableCell key={day}>
-                        {day.charAt(0).toUpperCase() + day.slice(1)}
-                      </TableCell>
+                      <DayHeaderCell key={day} day={day} />
                     ))}
                   </TableRow>
                 </TableHead>
@@ -125,4 +131,5 @@ export default TimePeriods;
 TimePeriods.defaultProps = {
   restrictions: undefined,
   allowMultiple: false,
+  assumeFullDay: false,
 };
