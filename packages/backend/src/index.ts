@@ -26,6 +26,7 @@ function setCORSHeaders(origin: string | null, env: Env) {
 
     if (env.stage === 'beta') {
       allowedOrigins.push('https://beta.plan2gather.net');
+      allowedOrigins.push('https://beta.plan2gather.pages.dev');
     }
 
     if (
