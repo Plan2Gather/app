@@ -11,9 +11,12 @@ if (mode === 'beta') {
   // Check if the branch is 'beta'. If not, change to dev
   const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
   if (branch !== 'beta') {
+    console.log(`Not on beta branch, using dev mode for branch ${branch}`);
     mode = 'dev';
   }
 }
+
+console.log(`Building frontend in ${mode} mode`);
 
 // Run the NX build command with the mode
 execSync(`nx run frontend:build:${mode}`, { stdio: 'inherit' });
