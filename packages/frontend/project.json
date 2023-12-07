@@ -12,11 +12,14 @@
         "outputPath": "dist/packages/frontend"
       },
       "configurations": {
-        "development": {
-          "mode": "development"
+        "dev": {
+          "mode": "dev"
+        },
+        "beta": {
+          "mode": "beta"
         },
         "production": {
-          "mode": "production"
+          "mode": "prod"
         }
       }
     },

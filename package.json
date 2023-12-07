@@ -2,7 +2,9 @@
   "name": "plan2gather",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "stage-build": "ts-node scripts/stage-build.ts"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
