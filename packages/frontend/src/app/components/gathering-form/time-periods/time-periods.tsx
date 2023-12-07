@@ -25,6 +25,10 @@ export interface TimePeriodsProps {
   timezone: string | undefined;
 }
 
+function DayHeaderCell({ day }: { day: Weekday }) {
+  return <TableCell>{day.charAt(0).toUpperCase() + day.slice(1)}</TableCell>;
+}
+
 const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
   ({ initial, days, restrictions, timezone, allowMultiple }, ref) => {
     const initialValues = convertBackendDatesToTimePeriods(initial);
@@ -65,9 +69,7 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
                 <Fragment key={day}>
                   <TableHead>
                     <TableRow>
-                      <TableCell>
-                        {day.charAt(0).toUpperCase() + day.slice(1)}
-                      </TableCell>
+                      <DayHeaderCell day={day} />
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -90,9 +92,7 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
                 <TableHead>
                   <TableRow>
                     {days.map((day) => (
-                      <TableCell key={day}>
-                        {day.charAt(0).toUpperCase() + day.slice(1)}
-                      </TableCell>
+                      <DayHeaderCell key={day} day={day} />
                     ))}
                   </TableRow>
                 </TableHead>
