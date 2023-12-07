@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
 import Stack from '@mui/material/Stack';
@@ -37,21 +37,27 @@ function TimeRangeSelections({
     setTimePeriods((prev) => prev.filter((range) => range.id !== id));
   }, []);
 
-  useEffect(() => {
-    let totalPeriods = 0;
-    Object.keys(initial).forEach((key) => {
-      if (key.startsWith(day) && key.endsWith('start')) {
-        totalPeriods += 1;
-      }
-    });
+  const initialized = useRef(false);
 
-    let tpTotal = timePeriods.length;
-    while (tpTotal < totalPeriods) {
-      addTimePeriod();
-      tpTotal += 1;
+  useEffect(() => {
+    if (!initialized.current) {
+      let totalPeriods = 0;
+      Object.keys(initial).forEach((key) => {
+        if (key.startsWith(day) && key.endsWith('start')) {
+          totalPeriods += 1;
+        }
+      });
+
+      let tpTotal = timePeriods.length;
+      while (tpTotal < totalPeriods) {
+        addTimePeriod();
+        tpTotal += 1;
+      }
+
+      initialized.current = true;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [addTimePeriod, day, initial]);
+  }, []);
 
   return (
     <>
