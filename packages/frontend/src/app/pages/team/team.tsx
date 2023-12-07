@@ -28,7 +28,7 @@ export default function Team() {
       name: 'Spencer Perley',
       major: '3rd Year Computer Science',
       image: 'https://avatars.githubusercontent.com/u/63747892',
-      bio: 'I love problem solving and creating new things weather that be writing code or cooking. Depending on location when I am not working i am either backcountry skiing or surfing!',
+      bio: 'I love problem solving and creating new things whether that be writing code or cooking. Depending on my location, when I am not working I am either backcountry skiing or surfing!',
     },
   ];
 
