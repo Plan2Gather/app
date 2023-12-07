@@ -1,10 +1,14 @@
+import { DateTime } from 'luxon';
 import {
   Availability,
+  DateRange,
   Weekday,
   availabilitySchema,
-} from '@plan2gather/backend/types';
-import { DateTime } from 'luxon';
-import Utils from '../../../../utils/utils';
+  weekdays,
+} from '../types';
+
+export const sortWeekdays = (days: Weekday[]): Weekday[] =>
+  days.sort((a, b) => weekdays.indexOf(a) - weekdays.indexOf(b));
 
 export const convertBackendDatesToTimePeriods = (
   availability: Availability
@@ -47,7 +51,7 @@ export const convertTimePeriodsToBackendDates = (
       const index = match[2]; // Identifier for the time period
       const type = match[3] as 'start' | 'end';
 
-      if (Object.values(Utils.weekdays).includes(day as Weekday)) {
+      if (Object.values(weekdays).includes(day as Weekday)) {
         const weekday = day as Weekday;
 
         if (!convertedSchedule[weekday]) {
@@ -86,3 +90,53 @@ export const convertTimePeriodsToBackendDates = (
 
   return parsedSchedule;
 };
+
+export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
+  // Sort ranges by start date
+  ranges.sort(
+    (a, b) =>
+      DateTime.fromISO(a.start).toUnixInteger() -
+      DateTime.fromISO(b.start).toUnixInteger()
+  );
+
+  const mergedRanges: DateRange[] = [];
+
+  ranges.forEach((range) => {
+    if (mergedRanges.length === 0) {
+      mergedRanges.push(range);
+    } else {
+      const lastRange = mergedRanges[mergedRanges.length - 1];
+      const lastRangeEnd = DateTime.fromISO(lastRange.end);
+      if (lastRangeEnd >= DateTime.fromISO(range.start)) {
+        // Create a new DateRange with updated end time if there is an overlap
+        mergedRanges[mergedRanges.length - 1] = {
+          start: lastRange.start,
+          end:
+            lastRangeEnd > DateTime.fromISO(range.end)
+              ? lastRange.end
+              : range.end,
+        };
+      } else {
+        mergedRanges.push(range);
+      }
+    }
+  });
+
+  return mergedRanges;
+}
+
+export function consolidateAvailability(
+  availability: Availability
+): Availability {
+  const consolidatedAvailability: Availability = {};
+
+  Object.keys(availability).forEach((day) => {
+    const dayAvailability = availability[day as Weekday];
+    if (dayAvailability) {
+      const mergedRanges = mergeDateRanges(dayAvailability);
+      consolidatedAvailability[day as Weekday] = mergedRanges;
+    }
+  });
+
+  return consolidatedAvailability;
+}

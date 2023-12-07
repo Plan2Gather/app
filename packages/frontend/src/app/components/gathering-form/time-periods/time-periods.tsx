@@ -10,12 +10,11 @@ import { useForm } from 'react-hook-form';
 import { Fragment, forwardRef, useImperativeHandle } from 'react';
 import { FormContainer } from 'react-hook-form-mui';
 import { Availability, Weekday } from '@plan2gather/backend/types';
-import TimeRangeSelections from './time-range-selections/time-range-selections';
-
 import {
   convertBackendDatesToTimePeriods,
   convertTimePeriodsToBackendDates,
-} from './time-utils';
+} from '@plan2gather/backend/utils';
+import TimeRangeSelections from './time-range-selections/time-range-selections';
 
 export interface TimePeriodsProps {
   initial: Availability;
