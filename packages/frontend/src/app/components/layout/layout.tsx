@@ -126,7 +126,7 @@ export default function Layout(props: LayoutProps) {
                 Contact
               </Link>
             </nav>
-            <Box mr={2}>
+            <Box mr={1}>
               <MyMeetingsButton variant="toolbar" />
             </Box>
             <CreateGatheringButton variant="toolbar" />
