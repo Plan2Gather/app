@@ -63,13 +63,18 @@ export function parseListForTimeSlots(
   filteredNames: string[] = ['Spencer', 'Chris']
 ) {
   const days = Object.keys(combinedAvailability);
-  const allPeriods = days.flatMap((day) => combinedAvailability[day]);
-  const dayStart = Math.min(
-    ...allPeriods.map((period) => DateTime.fromISO(period.start).toMillis())
-  );
-  const dayEnd = Math.max(
-    ...allPeriods.map((period) => DateTime.fromISO(period.end).toMillis())
-  );
+  let dayStart = Number.MAX_SAFE_INTEGER;
+  let dayEnd = Number.MIN_SAFE_INTEGER;
+
+  days.forEach((day) => {
+    combinedAvailability[day].forEach((period) => {
+      dayStart = Math.min(dayStart, Date.parse(period.start));
+      dayEnd = Math.max(dayEnd, Date.parse(period.end));
+    });
+  });
+
+  dayStart -= increment * padding;
+  dayEnd += increment * padding;
 
   const dataHeight = Math.ceil((dayEnd - dayStart) / increment);
 
