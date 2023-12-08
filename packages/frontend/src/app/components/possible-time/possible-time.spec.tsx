@@ -1,18 +1,21 @@
 import { render } from '@testing-library/react';
-import { PossibleTimeData } from '@plan2gather/backend/types';
+import { DateRange } from '@plan2gather/backend/types';
 import PossibleTime from './possible-time';
 
-const defaultTimeData: PossibleTimeData = {
-  id: '123',
-  startDatetime: '2021-10-10T12:00:00.000Z',
-  endDatetime: '2021-10-10T13:00:00.000Z',
-  users: ['testuser', 'testuser2'],
-  gatheringId: '1234',
+const dateRange: DateRange = {
+  start: '2022-01-01T00:00:00.000Z',
+  end: '2022-01-01T23:59:59.999Z',
 };
 
 describe('GatheringDetails', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<PossibleTime timeData={defaultTimeData} />);
+    const { baseElement } = render(
+      <PossibleTime
+        dateRange={dateRange}
+        users={['Chris']}
+        timezone="America/Los_Angeles"
+      />
+    );
     expect(baseElement).toBeTruthy();
   });
 });
