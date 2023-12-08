@@ -58,7 +58,9 @@ export default function TimeGrid({
               marginTop: '-10px',
             }}
           >
-            <Typography align="center">{rowLabels[rowIndex]}</Typography>
+            {rowLabels[rowIndex].match(/:(00|30)\b/) && (
+              <Typography align="center">{rowLabels[rowIndex]}</Typography>
+            )}
           </Box>
 
           {/* Render data cells */}
@@ -75,6 +77,7 @@ export default function TimeGrid({
                 borderLeft: '1px solid black',
                 borderRight: '1px solid black',
               }}
+              aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
               onClick={() => handleCellClick(rowIndex, colIndex)}
             />
           ))}

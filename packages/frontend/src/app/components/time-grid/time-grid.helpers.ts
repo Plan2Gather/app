@@ -16,9 +16,9 @@ function fuzzyGetPeriod(
       target < DateTime.fromISO(timePeriod.end)
   );
 
-  let topBorder = "1px dotted grey"
-  if ([0,30].includes(target.minute)){
-    topBorder = "1px solid black"
+  let topBorder = '1px dotted grey';
+  if ([0, 30].includes(target.minute)) {
+    topBorder = '1px solid black';
   }
 
   if (foundPeriod) {
@@ -32,7 +32,7 @@ function fuzzyGetPeriod(
         color: `rgba(0, ${
           100 + 155 * (peopleCount / targetPeople.length)
         }, 0, 1)`,
-        topBorder :topBorder,
+        topBorder,
         names: foundPeriod.names,
         period: { start: foundPeriod.start, end: foundPeriod.end },
       };
@@ -41,13 +41,13 @@ function fuzzyGetPeriod(
 
   return {
     color: '#cccccc',
-    topBorder :topBorder,
+    topBorder,
     names: [],
     period: { start: target.toISO()!, end: target.toISO()! },
   };
 }
 
-function formatTime(date: Date, display: string[] = ['00', '30']) {
+function formatTime(date: Date) {
   let hours = date.getHours();
   const ampm = hours >= 12 ? 'PM' : 'AM';
 
@@ -57,17 +57,14 @@ function formatTime(date: Date, display: string[] = ['00', '30']) {
 
   const minutes = date.getMinutes().toString().padStart(2, '0');
 
-  if (display.includes(minutes)) {
-    return `${hours}:${minutes} ${ampm}`;
-  }
-  return '';
+  return `${hours}:${minutes} ${ampm}`;
 }
 
 export function parseListForTimeSlots(
   combinedAvailability: Record<string, (DateRange & { names: string[] })[]>,
+  filteredNames: string[],
   increment: number = 15 * 60 * 1000,
-  padding: number = 1,
-  filteredNames: string[] = ['Spencer', 'Chris']
+  padding: number = 1
 ) {
   const days = Object.keys(combinedAvailability);
   let dayStart = Number.MAX_SAFE_INTEGER;

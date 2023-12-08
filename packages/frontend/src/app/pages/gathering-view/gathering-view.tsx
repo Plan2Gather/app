@@ -8,10 +8,15 @@ import { trpc } from '../../../trpc';
 import NotFound from '../not-found/not-found';
 import Filter from '../../components/filter/filter';
 import TimePeriodDialog from '../../components/gathering-user-availability-form/user-availability-dialog';
+import TimeGridWrapper from '../../components/time-grid/time-grid-wrapper';
+
+import useGatheringViewData from './gathering-view.store';
 
 export default function GatheringView() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { id } = useParams();
+
+  const { checkedUsers } = useGatheringViewData();
 
   const handleClickOpen = () => {
     setDialogOpen(true);
@@ -70,13 +75,20 @@ export default function GatheringView() {
               : 'Submit your Availability'}
           </Button>
         </Grid>
-        <Grid xs={12} md={5}>
-          Possible Time Slots
-        </Grid>
-        <Grid xs={12} md={3}>
-          Filters
-          <Filter userLabels={userLabels} />
-        </Grid>
+        {fullAvailabilityData && (
+          <>
+            <Grid xs={12} md={5}>
+              <TimeGridWrapper
+                userAvailability={fullAvailabilityData}
+                requiredUsers={checkedUsers}
+              />
+            </Grid>
+            <Grid xs={12} md={3}>
+              Required Attendance
+              <Filter userLabels={userLabels} />
+            </Grid>
+          </>
+        )}
       </Grid>
       <TimePeriodDialog
         initial={ownAvailabilityData}
