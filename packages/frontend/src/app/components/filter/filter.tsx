@@ -2,7 +2,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import useGatheringViewData from '../../pages/gathering-view/gathering-view.store';
 
 interface FilterProps {
@@ -21,31 +21,37 @@ export default function Filter({ userLabels }: FilterProps) {
 
   const { setCheckedUsers } = useGatheringViewData();
 
-  const updateCheckedUsers = (checked: Record<string, boolean>) => {
-    setCheckedUsers(
-      Object.entries(checked)
-        .filter(([, value]) => value)
-        .map(([key]) => key)
-    );
-  };
+  const updateCheckedUsers = useCallback(
+    (checked: Record<string, boolean>) => {
+      setCheckedUsers(
+        Object.entries(checked)
+          .filter(([, value]) => value)
+          .map(([key]) => key)
+      );
+    },
+    [setCheckedUsers]
+  );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState((prev) => {
-      const result = {
-        ...prev,
-        [event.target.name]: event.target.checked,
-      };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setState((prev) => {
+        const result = {
+          ...prev,
+          [event.target.name]: event.target.checked,
+        };
 
-      updateCheckedUsers(result);
+        updateCheckedUsers(result);
 
-      return result;
-    });
-  };
+        return result;
+      });
+    },
+    [updateCheckedUsers]
+  );
 
   useEffect(() => {
-    setCheckedUsers(Object.keys(state));
+    updateCheckedUsers(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setCheckedUsers]);
+  }, [updateCheckedUsers]);
 
   return (
     <FormGroup>
