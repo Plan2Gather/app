@@ -3,7 +3,6 @@ import {
   UserAvailability,
   Weekday,
 } from '@plan2gather/backend/types';
-//import { all } from 'axios';
 import { DateTime } from 'luxon';
 
 function fuzzyGetPeriod(
