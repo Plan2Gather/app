@@ -44,7 +44,7 @@ export default function TimeGrid({
       {/* Render column labels */}
       {columnLabels.map((label) => (
         <Typography key={label} align="center">
-          {label}
+          {label.charAt(0).toUpperCase() + label.slice(1)}
         </Typography>
       ))}
 
@@ -54,7 +54,8 @@ export default function TimeGrid({
           {/* Render row label */}
           <Box
             sx={{
-              height: cellHeight,
+              height: 20,
+              marginTop: '-10px',
             }}
           >
             <Typography align="center">{rowLabels[rowIndex]}</Typography>
