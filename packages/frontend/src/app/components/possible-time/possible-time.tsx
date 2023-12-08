@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
-import { PossibleTimeData } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { Paper } from '@mui/material';
+import { DateRange } from '@plan2gather/backend/types';
+import { DateTime } from 'luxon';
 
 export interface PossibleTimeProps {
-  timeData: Pick<
-    PossibleTimeData,
-    'id' | 'startDatetime' | 'endDatetime' | 'users' | 'gatheringId'
-  >;
+  dateRange: DateRange;
   users: string[];
+  timezone: string;
 }
 
 function stringToColor(string: string) {
@@ -54,11 +53,14 @@ function stringAvatar(name: string) {
   };
 }
 
-export default function PossibleTime({ timeData }: PossibleTimeProps) {
-  const { startDatetime, endDatetime } = timeData;
-  const start = new Date(startDatetime);
-  const end = new Date(endDatetime);
-  const { users } = timeData;
+export default function PossibleTime({
+  dateRange,
+  users,
+  timezone,
+}: PossibleTimeProps) {
+  const { start, end } = dateRange;
+  const startDate = DateTime.fromISO(start).setZone(timezone);
+  const endDate = DateTime.fromISO(end).setZone(timezone);
   const maxAmt = 3;
   const [displayedUsers, setDisplayedUsers] = useState<string[]>([]);
   const [overflowUsers, setOverflowUsers] = useState<string[]>([]);
@@ -71,13 +73,14 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
   return (
     <Paper sx={{ padding: '10px' }}>
       <Typography variant="body1" sx={{ mb: 2 }}>
-        {start.toLocaleDateString([], {
-          weekday: 'long',
-        })}
+        {startDate.weekdayLong}
         {' @ '}
-        {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {startDate.toFormat('t')}
         {' - '}
-        {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {startDate.weekdayLong !== endDate.weekdayLong
+          ? `${endDate.weekdayLong} @ `
+          : ''}
+        {endDate.toFormat('t')}
       </Typography>
 
       <AvatarGroup max={maxAmt}>

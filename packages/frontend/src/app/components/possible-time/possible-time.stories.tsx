@@ -9,12 +9,10 @@ type Story = StoryObj<typeof PossibleTime>;
 
 export const Primary: Story = {
   args: {
-    timeData: {
-      id: '123',
-      startDatetime: '2021-10-10T12:00:00.000Z',
-      endDatetime: '2021-10-10T13:00:00.000Z',
-      users: ['testuser', 'testuser2'],
-      gatheringId: '1234',
+    dateRange: {
+      start: '2022-01-01T00:00:00.000Z',
+      end: '2022-01-01T23:59:59.999Z',
     },
+    users: ['User 1', 'User 2', 'User 3'],
   },
 };
