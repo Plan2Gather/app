@@ -20,6 +20,7 @@
       "@plan2gather/backend/config": [
         "packages/backend/src/generated/tomlGenerated.ts"
       ],
+      "@plan2gather/backend/utils": ["packages/backend/src/utils/index.ts"],
       "@plan2gather/backend/types": ["packages/backend/src/types/index.ts"]
     }
   },
