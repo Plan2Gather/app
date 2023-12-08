@@ -3,6 +3,7 @@ import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
+import PossibleTime from '../possible-time/possible-time';
 
 interface TimeGridProps {
   data: {
@@ -13,6 +14,7 @@ interface TimeGridProps {
   }[][];
   columnLabels: string[];
   rowLabels: string[];
+  timezone: string;
 }
 
 const cellWidth = 100;
@@ -22,6 +24,7 @@ export default function TimeGrid({
   data,
   columnLabels,
   rowLabels,
+  timezone,
 }: TimeGridProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -71,10 +74,9 @@ export default function TimeGrid({
 
           {/* Render data cells */}
           {rowData.map((cellData, colIndex) => (
-            <Fragment>
+            // eslint-disable-next-line react/no-array-index-key
+            <Fragment key={`${rowIndex}-${colIndex}`}>
               <Box
-                // eslint-disable-next-line react/no-array-index-key
-                key={`${rowIndex}-${colIndex}`}
                 sx={{
                   width: cellWidth,
                   height: cellHeight,
@@ -86,6 +88,7 @@ export default function TimeGrid({
                 }}
                 aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
                 onClick={handleClick}
+                component="button"
               />
               <Popover
                 id={id}
@@ -97,9 +100,14 @@ export default function TimeGrid({
                   horizontal: 'left',
                 }}
               >
-                <Typography sx={{ p: 2 }}>
-                content
-                </Typography>
+                <PossibleTime
+                  dateRange={{
+                    start: cellData.period.start.toISO()!,
+                    end: cellData.period.end.toISO()!,
+                  }}
+                  users={cellData.names}
+                  timezone={timezone}
+                />
               </Popover>
             </Fragment>
           ))}
