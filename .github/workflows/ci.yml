@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - main
+      - beta
   pull_request:
+    branches:
+      - main
+      - beta
 
 # Needed for nx-set-shas within nx-cloud-main.yml, when run on the main branch
 permissions:
@@ -16,7 +20,7 @@ jobs:
     name: Nx Cloud - Main Job
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.1
     with:
-      main-branch-name: main
+      main-branch-name: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main') && 'main' || 'beta' }}
       number-of-agents: 3
       init-commands: |
         npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
@@ -24,7 +28,7 @@ jobs:
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
         npx nx affected --target=lint --parallel=3
-        npx nx affected --target=test --parallel=3 --ci --code-coverage
+        npx nx affected --target=test --parallel=3 --ci --coverage
         npx nx affected --target=build --parallel=3
 
   agents:
@@ -32,3 +36,34 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.1
     with:
       number-of-agents: 3
+
+  cd:
+    name: Continuous Deployment
+    needs: [main, agents]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+      - run: npm ci
+
+      # We will deploy to dev so that cloudflare preview urls will point to the backend
+      # This will be a problem with multiple PRs, but hey we at least tried :)
+      - name: Deploy Dev
+        if: github.ref != 'refs/heads/beta' && github.ref != 'refs/heads/main'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx run backend:deploy:dev
+
+      - name: Deploy to Beta
+        if: github.ref == 'refs/heads/beta'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx run backend:deploy:beta
+      - name: Deploy to Prod
+        if: github.ref == 'refs/heads/main'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx run backend:deploy:prod

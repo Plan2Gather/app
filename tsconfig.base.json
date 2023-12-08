@@ -13,8 +13,16 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strict": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@plan2gather/backend": ["packages/backend/src/index.ts"],
+      "@plan2gather/backend/config": [
+        "packages/backend/src/generated/tomlGenerated.ts"
+      ],
+      "@plan2gather/backend/utils": ["packages/backend/src/utils/index.ts"],
+      "@plan2gather/backend/types": ["packages/backend/src/types/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

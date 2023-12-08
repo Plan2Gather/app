@@ -4,37 +4,54 @@
   "sourceRoot": "packages/backend/src",
   "projectType": "application",
   "targets": {
+    "generateBackendTypes": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/src/generated/tomlGenerated.ts"],
+      "options": {
+        "command": "ts-node -O '{\"module\": \"commonjs\"}' ./src/generateBackendTypes",
+        "cwd": "packages/backend",
+        "color": true
+      }
+    },
     "build": {
-      "executor": "@nx/webpack:webpack",
+      "executor": "@nx/esbuild:esbuild",
+      "dependsOn": ["generateBackendTypes"],
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "target": "node",
-        "compiler": "tsc",
+        "main": "packages/backend/src/index.ts",
         "outputPath": "dist/packages/backend",
-        "main": "packages/backend/src/main.ts",
+        "outputFileName": "main.js",
         "tsConfig": "packages/backend/tsconfig.app.json",
-        "assets": ["packages/backend/src/assets"],
-        "isolatedConfig": true,
-        "webpackConfig": "packages/backend/webpack.config.js"
-      },
-      "configurations": {
-        "development": {},
-        "production": {}
-      }
-    },
-    "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "backend:build"
+        "assets": [],
+        "platform": "node"
       },
       "configurations": {
         "development": {
-          "buildTarget": "backend:build:development"
+          "minify": false
         },
         "production": {
-          "buildTarget": "backend:build:production"
+          "minify": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "wrangler dev -c packages/backend/wrangler.toml --env dev --remote"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "configurations": {
+        "dev": {
+          "command": "wrangler deploy -c packages/backend/wrangler.toml --env dev"
+        },
+        "beta": {
+          "command": "wrangler deploy -c packages/backend/wrangler.toml --env beta"
+        },
+        "prod": {
+          "command": "wrangler deploy -c packages/backend/wrangler.toml --env prod"
         }
       }
     },
@@ -49,14 +66,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/backend/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "packages/backend/jest.config.ts"
       }
     }
   },
