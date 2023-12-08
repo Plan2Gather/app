@@ -15,7 +15,7 @@ import Creation from './pages/gathering-creation/gathering-creation';
 import Team from './pages/team/team';
 import Contact from './pages/contact/contact';
 import GatheringView from './pages/gathering-view/gathering-view';
-import MyMeetings from './pages/my-meetings/my-meetings';
+import MyMeetings from './pages/my-meetings-page/my-meetings-page';
 
 export default function App() {
   const [queryClient] = useState(() => {
