@@ -26,8 +26,15 @@ export const convertBackendDatesToTimePeriods = (
   return tps;
 };
 
+/**
+ * Convert time periods to backend dates
+ * @param tps - Time periods
+ * @param days - Possible days of the week, if provided, days that are missing from tps will generate time periods spanning the entire day
+ * @returns Availability backend dates
+ */
 export const convertTimePeriodsToBackendDates = (
-  tps: Record<string, DateTime>
+  tps: Record<string, DateTime>,
+  days?: Weekday[]
 ): Availability => {
   const convertedSchedule: Partial<
     Record<Weekday, Array<{ id: string; start: string; end: string }>>
@@ -59,6 +66,20 @@ export const convertTimePeriodsToBackendDates = (
       }
     }
   });
+
+  if (days) {
+    days.forEach((day) => {
+      if (!convertedSchedule[day]) {
+        convertedSchedule[day] = [
+          {
+            id: 'none',
+            start: DateTime.now().startOf('day').toISO(),
+            end: DateTime.now().endOf('day').toISO(),
+          },
+        ];
+      }
+    });
+  }
 
   // Validate the overall schedule - this strips the id field
   const parsedSchedule = availabilitySchema.parse(convertedSchedule);
