@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 interface TimeGridProps {
   data: {
     color: string;
-    topBorder : string;
+    topBorder: string;
     names: string[];
     period: { start: string; end: string };
   }[][];

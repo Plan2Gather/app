@@ -10,7 +10,7 @@ function fuzzyGetPeriod(
   periods: (DateRange & { names: string[] })[],
   target: DateTime,
   targetPeople: string[],
-  requiredPeople : string[],
+  requiredPeople: string[]
 ) {
   const foundPeriod = periods.find(
     (timePeriod) =>
@@ -30,12 +30,11 @@ function fuzzyGetPeriod(
     );
 
     const requiredPeopleCount = requiredPeople.reduce(
-        (count, person) => count + (foundPeriod.names.includes(person) ? 1 : 0),
-        0
-      );
+      (count, person) => count + (foundPeriod.names.includes(person) ? 1 : 0),
+      0
+    );
 
     if (peopleCount !== 0 && requiredPeopleCount === requiredPeople.length) {
-
       return {
         color: `rgba(0, ${
           100 + 155 * (peopleCount / targetPeople.length)
@@ -98,7 +97,7 @@ export function parseListForTimeSlots(
           combinedAvailability[days[colIndex]],
           DateTime.fromMillis(rowIndex * increment + dayStart),
           allNames,
-          filteredNames,
+          filteredNames
         )
       )
     ),
