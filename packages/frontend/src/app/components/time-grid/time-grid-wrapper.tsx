@@ -4,19 +4,22 @@ import { combineTimeSlots, parseListForTimeSlots } from './time-grid.helpers';
 
 interface TimeGridWrapperProps {
   userAvailability: UserAvailability[];
+  timezone: string;
   requiredUsers: string[];
   allUsers: string[];
 }
 
 export default function TimeGridWrapper({
   userAvailability,
+  timezone,
   requiredUsers,
   allUsers,
 }: TimeGridWrapperProps) {
   const { data, columnLabels, rowLabels } = parseListForTimeSlots(
-    combineTimeSlots(userAvailability),
+    combineTimeSlots(userAvailability, timezone),
     requiredUsers,
-    allUsers
+    allUsers,
+    timezone
   );
   return (
     <TimeGrid data={data} columnLabels={columnLabels} rowLabels={rowLabels} />

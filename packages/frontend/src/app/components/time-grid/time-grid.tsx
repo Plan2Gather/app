@@ -1,13 +1,14 @@
 import { Fragment, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { DateTime } from 'luxon';
 
 interface TimeGridProps {
   data: {
     color: string;
     topBorder: string;
     names: string[];
-    period: { start: string; end: string };
+    period: { start: DateTime; end: DateTime };
   }[][];
   columnLabels: string[];
   rowLabels: string[];

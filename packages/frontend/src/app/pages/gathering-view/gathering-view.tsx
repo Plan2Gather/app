@@ -82,6 +82,7 @@ export default function GatheringView() {
                 userAvailability={fullAvailabilityData}
                 requiredUsers={checkedUsers}
                 allUsers={userLabels}
+                timezone={data.timezone}
               />
             </Grid>
             <Grid xs={12} md={3}>

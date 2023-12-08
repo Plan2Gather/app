@@ -5,16 +5,16 @@ import {
 } from '@plan2gather/backend/types';
 import { DateTime } from 'luxon';
 
+type DateRangeLuxon = { start: DateTime; end: DateTime };
+
 function fuzzyGetPeriod(
-  periods: (DateRange & { names: string[] })[],
+  periods: (DateRangeLuxon & { names: string[] })[],
   target: DateTime,
   targetPeople: string[],
   requiredPeople: string[]
 ) {
   const foundPeriod = periods.find(
-    (timePeriod) =>
-      target >= DateTime.fromISO(timePeriod.start) &&
-      target < DateTime.fromISO(timePeriod.end)
+    (timePeriod) => target >= timePeriod.start && target < timePeriod.end
   );
 
   let topBorder = '1px dotted grey';
@@ -49,27 +49,18 @@ function fuzzyGetPeriod(
     color: '#cccccc',
     topBorder,
     names: [],
-    period: { start: target.toISO()!, end: target.toISO()! },
+    period: { start: target, end: target },
   };
 }
 
-function formatTime(date: Date) {
-  let hours = date.getHours();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-
-  // Convert hours to 12-hour format
-  hours %= 12;
-  hours = hours || 12; // Handle midnight (12 AM)
-
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-
-  return `${hours}:${minutes} ${ampm}`;
-}
-
 export function parseListForTimeSlots(
-  combinedAvailability: Record<string, (DateRange & { names: string[] })[]>,
+  combinedAvailability: Record<
+    string,
+    (DateRangeLuxon & { names: string[] })[]
+  >,
   filteredNames: string[],
   allNames: string[],
+  timezone: string,
   increment: number = 15 * 60 * 1000,
   padding: number = 1
 ) {
@@ -79,8 +70,8 @@ export function parseListForTimeSlots(
 
   days.forEach((day) => {
     combinedAvailability[day].forEach((period) => {
-      dayStart = Math.min(dayStart, Date.parse(period.start));
-      dayEnd = Math.max(dayEnd, Date.parse(period.end));
+      dayStart = Math.min(dayStart, period.start.toMillis());
+      dayEnd = Math.max(dayEnd, period.end.toMillis());
     });
   });
 
@@ -94,7 +85,9 @@ export function parseListForTimeSlots(
       Array.from({ length: days.length }, (_1, colIndex) =>
         fuzzyGetPeriod(
           combinedAvailability[days[colIndex]],
-          DateTime.fromMillis(rowIndex * increment + dayStart),
+          DateTime.fromMillis(rowIndex * increment + dayStart).setZone(
+            timezone
+          ),
           allNames,
           filteredNames
         )
@@ -102,12 +95,14 @@ export function parseListForTimeSlots(
     ),
     columnLabels: days,
     rowLabels: Array.from({ length: dataHeight }, (_, rowIndex) =>
-      formatTime(new Date(rowIndex * increment + dayStart))
+      DateTime.fromMillis(rowIndex * increment + dayStart)
+        .setZone(timezone)
+        .toLocaleString(DateTime.TIME_SIMPLE)
     ),
   };
 }
 
-function createStartStopFromSeries(values: string[]): DateRange[] {
+function createStartStopFromSeries(values: DateTime[]): DateRangeLuxon[] {
   return values.slice(0, -1).map((value, i) => ({
     start: value,
     end: values[i + 1],
@@ -115,23 +110,33 @@ function createStartStopFromSeries(values: string[]): DateRange[] {
 }
 
 function isAvailable(
-  individualTimePeriods: DateRange[] | undefined,
-  start: string,
-  end: string
+  individualTimePeriods: DateRangeLuxon[] | undefined,
+  start: DateTime,
+  end: DateTime
 ): boolean {
   return (
     individualTimePeriods?.some(
-      (period) =>
-        DateTime.fromISO(start) >= DateTime.fromISO(period.start) &&
-        DateTime.fromISO(end) <= DateTime.fromISO(period.end)
+      (period) => start >= period.start && end <= period.end
     ) ?? false
   );
 }
 
+function convertToLuxonDateRange(
+  dateRange: DateRange,
+  timezone: string
+): DateRangeLuxon {
+  return {
+    start: DateTime.fromISO(dateRange.start).setZone(timezone),
+    end: DateTime.fromISO(dateRange.end).setZone(timezone),
+  };
+}
+
 export function combineTimeSlots(
-  groupTimePeriods: UserAvailability[]
-): Record<string, (DateRange & { names: string[] })[]> {
-  const finalResult: Record<string, (DateRange & { names: string[] })[]> = {};
+  groupTimePeriods: UserAvailability[],
+  timezone: string
+): Record<string, (DateRangeLuxon & { names: string[] })[]> {
+  const finalResult: Record<string, (DateRangeLuxon & { names: string[] })[]> =
+    {};
   const usedDays = new Set<Weekday>();
 
   groupTimePeriods.forEach((person) => {
@@ -142,10 +147,12 @@ export function combineTimeSlots(
 
   usedDays.forEach((day) => {
     finalResult[day] = [];
-    const dayStartStopSet = new Set<string>();
+    const dayStartStopSet = new Set<DateTime>();
 
     groupTimePeriods.forEach((person) => {
-      const dayAvailability = person.availability[day];
+      const dayAvailability = person.availability[day]?.map((p) =>
+        convertToLuxonDateRange(p, timezone)
+      );
       dayAvailability?.forEach((period) => {
         dayStartStopSet.add(period.start);
         dayStartStopSet.add(period.end);
@@ -163,7 +170,15 @@ export function combineTimeSlots(
         names: [] as string[],
       };
       groupTimePeriods.forEach((person) => {
-        if (isAvailable(person.availability[day], period.start, period.end)) {
+        if (
+          isAvailable(
+            person.availability[day]?.map((p) =>
+              convertToLuxonDateRange(p, timezone)
+            ),
+            period.start,
+            period.end
+          )
+        ) {
           tempPeriod.names.push(person.name);
         }
       });
