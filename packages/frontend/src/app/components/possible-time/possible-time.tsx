@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import AvatarGroup from '@mui/material/AvatarGroup';
+import { Paper } from '@mui/material';
 
 export interface PossibleTimeProps {
   timeData: Pick<
@@ -68,40 +69,30 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
   }, [users]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-      }}
-    >
-      <div style={{ border: '1px solid gray', padding: '10px' }}>
-        <Typography variant="body1" sx={{ mb: 2 }}>
-          {start.toLocaleDateString([], {
-            weekday: 'short',
-            month: 'short',
-            day: 'numeric',
-          })}
-          {' @ '}
-          {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          {' - '}
-          {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-        </Typography>
+    <Paper sx={{ padding: '10px' }}>
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        {start.toLocaleDateString([], {
+          weekday: 'long',
+        })}
+        {' @ '}
+        {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        {' - '}
+        {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      </Typography>
 
-        <AvatarGroup max={maxAmt}>
-          {displayedUsers.map((user) => (
-            <Tooltip title={user} key={user}>
-              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-              <Avatar {...stringAvatar(user)} />
-            </Tooltip>
-          ))}
-        </AvatarGroup>
-        {overflowUsers.length > 0 && (
-          <Tooltip title={overflowUsers.join(', ')}>
-            <Avatar>+{overflowUsers.length}</Avatar>
+      <AvatarGroup max={maxAmt}>
+        {displayedUsers.map((user) => (
+          <Tooltip title={user} key={user}>
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <Avatar {...stringAvatar(user)} />
           </Tooltip>
-        )}
-      </div>
-    </div>
+        ))}
+      </AvatarGroup>
+      {overflowUsers.length > 0 && (
+        <Tooltip title={overflowUsers.join(', ')}>
+          <Avatar>+{overflowUsers.length}</Avatar>
+        </Tooltip>
+      )}
+    </Paper>
   );
 }
