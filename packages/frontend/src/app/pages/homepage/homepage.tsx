@@ -16,7 +16,12 @@ export default function Homepage() {
       <Typography variant="h1" align="center" color="text.primary">
         Plan2Gather
       </Typography>
-      <Typography variant="h6" align="center" color="text.secondary">
+      <Typography
+        component="h2"
+        variant="h6"
+        align="center"
+        color="text.secondary"
+      >
         Discover the lightning-speed hangout harmonizer
       </Typography>
       <Box
