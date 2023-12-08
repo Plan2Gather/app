@@ -16,6 +16,7 @@ const cellWidth = 100;
 const cellHeight = 20;
 
 function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clickedCell, setClickedCell] = useState<{
     rowIndex: number;
     colIndex: number;
@@ -57,6 +58,7 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
           {/* Render data cells */}
           {rowData.map((cellData, colIndex) => (
             <Box
+              // eslint-disable-next-line react/no-array-index-key
               key={`${rowIndex}-${colIndex}`}
               sx={{
                 width: cellWidth,
