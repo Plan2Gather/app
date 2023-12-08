@@ -65,6 +65,7 @@ export function Primary(args: {
   columnLabels: string[];
   rowLabels: string[];
 }) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <TimeGrid {...args} />;
 }
 
@@ -73,28 +74,29 @@ function fuzzyGetPeriod(
   target: number,
   targetPeople: string[]
 ) {
-  periods.forEach((timePeriod) => {
-    if (
+  const foundPeriod = periods.find(
+    (timePeriod) =>
       target >= Date.parse(timePeriod.start) &&
       target <= Date.parse(timePeriod.end)
-    ) {
-      let peopleCount = 0;
-      targetPeople.forEach((tp) => {
-        if (timePeriod.names.includes(tp)) {
-          peopleCount += 1;
-        }
-      });
-      if (peopleCount !== 0) {
-        return {
-          color: `rgba(0, ${
-            100 + 155 * (peopleCount / targetPeople.length)
-          }, 0, 1)`,
-          names: timePeriod.names,
-          period: { start: timePeriod.start, end: timePeriod.end },
-        };
-      }
+  );
+
+  if (foundPeriod) {
+    const peopleCount = targetPeople.reduce(
+      (count, tp) => count + (foundPeriod.names.includes(tp) ? 1 : 0),
+      0
+    );
+
+    if (peopleCount !== 0) {
+      return {
+        color: `rgba(0, ${
+          100 + 155 * (peopleCount / targetPeople.length)
+        }, 0, 1)`,
+        names: foundPeriod.names,
+        period: { start: foundPeriod.start, end: foundPeriod.end },
+      };
     }
-  });
+  }
+
   return {
     color: '#cccccc',
     names: [],
@@ -134,7 +136,7 @@ function parseListForTimeSlots(
 
   return {
     data: Array.from({ length: dataHeight }, (_, rowIndex) =>
-      Array.from({ length: days.length }, (_, colIndex) =>
+      Array.from({ length: days.length }, (_1, colIndex) =>
         fuzzyGetPeriod(
           combinedAvailability[days[colIndex]],
           rowIndex * increment + dayStart,

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 interface TimeGridProps {
   data: {
@@ -24,8 +26,8 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         position: 'relative',
         overflow: 'auto',
         display: 'grid',
@@ -34,11 +36,11 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
       }}
     >
       {/* Empty cell for the top-left corner */}
-      <div
-        style={{
+      <Box
+        sx={{
           width: '30px',
           height: '20px',
-          backgroundColor: 'rgba(0, 0, 0, 0.0)',
+          backgroundColor: 'transparent',
           textAlign: 'center',
           lineHeight: '20px',
         }}
@@ -46,48 +48,47 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
 
       {/* Render column labels */}
       {columnLabels.map((label) => (
-        <div
+        <Box
           key={label}
-          style={{
+          sx={{
             width: cellWidth,
             height: '20px',
-            backgroundColor: 'rgba(0, 0, 0, 0.0)',
+            backgroundColor: 'transparent',
             textAlign: 'center',
             lineHeight: '20px',
           }}
         >
-          {label}
-        </div>
+          <Typography>{label}</Typography>
+        </Box>
       ))}
 
       {/* Render data rows with row labels */}
       {data.map((rowData, rowIndex) => (
-        // Render cells for each row
         <>
           {/* Render row label */}
-          <div
-            key={`row-label-${rowIndex}`}
-            style={{
+          <Box
+            key={rowLabels[rowIndex]}
+            sx={{
               width: '30px',
               height: cellHeight,
-              backgroundColor: 'rgba(0, 0, 0, 0.0)',
+              backgroundColor: 'transparent',
               textAlign: 'center',
               lineHeight: '10px',
             }}
           >
-            {rowLabels[rowIndex]}
-          </div>
+            <Typography>{rowLabels[rowIndex]}</Typography>
+          </Box>
 
           {/* Render data cells */}
           {rowData.map((cellData, colIndex) => (
-            <div
+            <Box
               key={`${rowIndex}-${colIndex}`}
-              style={{
+              sx={{
                 position: 'relative',
                 width: cellWidth,
                 height: cellHeight,
                 backgroundColor: cellData.color,
-                borderTop: '1x dotted black',
+                borderTop: '1px dotted black',
                 borderBottom: '1px dotted black',
                 borderLeft: '1px solid black',
                 borderRight: '1px solid black',
@@ -97,7 +98,7 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
           ))}
         </>
       ))}
-    </div>
+    </Box>
   );
 }
 
