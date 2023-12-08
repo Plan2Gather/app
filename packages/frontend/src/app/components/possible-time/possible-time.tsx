@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import AvatarGroup from '@mui/material/AvatarGroup';
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { DateRange } from '@plan2gather/backend/types';
 import { DateTime } from 'luxon';
 
@@ -71,31 +71,43 @@ export default function PossibleTime({
   }, [users]);
 
   return (
-    <Paper sx={{ padding: '10px' }}>
-      <Typography variant="body1" sx={{ mb: 2 }}>
-        {startDate.weekdayLong}
-        {' @ '}
-        {startDate.toFormat('t')}
-        {' - '}
-        {startDate.weekdayLong !== endDate.weekdayLong
-          ? `${endDate.weekdayLong} @ `
-          : ''}
-        {endDate.toFormat('t')}
-      </Typography>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }}
+    >
+      <Paper
+        sx={{
+          padding: '10px',
+        }}
+      >
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          {startDate.weekdayLong}
+          {' @ '}
+          {startDate.toFormat('t')}
+          {' - '}
+          {startDate.weekdayLong !== endDate.weekdayLong
+            ? `${endDate.weekdayLong} @ `
+            : ''}
+          {endDate.toFormat('t')}
+        </Typography>
 
-      <AvatarGroup max={maxAmt}>
-        {displayedUsers.map((user) => (
-          <Tooltip title={user} key={user}>
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <Avatar {...stringAvatar(user)} />
+        <AvatarGroup max={maxAmt}>
+          {displayedUsers.map((user) => (
+            <Tooltip title={user} key={user}>
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+              <Avatar {...stringAvatar(user)} />
+            </Tooltip>
+          ))}
+        </AvatarGroup>
+        {overflowUsers.length > 0 && (
+          <Tooltip title={overflowUsers.join(', ')}>
+            <Avatar>+{overflowUsers.length}</Avatar>
           </Tooltip>
-        ))}
-      </AvatarGroup>
-      {overflowUsers.length > 0 && (
-        <Tooltip title={overflowUsers.join(', ')}>
-          <Avatar>+{overflowUsers.length}</Avatar>
-        </Tooltip>
-      )}
-    </Paper>
+        )}
+      </Paper>
+    </Box>
   );
 }
