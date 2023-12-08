@@ -3,16 +3,17 @@ import {
   UserAvailability,
   Weekday,
 } from '@plan2gather/backend/types';
+import { DateTime } from 'luxon';
 
 function fuzzyGetPeriod(
-  periods: { start: string; end: string; names: string[] }[],
-  target: number,
+  periods: (DateRange & { names: string[] })[],
+  target: DateTime,
   targetPeople: string[]
 ) {
   const foundPeriod = periods.find(
     (timePeriod) =>
-      target >= Date.parse(timePeriod.start) &&
-      target <= Date.parse(timePeriod.end)
+      target >= DateTime.fromISO(timePeriod.start) &&
+      target <= DateTime.fromISO(timePeriod.end)
   );
 
   if (foundPeriod) {
@@ -35,7 +36,7 @@ function fuzzyGetPeriod(
   return {
     color: '#cccccc',
     names: [],
-    period: { start: target, end: target },
+    period: { start: target.toISO()!, end: target.toISO()! },
   };
 }
 
@@ -56,27 +57,20 @@ function formatTime(date: Date, display: string[] = ['00', '30']) {
 }
 
 export function parseListForTimeSlots(
-  combinedAvailability: Record<
-    string,
-    { start: string; end: string; names: string[] }[]
-  >,
+  combinedAvailability: Record<string, (DateRange & { names: string[] })[]>,
   increment: number = 15 * 60 * 1000,
   padding: number = 2,
   filteredNames: string[] = ['Spencer', 'Chris']
 ) {
   const days = Object.keys(combinedAvailability);
-  let dayStart = Number.MAX_SAFE_INTEGER;
-  let dayEnd = Number.MIN_SAFE_INTEGER;
+  const allPeriods = days.flatMap((day) => combinedAvailability[day]);
+  const dayStart = Math.min(
+    ...allPeriods.map((period) => DateTime.fromISO(period.start).toMillis())
+  );
+  const dayEnd = Math.max(
+    ...allPeriods.map((period) => DateTime.fromISO(period.end).toMillis())
+  );
 
-  days.forEach((day) => {
-    combinedAvailability[day].forEach((period) => {
-      dayStart = Math.min(dayStart, Date.parse(period.start));
-      dayEnd = Math.max(dayEnd, Date.parse(period.end));
-    });
-  });
-
-  dayStart -= increment * padding;
-  dayEnd += increment * padding;
   const dataHeight = Math.ceil((dayEnd - dayStart) / increment);
 
   return {
@@ -84,7 +78,7 @@ export function parseListForTimeSlots(
       Array.from({ length: days.length }, (_1, colIndex) =>
         fuzzyGetPeriod(
           combinedAvailability[days[colIndex]],
-          rowIndex * increment + dayStart,
+          DateTime.fromMillis(rowIndex * increment + dayStart),
           filteredNames
         )
       )
@@ -111,19 +105,16 @@ function isAvailable(
   return (
     individualTimePeriods?.some(
       (period) =>
-        Date.parse(start) >= Date.parse(period.start) &&
-        Date.parse(end) <= Date.parse(period.end)
+        DateTime.fromISO(start) >= DateTime.fromISO(period.start) &&
+        DateTime.fromISO(end) <= DateTime.fromISO(period.end)
     ) ?? false
   );
 }
 
 export function combineTimeSlots(
   groupTimePeriods: UserAvailability[]
-): Record<string, { start: string; end: string; names: string[] }[]> {
-  const finalResult: Record<
-    string,
-    { start: string; end: string; names: string[] }[]
-  > = {};
+): Record<string, (DateRange & { names: string[] })[]> {
+  const finalResult: Record<string, (DateRange & { names: string[] })[]> = {};
   const usedDays = new Set<Weekday>();
 
   groupTimePeriods.forEach((person) => {

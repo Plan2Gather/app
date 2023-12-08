@@ -1,13 +1,8 @@
-import type { Meta } from '@storybook/react';
-import TimeGrid from './time-grid';
-import { combineTimeSlots, parseListForTimeSlots } from './time-grid.helpers';
+import type { Meta, StoryObj } from '@storybook/react';
+import TimeGridWrapper from './time-grid-wrapper';
 
-const meta: Meta<typeof TimeGrid> = {
-  component: TimeGrid,
-  title: 'TimeGrid', // Title for your story
-  parameters: {
-    controls: { hideNoControlsWarning: true }, // Optional: Hide controls warning
-  },
+const meta: Meta<typeof TimeGridWrapper> = {
+  component: TimeGridWrapper,
 };
 
 const test = [
@@ -63,17 +58,10 @@ const test = [
 
 export default meta;
 
-export function Primary(args: {
-  data: {
-    color: string;
-    names: string[];
-    period: { start: string; end: string };
-  }[][];
-  columnLabels: string[];
-  rowLabels: string[];
-}) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <TimeGrid {...args} />;
-}
+type Story = StoryObj<typeof TimeGridWrapper>;
 
-Primary.args = parseListForTimeSlots(combineTimeSlots(test));
+export const Primary: Story = {
+  args: {
+    userAvailability: test,
+  },
+};

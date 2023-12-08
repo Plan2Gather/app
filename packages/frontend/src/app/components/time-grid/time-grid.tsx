@@ -15,7 +15,11 @@ interface TimeGridProps {
 const cellWidth = 100;
 const cellHeight = 20;
 
-function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
+export default function TimeGrid({
+  data,
+  columnLabels,
+  rowLabels,
+}: TimeGridProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clickedCell, setClickedCell] = useState<{
     rowIndex: number;
@@ -77,5 +81,3 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
     </Box>
   );
 }
-
-export default TimeGrid;
