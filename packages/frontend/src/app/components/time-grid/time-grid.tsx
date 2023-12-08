@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
@@ -23,14 +24,18 @@ export default function TimeGrid({
   rowLabels,
 }: TimeGridProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [clickedCell, setClickedCell] = useState<{
-    rowIndex: number;
-    colIndex: number;
-  } | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleCellClick = (rowIndex: number, colIndex: number) => {
-    setClickedCell({ rowIndex, colIndex });
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
     <Box
@@ -66,21 +71,37 @@ export default function TimeGrid({
 
           {/* Render data cells */}
           {rowData.map((cellData, colIndex) => (
-            <Box
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${rowIndex}-${colIndex}`}
-              sx={{
-                width: cellWidth,
-                height: cellHeight,
-                backgroundColor: cellData.color,
-                borderTop: cellData.topBorder,
-                borderBottom: '1px dotted grey',
-                borderLeft: '1px solid black',
-                borderRight: '1px solid black',
-              }}
-              aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
-              onClick={() => handleCellClick(rowIndex, colIndex)}
-            />
+            <Fragment>
+              <Box
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${rowIndex}-${colIndex}`}
+                sx={{
+                  width: cellWidth,
+                  height: cellHeight,
+                  backgroundColor: cellData.color,
+                  borderTop: cellData.topBorder,
+                  borderBottom: '1px dotted grey',
+                  borderLeft: '1px solid black',
+                  borderRight: '1px solid black',
+                }}
+                aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
+                onClick={handleClick}
+              />
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <Typography sx={{ p: 2 }}>
+                content
+                </Typography>
+              </Popover>
+            </Fragment>
           ))}
         </Fragment>
       ))}
