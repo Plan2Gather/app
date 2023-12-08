@@ -33,7 +33,7 @@ export const dateRangeSchema = z
 
 export type DateRange = z.infer<typeof dateRangeSchema>;
 
-export const weekdaySchema = z.enum([
+export const weekdays = [
   'sunday',
   'monday',
   'tuesday',
@@ -41,7 +41,9 @@ export const weekdaySchema = z.enum([
   'thursday',
   'friday',
   'saturday',
-]);
+] as const;
+
+export const weekdaySchema = z.enum(weekdays);
 
 export type Weekday = z.infer<typeof weekdaySchema>;
 

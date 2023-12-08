@@ -1,3 +1,10 @@
+import {
+  LOCAL_ENV,
+  DEV_ENV,
+  PROD_ENV,
+  BETA_ENV,
+} from '@plan2gather/backend/config';
+
 export interface APIEnv {
   url: string;
 }
@@ -6,19 +13,6 @@ interface AppConfiguration {
   clientEnv: APIEnv;
   base: string;
 }
-
-export const DEV_ENV: APIEnv = {
-  url: 'https://api-dev.plan2gather.net',
-};
-export const BETA_ENV: APIEnv = {
-  url: 'https://api-beta.plan2gather.net',
-};
-export const PROD_ENV: APIEnv = {
-  url: 'https://api-prod.plan2gather.net',
-};
-export const LOCAL_ENV: APIEnv = {
-  url: 'http://localhost:3001',
-};
 
 const localConfig: AppConfiguration = {
   clientEnv: LOCAL_ENV,

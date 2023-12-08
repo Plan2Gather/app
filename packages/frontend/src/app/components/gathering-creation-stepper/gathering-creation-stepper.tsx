@@ -151,6 +151,7 @@ export default function GatheringCreationStepper() {
               days={store.possibleDates}
               timezone={store.details?.timezone}
               ref={step.submitRef}
+              assumeFullDay
             />
           </>
         );

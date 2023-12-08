@@ -23,12 +23,18 @@ watch_dir = [
   "src/trpc.ts",
 ]
 
+[vars]
+STAGE = "dev"
+
 [env.dev]
 name = "plan2gather-backend-dev"
 route = "api-dev.plan2gather.net/*"
 kv_namespaces = [
   { binding = "PLAN2GATHER_GATHERINGS", id = "f203873043104e6fba47e9d855fe755f", preview_id = "f203873043104e6fba47e9d855fe755f" },
 ]
+
+[env.dev.vars]
+STAGE = "dev"
 
 [env.beta]
 name = "plan2gather-backend-beta"
@@ -37,12 +43,18 @@ kv_namespaces = [
   { binding = "PLAN2GATHER_GATHERINGS", id = "3686c37a82d3448f910ca2378ff6f6f7" },
 ]
 
+[env.beta.vars]
+STAGE = "beta"
+
 [env.prod]
 name = "plan2gather-backend-prod"
 route = "api-prod.plan2gather.net/*"
 kv_namespaces = [
   { binding = "PLAN2GATHER_GATHERINGS", id = "624e6665714c4c81932fe6e98746bc73" },
 ]
+
+[env.prod.vars]
+STAGE = "prod"
 
 [dev]
 port = 3001
