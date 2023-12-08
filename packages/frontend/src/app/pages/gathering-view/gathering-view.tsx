@@ -75,7 +75,7 @@ export default function GatheringView() {
               : 'Submit your Availability'}
           </Button>
         </Grid>
-        {fullAvailabilityData && (
+        {fullAvailabilityData && fullAvailabilityData.length > 0 && (
           <>
             <Grid xs={12} md={5}>
               <TimeGridWrapper
