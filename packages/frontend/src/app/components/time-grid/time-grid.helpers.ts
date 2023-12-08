@@ -39,10 +39,20 @@ function fuzzyGetPeriod(
   };
 }
 
-function formatTime(date: Date) {
-  const hours = date.getHours().toString().padStart(2, '0');
+function formatTime(date: Date, display: string[] = ['00', '30']) {
+  let hours = date.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours to 12-hour format
+  hours %= 12;
+  hours = hours || 12; // Handle midnight (12 AM)
+
   const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${hours}:${minutes}`;
+
+  if (display.includes(minutes)) {
+    return `${hours}:${minutes} ${ampm}`;
+  }
+  return '';
 }
 
 export function parseListForTimeSlots(
