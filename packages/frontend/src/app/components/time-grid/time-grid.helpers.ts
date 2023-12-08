@@ -1,4 +1,8 @@
-import { Availability, DateRange, Weekday } from '@plan2gather/backend/types';
+import {
+  DateRange,
+  UserAvailability,
+  Weekday,
+} from '@plan2gather/backend/types';
 
 function fuzzyGetPeriod(
   periods: { start: string; end: string; names: string[] }[],
@@ -13,7 +17,7 @@ function fuzzyGetPeriod(
 
   if (foundPeriod) {
     const peopleCount = targetPeople.reduce(
-      (count, tp) => count + (foundPeriod.names.includes(tp) ? 1 : 0),
+      (count, person) => count + (foundPeriod.names.includes(person) ? 1 : 0),
       0
     );
 
@@ -38,7 +42,6 @@ function fuzzyGetPeriod(
 function formatTime(date: Date) {
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
-
   return `${hours}:${minutes}`;
 }
 
@@ -52,8 +55,9 @@ export function parseListForTimeSlots(
   filteredNames: string[] = ['Spencer', 'Chris']
 ) {
   const days = Object.keys(combinedAvailability);
-  let dayStart: number = Number.MAX_SAFE_INTEGER;
-  let dayEnd: number = Number.MIN_SAFE_INTEGER;
+  let dayStart = Number.MAX_SAFE_INTEGER;
+  let dayEnd = Number.MIN_SAFE_INTEGER;
+
   days.forEach((day) => {
     combinedAvailability[day].forEach((period) => {
       dayStart = Math.min(dayStart, Date.parse(period.start));
@@ -83,41 +87,34 @@ export function parseListForTimeSlots(
 }
 
 function createStartStopFromSeries(values: string[]): DateRange[] {
-  const result: DateRange[] = [];
-
-  for (let i = 0; i < values.length - 1; i += 1) {
-    result.push({
-      start: values[i],
-      end: values[i + 1],
-    });
-  }
-
-  return result;
+  return values.slice(0, -1).map((value, i) => ({
+    start: value,
+    end: values[i + 1],
+  }));
 }
 
 function isAvailable(
-  individualTimePeriods: DateRange[],
+  individualTimePeriods: DateRange[] | undefined,
   start: string,
   end: string
 ): boolean {
-  return individualTimePeriods.some(
-    (timePeriod) =>
-      Date.parse(start) >= Date.parse(timePeriod.start) &&
-      Date.parse(end) <= Date.parse(timePeriod.end)
+  return (
+    individualTimePeriods?.some(
+      (period) =>
+        Date.parse(start) >= Date.parse(period.start) &&
+        Date.parse(end) <= Date.parse(period.end)
+    ) ?? false
   );
 }
 
 export function combineTimeSlots(
-  groupTimePeriods: {
-    name: string;
-    availability: Availability[];
-  }[]
+  groupTimePeriods: UserAvailability[]
 ): Record<string, { start: string; end: string; names: string[] }[]> {
   const finalResult: Record<
     string,
     { start: string; end: string; names: string[] }[]
   > = {};
-  const usedDays: Set<Weekday> = new Set();
+  const usedDays = new Set<Weekday>();
 
   groupTimePeriods.forEach((person) => {
     Object.keys(person.availability).forEach((dayOfWeek) => {
@@ -127,12 +124,11 @@ export function combineTimeSlots(
 
   usedDays.forEach((day) => {
     finalResult[day] = [];
-    const dayStartStopSet: Set<string> = new Set();
+    const dayStartStopSet = new Set<string>();
 
     groupTimePeriods.forEach((person) => {
-      const dayAvailability: DateRange[] = person.availability[day] ?? [];
-
-      dayAvailability.forEach((period) => {
+      const dayAvailability = person.availability[day];
+      dayAvailability?.forEach((period) => {
         dayStartStopSet.add(period.start);
         dayStartStopSet.add(period.end);
       });
@@ -143,10 +139,10 @@ export function combineTimeSlots(
     );
 
     dayStartStop.forEach((period) => {
-      const tempPeriod: { start: string; end: string; names: string[] } = {
+      const tempPeriod = {
         start: period.start,
         end: period.end,
-        names: [],
+        names: [] as string[],
       };
       groupTimePeriods.forEach((person) => {
         if (isAvailable(person.availability[day], period.start, period.end)) {
