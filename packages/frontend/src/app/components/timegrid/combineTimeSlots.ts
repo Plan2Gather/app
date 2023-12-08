@@ -1,5 +1,5 @@
 // ToDo: add tests but will push first becase I think we may change the inputs and output formats
-//import type { UserAvailability, Weekday } from '@plan2gather/backend/types';
+// import type { UserAvailability, Weekday } from '@plan2gather/backend/types';
 /*
 takes: a list of a list of time periods
 
@@ -13,11 +13,11 @@ function combineTimeSlots(
     availability: Record<string, { start: string; end: string }[]>;
   }[]
 ): Record<string, { start: string; end: string; names: string[] }[]> {
-  let finalResult: Record<
+  const finalResult: Record<
     string,
     { start: string; end: string; names: string[] }[]
   > = {};
-  let usedDays: Set<string> = new Set();
+  const usedDays: Set<string> = new Set();
 
   for (const person of groupTimePeriods) {
     for (const dayOfWeek in person.availability) {
@@ -27,10 +27,10 @@ function combineTimeSlots(
 
   for (const day of usedDays) {
     finalResult[day] = [];
-    let dayStartStopSet: Set<string> = new Set();
+    const dayStartStopSet: Set<string> = new Set();
 
     for (const person of groupTimePeriods) {
-      let dayAvalability: { start: string; end: string }[] =
+      const dayAvalability: { start: string; end: string }[] =
         person.availability[day] ?? [];
 
       for (const period of dayAvalability) {
@@ -39,12 +39,12 @@ function combineTimeSlots(
       }
     }
 
-    let dayStartStop = createStartStopFromSeries(
+    const dayStartStop = createStartStopFromSeries(
       Array.from(dayStartStopSet).sort()
     );
 
     for (const period of dayStartStop) {
-      let tempPeriod: { start: string; end: string; names: string[] } = {
+      const tempPeriod: { start: string; end: string; names: string[] } = {
         start: period.start,
         end: period.end,
         names: [],
@@ -61,7 +61,7 @@ function combineTimeSlots(
   return finalResult;
 }
 
-//ToDo: make this use binary search in stead of just iterating throught
+// ToDo: make this use binary search in stead of just iterating throught
 function isAvalable(
   individualTimePeriods: { start: string; end: string }[],
   start: string,

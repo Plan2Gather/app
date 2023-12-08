@@ -56,7 +56,7 @@ const test = [
 
 export default meta;
 
-export const Primary = (args: {
+export function Primary(args: {
   data: {
     color: string;
     names: string[];
@@ -64,47 +64,41 @@ export const Primary = (args: {
   }[][];
   columnLabels: string[];
   rowLabels: string[];
-}) => <TimeGrid {...args} />;
+}) {
+  return <TimeGrid {...args} />;
+}
 
-Primary.args = parseListForTImeSlots(combineTimeSlots(test));
-
-function parseListForTImeSlots(
-  combindAvalability: Record<
-    string,
-    { start: string; end: string; names: string[] }[]
-  >,
-  incriment: number = 15 * 60 * 1000,
-  padding: number = 2,
-  filterdNames: string[] = ['Spencer', 'Chris']
+function fuzzyGetPeriod(
+  periods: { start: string; end: string; names: string[] }[],
+  target: number,
+  targetPeople: string[]
 ) {
-  let days = Object.keys(combindAvalability);
-  let dayStart: number = Number.MAX_SAFE_INTEGER;
-  let dayEnd: number = Number.MIN_SAFE_INTEGER;
-  for (const day of days) {
-    for (const period of combindAvalability[day]) {
-      dayStart = Math.min(dayStart, Date.parse(period.start));
-      dayEnd = Math.max(dayEnd, Date.parse(period.end));
+  periods.forEach((timePeriod) => {
+    if (
+      target >= Date.parse(timePeriod.start) &&
+      target <= Date.parse(timePeriod.end)
+    ) {
+      let peopleCount = 0;
+      targetPeople.forEach((tp) => {
+        if (timePeriod.names.includes(tp)) {
+          peopleCount += 1;
+        }
+      });
+      if (peopleCount !== 0) {
+        return {
+          color: `rgba(0, ${
+            100 + 155 * (peopleCount / targetPeople.length)
+          }, 0, 1)`,
+          names: timePeriod.names,
+          period: { start: timePeriod.start, end: timePeriod.end },
+        };
+      }
     }
-  }
-
-  dayStart = dayStart - incriment * padding;
-  dayEnd = dayEnd + incriment * padding;
-  let dataHeight = Math.ceil((dayEnd - dayStart) / incriment);
-
+  });
   return {
-    data: Array.from({ length: dataHeight }, (_, rowIndex) =>
-      Array.from({ length: days.length }, (_, colIndex) =>
-        fuzzyGetPeriod(
-          combindAvalability[days[colIndex]],
-          rowIndex * incriment + dayStart,
-          filterdNames
-        )
-      )
-    ),
-    columnLabels: days,
-    rowLabels: Array.from({ length: dataHeight }, (_, rowIndex) =>
-      formatTime(new Date(rowIndex * incriment + dayStart))
-    ),
+    color: '#cccccc',
+    names: [],
+    period: { start: target, end: target },
   };
 }
 
@@ -115,112 +109,44 @@ function formatTime(date: Date) {
   return `${hours}:${minutes}`;
 }
 
-function fuzzyGetPeriod(
-  periods: { start: string; end: string; names: string[] }[],
-  target: number,
-  targetPeople: string[]
-) {
-  for (const timePeriod of periods) {
-    if (
-      target >= Date.parse(timePeriod.start) &&
-      target <= Date.parse(timePeriod.end)
-    ) {
-      let peopleCount = 0;
-      for (const target of targetPeople) {
-        if (timePeriod.names.includes(target)) {
-          peopleCount = peopleCount + 1;
-        }
-      }
-      if (peopleCount != 0) {
-        return {
-          color: `rgba(0, ${
-            100 + 155 * (peopleCount / targetPeople.length)
-          }, 0, 1)`,
-          names: timePeriod.names,
-          period: { start: timePeriod.start, end: timePeriod.end },
-        };
-      }
-    }
-  }
-  return {
-    color: '#cccccc',
-    names: [],
-    period: { start: target, end: target },
-  };
-}
-
-function combineTimeSlots(
-  groupTimePeriods: {
-    name: string;
-    availability: Record<string, { start: string; end: string }[]>;
-  }[]
-): Record<string, { start: string; end: string; names: string[] }[]> {
-  let finalResult: Record<
+function parseListForTimeSlots(
+  combinedAvailability: Record<
     string,
     { start: string; end: string; names: string[] }[]
-  > = {};
-  let usedDays: Set<string> = new Set();
+  >,
+  increment: number = 15 * 60 * 1000,
+  padding: number = 2,
+  filteredNames: string[] = ['Spencer', 'Chris']
+) {
+  const days = Object.keys(combinedAvailability);
+  let dayStart: number = Number.MAX_SAFE_INTEGER;
+  let dayEnd: number = Number.MIN_SAFE_INTEGER;
+  days.forEach((day) => {
+    combinedAvailability[day].forEach((period) => {
+      dayStart = Math.min(dayStart, Date.parse(period.start));
+      dayEnd = Math.max(dayEnd, Date.parse(period.end));
+    });
+  });
 
-  for (const person of groupTimePeriods) {
-    for (const dayOfWeek in person.availability) {
-      usedDays.add(dayOfWeek);
-    }
-  }
+  dayStart -= increment * padding;
+  dayEnd += increment * padding;
+  const dataHeight = Math.ceil((dayEnd - dayStart) / increment);
 
-  for (const day of usedDays) {
-    finalResult[day] = [];
-    let dayStartStopSet: Set<string> = new Set();
-
-    for (const person of groupTimePeriods) {
-      let dayAvalability: { start: string; end: string }[] =
-        person.availability[day] ?? [];
-
-      for (const period of dayAvalability) {
-        dayStartStopSet.add(period.start);
-        dayStartStopSet.add(period.end);
-      }
-    }
-
-    let dayStartStop = createStartStopFromSeries(
-      Array.from(dayStartStopSet).sort()
-    );
-
-    for (const period of dayStartStop) {
-      let tempPeriod: { start: string; end: string; names: string[] } = {
-        start: period.start,
-        end: period.end,
-        names: [],
-      };
-      for (const person of groupTimePeriods) {
-        if (isAvalable(person.availability[day], period.start, period.end)) {
-          tempPeriod.names.push(person.name);
-        }
-      }
-      finalResult[day].push(tempPeriod);
-    }
-  }
-
-  return finalResult;
-}
-
-//ToDo: make this use binary search in stead of just iterating throught
-function isAvalable(
-  individualTimePeriods: { start: string; end: string }[],
-  start: string,
-  end: string
-): boolean {
-  for (const timePeriod of individualTimePeriods) {
-    if (
-      Date.parse(start) >= Date.parse(timePeriod.start) &&
-      Date.parse(end) <= Date.parse(timePeriod.end)
-    ) {
-      return true;
-    }
-    if (Date.parse(timePeriod.start) >= Date.parse(end)) {
-      break;
-    }
-  }
-  return false;
+  return {
+    data: Array.from({ length: dataHeight }, (_, rowIndex) =>
+      Array.from({ length: days.length }, (_, colIndex) =>
+        fuzzyGetPeriod(
+          combinedAvailability[days[colIndex]],
+          rowIndex * increment + dayStart,
+          filteredNames
+        )
+      )
+    ),
+    columnLabels: days,
+    rowLabels: Array.from({ length: dataHeight }, (_, rowIndex) =>
+      formatTime(new Date(rowIndex * increment + dayStart))
+    ),
+  };
 }
 
 function createStartStopFromSeries(
@@ -228,7 +154,7 @@ function createStartStopFromSeries(
 ): { start: string; end: string }[] {
   const result: { start: string; end: string }[] = [];
 
-  for (let i = 0; i < values.length - 1; i++) {
+  for (let i = 0; i < values.length - 1; i += 1) {
     result.push({
       start: values[i],
       end: values[i + 1],
@@ -237,10 +163,71 @@ function createStartStopFromSeries(
 
   return result;
 }
-/* //simple test non extensive
-let test: [number,number][][]= [[[0,3],[6,8]],
-                            [[1,4],[5,7]],
-                            [[1,2],[3,4],[8,10]]];
 
-console.log(combineTimeSlots(test));
-*/
+function isAvailable(
+  individualTimePeriods: { start: string; end: string }[],
+  start: string,
+  end: string
+): boolean {
+  return individualTimePeriods.some(
+    (timePeriod) =>
+      Date.parse(start) >= Date.parse(timePeriod.start) &&
+      Date.parse(end) <= Date.parse(timePeriod.end)
+  );
+}
+
+function combineTimeSlots(
+  groupTimePeriods: {
+    name: string;
+    availability: Record<string, { start: string; end: string }[]>;
+  }[]
+): Record<string, { start: string; end: string; names: string[] }[]> {
+  const finalResult: Record<
+    string,
+    { start: string; end: string; names: string[] }[]
+  > = {};
+  const usedDays: Set<string> = new Set();
+
+  groupTimePeriods.forEach((person) => {
+    Object.keys(person.availability).forEach((dayOfWeek) => {
+      usedDays.add(dayOfWeek);
+    });
+  });
+
+  usedDays.forEach((day) => {
+    finalResult[day] = [];
+    const dayStartStopSet: Set<string> = new Set();
+
+    groupTimePeriods.forEach((person) => {
+      const dayAvailability: { start: string; end: string }[] =
+        person.availability[day] ?? [];
+
+      dayAvailability.forEach((period) => {
+        dayStartStopSet.add(period.start);
+        dayStartStopSet.add(period.end);
+      });
+    });
+
+    const dayStartStop = createStartStopFromSeries(
+      Array.from(dayStartStopSet).sort()
+    );
+
+    dayStartStop.forEach((period) => {
+      const tempPeriod: { start: string; end: string; names: string[] } = {
+        start: period.start,
+        end: period.end,
+        names: [],
+      };
+      groupTimePeriods.forEach((person) => {
+        if (isAvailable(person.availability[day], period.start, period.end)) {
+          tempPeriod.names.push(person.name);
+        }
+      });
+      finalResult[day].push(tempPeriod);
+    });
+  });
+
+  return finalResult;
+}
+
+Primary.args = parseListForTimeSlots(combineTimeSlots(test));

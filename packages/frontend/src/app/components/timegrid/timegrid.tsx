@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { useState } from 'react';
 
 interface TimeGridProps {
   data: {
@@ -13,7 +13,7 @@ interface TimeGridProps {
 const cellWidth = 100;
 const cellHeight = 10;
 
-const TimeGrid: FC<TimeGridProps> = ({ data, columnLabels, rowLabels }) => {
+function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
   const [clickedCell, setClickedCell] = useState<{
     rowIndex: number;
     colIndex: number;
@@ -42,12 +42,12 @@ const TimeGrid: FC<TimeGridProps> = ({ data, columnLabels, rowLabels }) => {
           textAlign: 'center',
           lineHeight: '20px',
         }}
-      ></div>
+      />
 
       {/* Render column labels */}
-      {columnLabels.map((label, colIndex) => (
+      {columnLabels.map((label) => (
         <div
-          key={`col-label-${colIndex}`}
+          key={label}
           style={{
             width: cellWidth,
             height: '20px',
@@ -93,12 +93,12 @@ const TimeGrid: FC<TimeGridProps> = ({ data, columnLabels, rowLabels }) => {
                 borderRight: '1px solid black',
               }}
               onClick={() => handleCellClick(rowIndex, colIndex)}
-            ></div>
+            />
           ))}
         </>
       ))}
     </div>
   );
-};
+}
 
 export default TimeGrid;
