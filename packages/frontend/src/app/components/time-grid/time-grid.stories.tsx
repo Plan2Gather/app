@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react';
-import TimeGrid from './timegrid';
-import { combineTimeSlots, parseListForTimeSlots } from './timegrid.helpers';
+import TimeGrid from './time-grid';
+import { combineTimeSlots, parseListForTimeSlots } from './time-grid.helpers';
 
 const meta: Meta<typeof TimeGrid> = {
   component: TimeGrid,
