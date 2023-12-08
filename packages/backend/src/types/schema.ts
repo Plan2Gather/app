@@ -127,7 +127,6 @@ export const gatheringBackendDataSchema = z
 
 export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;
 
-
 /**
  * My Meeting Page Schema
  */
@@ -135,7 +134,6 @@ export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;
 export const ownedGatheringSchema = z.object({
   id: z.string(),
   name: z.string(),
-
 });
 
 export type OwnedGatheringData = z.infer<typeof ownedGatheringSchema>;
@@ -145,4 +143,6 @@ export const participatingGatheringSchema = z.object({
   name: z.string(),
 });
 
-export type ParticipatingGathering = z.infer<typeof participatingGatheringSchema>;
+export type ParticipatingGathering = z.infer<
+  typeof participatingGatheringSchema
+>;

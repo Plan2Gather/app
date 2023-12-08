@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { MyMeetings } from './my-meetings';
 
 describe('MyMeetings', () => {
-    it('renders without crashing', () => {
-        render(<MyMeetings userId="test-user-id" />);
-        // Add more tests here
-    });
+  it('renders without crashing', () => {
+    render(<MyMeetings userId="test-user-id" />);
+    // Add more tests here
+  });
 });
