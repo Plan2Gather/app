@@ -1,5 +1,6 @@
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { Typography } from '@mui/material';
 import { trpc } from '../../../trpc';
 import MyMeetingsComponent from '../../components/my-meetings-component/my-meetings-component';
 
@@ -13,17 +14,24 @@ export default function MyMeetings() {
   }
 
   return (
-    <Grid container spacing={2}>
-      <Grid xs={6}>
-        <h1>Owned Meetings</h1>
-        <MyMeetingsComponent
-          meetings={ownedMeetingsQuery.data} />
+    <>
+      <Typography component="h1" variant="h3" gutterBottom>
+        My Meetings
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid xs={12} sm={6}>
+          <Typography component="h2" variant="h4">
+            Owned Meetings
+          </Typography>
+          <MyMeetingsComponent meetings={ownedMeetingsQuery.data} />
+        </Grid>
+        <Grid xs={12} sm={6}>
+          <Typography component="h2" variant="h4">
+            Participating Meetings
+          </Typography>
+          <MyMeetingsComponent meetings={participatingMeetingsQuery.data} />
+        </Grid>
       </Grid>
-      <Grid xs = {6}>
-        <h1>Participating Meetings</h1>
-        <MyMeetingsComponent
-          meetings={participatingMeetingsQuery.data} />
-      </Grid>
-    </Grid>
+    </>
   );
 }

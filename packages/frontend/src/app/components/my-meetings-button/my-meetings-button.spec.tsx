@@ -28,7 +28,7 @@ describe('MyMeetingsButton', () => {
       const button = screen.getByRole('link');
       expect(button).toBeInTheDocument();
 
-      expect(button).toHaveAttribute('href', '/NotFound');
+      expect(button).toHaveAttribute('href', '/my-meetings');
 
       if (variant === 'toolbar' && width < 600) {
         expect(button).toHaveClass('MuiIconButton-root');

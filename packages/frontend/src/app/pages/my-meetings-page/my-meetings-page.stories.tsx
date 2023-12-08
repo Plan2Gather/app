@@ -1,15 +1,11 @@
-import React from 'react';
 import type { Meta } from '@storybook/react';
-import { MyMeetings, MyMeetingsProps } from './my-meetings-page';
+import MyMeetings from './my-meetings-page';
 
-export default {
-  title: 'MyMeetings',
+const meta: Meta<typeof MyMeetings> = {
   component: MyMeetings,
-} as Meta;
+};
+export default meta;
 
-const Template: Story<MyMeetingsProps> = (args) => <MyMeetings {...args} />;
-
-export const Default = Template.bind({});
-Default.args = {
-  userId: 'test-user-id',
+export const Primary = {
+  args: {},
 };
