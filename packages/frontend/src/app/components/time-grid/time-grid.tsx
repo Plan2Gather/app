@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 interface TimeGridProps {
   data: {
     color: string;
+    topBorder : string;
     names: string[];
     period: { start: string; end: string };
   }[][];
@@ -68,8 +69,8 @@ export default function TimeGrid({
                 width: cellWidth,
                 height: cellHeight,
                 backgroundColor: cellData.color,
-                borderTop: '1px dotted black',
-                borderBottom: '1px dotted black',
+                borderTop: cellData.topBorder,
+                borderBottom: '1px dotted grey',
                 borderLeft: '1px solid black',
                 borderRight: '1px solid black',
               }}
