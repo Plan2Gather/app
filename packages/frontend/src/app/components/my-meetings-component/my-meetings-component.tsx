@@ -24,8 +24,7 @@ export default function MyMeetingsComponent({ meetings }: MyMeetingsProps) {
         if (meetings.length === 0) {
           return <div>No meetings found</div>;
         }
-
-        return <div key={meetingId}>{meeting.name}</div>;
+        return <div key={meetingId}><a href={`/gathering/${meetingId}`}>{meeting.name}</a></div>;
       })}
     </div>
   );
