@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -13,7 +13,7 @@ interface TimeGridProps {
 }
 
 const cellWidth = 100;
-const cellHeight = 10;
+const cellHeight = 20;
 
 function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
   const [clickedCell, setClickedCell] = useState<{
@@ -28,55 +28,30 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
   return (
     <Box
       sx={{
-        position: 'relative',
-        overflow: 'auto',
         display: 'grid',
         gridTemplateColumns: `repeat(${data[0].length + 1}, ${cellWidth}px)`,
-        border: 'none',
       }}
     >
       {/* Empty cell for the top-left corner */}
-      <Box
-        sx={{
-          width: '30px',
-          height: '20px',
-          backgroundColor: 'transparent',
-          textAlign: 'center',
-          lineHeight: '20px',
-        }}
-      />
+      <Box />
 
       {/* Render column labels */}
       {columnLabels.map((label) => (
-        <Box
-          key={label}
-          sx={{
-            width: cellWidth,
-            height: '20px',
-            backgroundColor: 'transparent',
-            textAlign: 'center',
-            lineHeight: '20px',
-          }}
-        >
-          <Typography>{label}</Typography>
-        </Box>
+        <Typography key={label} align="center">
+          {label}
+        </Typography>
       ))}
 
       {/* Render data rows with row labels */}
       {data.map((rowData, rowIndex) => (
-        <>
+        <Fragment key={rowLabels[rowIndex]}>
           {/* Render row label */}
           <Box
-            key={rowLabels[rowIndex]}
             sx={{
-              width: '30px',
               height: cellHeight,
-              backgroundColor: 'transparent',
-              textAlign: 'center',
-              lineHeight: '10px',
             }}
           >
-            <Typography>{rowLabels[rowIndex]}</Typography>
+            <Typography align="center">{rowLabels[rowIndex]}</Typography>
           </Box>
 
           {/* Render data cells */}
@@ -84,7 +59,6 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
             <Box
               key={`${rowIndex}-${colIndex}`}
               sx={{
-                position: 'relative',
                 width: cellWidth,
                 height: cellHeight,
                 backgroundColor: cellData.color,
@@ -96,7 +70,7 @@ function TimeGrid({ data, columnLabels, rowLabels }: TimeGridProps) {
               onClick={() => handleCellClick(rowIndex, colIndex)}
             />
           ))}
-        </>
+        </Fragment>
       ))}
     </Box>
   );
