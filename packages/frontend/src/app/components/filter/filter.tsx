@@ -22,15 +22,11 @@ export default function Filter({ userLabels }: FilterProps) {
   const { setCheckedUsers } = useGatheringViewData();
 
   const updateCheckedUsers = (checked: Record<string, boolean>) => {
-    let toShow = Object.entries(checked)
-      .filter(([, value]) => value)
-      .map(([key]) => key);
-
-    if (toShow.length === 0) {
-      toShow = Object.keys(checked);
-    }
-
-    setCheckedUsers(toShow);
+    setCheckedUsers(
+      Object.entries(checked)
+        .filter(([, value]) => value)
+        .map(([key]) => key)
+    );
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +44,8 @@ export default function Filter({ userLabels }: FilterProps) {
 
   useEffect(() => {
     setCheckedUsers(Object.keys(state));
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setCheckedUsers]);
 
   return (
     <FormGroup>
