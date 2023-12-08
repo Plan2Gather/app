@@ -5,8 +5,7 @@ import {
   ToggleButtonGroupElement,
   useForm,
 } from 'react-hook-form-mui';
-import { Weekday } from '@plan2gather/backend/types';
-import Utils from '../../../../utils/utils';
+import { Weekday, weekdays } from '@plan2gather/backend/types';
 
 const PossibleDates = forwardRef<unknown, { initial: Weekday[] }>(
   ({ initial }, ref) => {
@@ -38,7 +37,7 @@ const PossibleDates = forwardRef<unknown, { initial: Weekday[] }>(
       },
     }));
 
-    const options = Utils.weekdays.map((day) => ({
+    const options = weekdays.map((day) => ({
       id: day,
       label: day.charAt(0),
     }));

@@ -11,7 +11,11 @@ export default function BulletedListItem({
   sx,
 }: BulletedListItemProps) {
   return (
-    <ListItemText sx={{ display: 'list-item', ...sx }}>{children}</ListItemText>
+    <li>
+      <ListItemText sx={{ display: 'list-item', ...sx }}>
+        {children}
+      </ListItemText>
+    </li>
   );
 }
 

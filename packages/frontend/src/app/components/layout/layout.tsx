@@ -162,7 +162,9 @@ export default function Layout(props: LayoutProps) {
             <Grid container spacing={2} justifyContent="space-evenly">
               {footers.map((footer) => (
                 <Grid xs={6} sm={3} md={2} key={footer.title}>
-                  <Typography variant="h6">{footer.title}</Typography>
+                  <Typography component="h3" variant="h6">
+                    {footer.title}
+                  </Typography>
                   <BulletedList>
                     {footer.description.map((item) => (
                       <BulletedListItem key={item.text} sx={{ mt: 0, mb: 0 }}>
