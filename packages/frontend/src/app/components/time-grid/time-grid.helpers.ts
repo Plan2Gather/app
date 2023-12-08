@@ -3,12 +3,14 @@ import {
   UserAvailability,
   Weekday,
 } from '@plan2gather/backend/types';
+import { all } from 'axios';
 import { DateTime } from 'luxon';
 
 function fuzzyGetPeriod(
   periods: (DateRange & { names: string[] })[],
   target: DateTime,
-  targetPeople: string[]
+  targetPeople: string[],
+  requiredPeople : string[],
 ) {
   const foundPeriod = periods.find(
     (timePeriod) =>
@@ -27,7 +29,13 @@ function fuzzyGetPeriod(
       0
     );
 
-    if (peopleCount !== 0) {
+    const requiredPeopleCount = requiredPeople.reduce(
+        (count, person) => count + (foundPeriod.names.includes(person) ? 1 : 0),
+        0
+      );
+
+    if (peopleCount !== 0 && requiredPeopleCount === requiredPeople.length) {
+
       return {
         color: `rgba(0, ${
           100 + 155 * (peopleCount / targetPeople.length)
@@ -63,6 +71,7 @@ function formatTime(date: Date) {
 export function parseListForTimeSlots(
   combinedAvailability: Record<string, (DateRange & { names: string[] })[]>,
   filteredNames: string[],
+  allNames: string[],
   increment: number = 15 * 60 * 1000,
   padding: number = 1
 ) {
@@ -88,7 +97,8 @@ export function parseListForTimeSlots(
         fuzzyGetPeriod(
           combinedAvailability[days[colIndex]],
           DateTime.fromMillis(rowIndex * increment + dayStart),
-          filteredNames
+          allNames,
+          filteredNames,
         )
       )
     ),
