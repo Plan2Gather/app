@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { PossibleTimeData } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
@@ -76,7 +76,7 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
       }}
     >
       <div style={{ border: '1px solid gray', padding: '10px' }}>
-        <Typography variant="body" sx={{ mb: 2 }}>
+        <Typography variant="body1" sx={{ mb: 2 }}>
           {start.toLocaleDateString([], {
             weekday: 'short',
             month: 'short',
@@ -91,6 +91,7 @@ export default function PossibleTime({ timeData }: PossibleTimeProps) {
         <AvatarGroup max={maxAmt}>
           {displayedUsers.map((user) => (
             <Tooltip title={user} key={user}>
+              {/* eslint-disable-next-line react/jsx-props-no-spreading */}
               <Avatar {...stringAvatar(user)} />
             </Tooltip>
           ))}
