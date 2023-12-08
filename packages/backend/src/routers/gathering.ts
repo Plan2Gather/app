@@ -104,6 +104,12 @@ export default t.router({
 
       return availability as UserAvailability | 'none';
     }),
+  getOwnedGatherings: userProcedure.query(async ({ ctx }) =>
+    ctx.env.kvDao.getOwnedGatherings(ctx.userId)
+  ),
+  getParticipatingGatherings: userProcedure.query(async ({ ctx }) =>
+    ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
+  ),
   remove: userProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
