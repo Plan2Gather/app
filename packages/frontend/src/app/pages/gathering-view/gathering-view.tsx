@@ -81,6 +81,7 @@ export default function GatheringView() {
               <TimeGridWrapper
                 userAvailability={fullAvailabilityData}
                 requiredUsers={checkedUsers}
+                allUsers={userLabels}
               />
             </Grid>
             <Grid xs={12} md={3}>
