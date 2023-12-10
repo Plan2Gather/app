@@ -20,9 +20,7 @@
     "src/**/*.spec.js",
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
-    "src/**/*.d.ts",
-    "src/utils/theme-test-helper.spec.tsx",
-    "src/app/components/my-meetings-button/my-meetings-button.spec.tsx"
+    "src/**/*.d.ts"
   ],
   "types": ["@nx/react/typings/cssmodule.d.ts", "@nx/react/typings/image.d.ts"]
 }
