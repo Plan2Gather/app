@@ -17,10 +17,14 @@ permissions:
 
 jobs:
   main:
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' &&
+      (github.base_ref == 'main' || github.base_ref == 'beta'))
     name: Nx Cloud - Main Job
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.1
     with:
-      main-branch-name: ${{ (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main') && 'main' || 'beta' }}
+      main-branch-name: ${{ (github.ref == 'refs/heads/main' || github.base_ref == 'main') && 'main' || 'beta' }}
       number-of-agents: 3
       init-commands: |
         npx nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
@@ -32,6 +36,10 @@ jobs:
         npx nx affected --target=build --parallel=3
 
   agents:
+    if: >
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' &&
+      (github.base_ref == 'main' || github.base_ref == 'beta'))
     name: Nx Cloud - Agents
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.1
     with:
@@ -41,6 +49,10 @@ jobs:
     name: Continuous Deployment
     needs: [main, agents]
     runs-on: ubuntu-latest
+    if: >
+      github.ref == 'refs/heads/main' ||
+      github.ref == 'refs/heads/beta' ||
+      (github.event_name == 'pull_request' && github.base_ref == 'beta')
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
