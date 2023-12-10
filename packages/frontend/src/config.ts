@@ -35,7 +35,7 @@ const betaConfig: AppConfiguration = {
 };
 
 const modeToConfig: Record<string, AppConfiguration> = {
-  master: prodConfig,
+  prod: prodConfig,
   beta: betaConfig,
   dev: devConfig,
   fallback: devConfig,
