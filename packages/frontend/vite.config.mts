@@ -1,15 +1,29 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   root: __dirname,
   build: {
     outDir: '../../dist/packages/frontend',
     reportCompressedSize: true,
     commonjsOptions: {
       transformMixedEsModules: true,
+    },
+    sourcemap: true,
+    rollupOptions: {
+      onLog(level, log, handler) {
+        if (
+          log.cause &&
+          (log.cause as any).message ===
+            `Can't resolve original location of error.`
+        ) {
+          return;
+        }
+        handler(level, log);
+      },
     },
   },
   cacheDir: '../../node_modules/.vite/plan2gather',
@@ -24,7 +38,17 @@ export default defineConfig({
     host: 'localhost',
   },
 
-  plugins: [react(), nxViteTsPaths()],
+  plugins: [
+    react(),
+    nxViteTsPaths(),
+    mode === 'prod'
+      ? sentryVitePlugin({
+          org: 'plan2gather',
+          project: 'javascript-react',
+          telemetry: false,
+        })
+      : undefined,
+  ],
 
   // Uncomment this if you are using workers.
   // worker: {
@@ -45,4 +69,4 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['src/utils/theme-test-helper.spec.tsx'],
   },
-});
+}));
