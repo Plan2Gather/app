@@ -4,6 +4,7 @@ import {
   Weekday,
 } from '@plan2gather/backend/types';
 import { DateTime } from 'luxon';
+import { sortWeekdays } from '@plan2gather/backend/utils';
 
 type DateRangeLuxon = { start: DateTime; end: DateTime };
 
@@ -145,7 +146,10 @@ export function combineTimeSlots(
     });
   });
 
-  usedDays.forEach((day) => {
+  // sort used days using sortWeekdays function
+  const sortedUsedDays = sortWeekdays(Array.from(usedDays));
+
+  sortedUsedDays.forEach((day) => {
     finalResult[day] = [];
     const dayStartStopSet = new Set<DateTime>();
 
