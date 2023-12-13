@@ -13,6 +13,7 @@ import { Availability, Weekday } from '@plan2gather/backend/types';
 import {
   convertBackendDatesToTimePeriods,
   convertTimePeriodsToBackendDates,
+  sortWeekdays,
 } from '@plan2gather/backend/utils';
 import TimeRangeSelections from './time-range-selections/time-range-selections';
 
@@ -70,7 +71,7 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
         <TableContainer>
           <Table>
             {isSmallScreen ? (
-              days.map((day) => (
+              sortWeekdays(days).map((day) => (
                 <Fragment key={day}>
                   <TableHead>
                     <TableRow>
