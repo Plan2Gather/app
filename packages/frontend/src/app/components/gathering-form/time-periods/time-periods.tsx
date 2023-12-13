@@ -43,6 +43,8 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
       theme.breakpoints.down('sm')
     );
 
+    const sortedDays = sortWeekdays(days);
+
     useImperativeHandle(ref, () => ({
       submit: async () => {
         const isFormValid = await new Promise<{
@@ -71,7 +73,7 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
         <TableContainer>
           <Table>
             {isSmallScreen ? (
-              sortWeekdays(days).map((day) => (
+              sortedDays.map((day) => (
                 <Fragment key={day}>
                   <TableHead>
                     <TableRow>
@@ -97,14 +99,14 @@ const TimePeriods = forwardRef<unknown, TimePeriodsProps>(
               <>
                 <TableHead>
                   <TableRow>
-                    {days.map((day) => (
+                    {sortedDays.map((day) => (
                       <DayHeaderCell key={day} day={day} />
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow sx={{ verticalAlign: 'top' }}>
-                    {days.map((day) => (
+                    {sortedDays.map((day) => (
                       <TableCell key={day}>
                         <TimeRangeSelections
                           initial={initialValues ?? {}}
