@@ -11,8 +11,6 @@ import {
   userAvailabilitySchema,
 } from '../types/schema';
 
-import { consolidateAvailability } from '../utils';
-
 import type { GatheringBackendData, UserAvailability } from '../types/schema';
 
 export default t.router({
@@ -31,14 +29,10 @@ export default t.router({
     .mutation(async ({ ctx, input }) => {
       const gatheringId = nanoid();
 
-      const mergedAllowedPeriods = consolidateAvailability(
-        input.allowedPeriods
-      );
-
       const gathering: GatheringBackendData = {
         id: gatheringId,
         ...input,
-        allowedPeriods: mergedAllowedPeriods,
+        allowedPeriods: input.allowedPeriods,
         availability: {},
         creationDate: new Date().toISOString(),
         creationUserId: ctx.userId,
@@ -69,16 +63,12 @@ export default t.router({
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx;
 
-      const mergedAvailability = consolidateAvailability(
-        input.availability.availability
-      );
-
       await ctx.env.kvDao.putAvailability(
         input.id,
         userAvailabilityBackendSchema.parse({
           [userId]: {
             name: input.availability.name,
-            availability: mergedAvailability,
+            availability: input.availability.availability,
           },
         })
       );
