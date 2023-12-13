@@ -46,6 +46,7 @@ export default defineConfig(({ mode }) => ({
           org: 'plan2gather',
           project: 'javascript-react',
           telemetry: false,
+          authToken: process.env.SENTRY_AUTH_TOKEN,
         })
       : undefined,
   ],

@@ -80,13 +80,3 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
         run: NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx run backend:deploy:prod
-
-      - name: Sentry Release
-        if: github.ref == 'refs/heads/main'
-        uses: getsentry/action-release@v1.4.1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_GH_ACTION }}
-          SENTRY_ORG: plan2gather
-          SENTRY_PROJECT: javascript-react
-        with:
-          environment: 'production'
