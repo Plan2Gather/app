@@ -45,12 +45,12 @@ const availabilitySchema = z.record(weekdaySchema, z.array(dateRangeSchema));
 export type Availability = z.infer<typeof availabilitySchema>;
 
 export const sortedAvailabilitySchema = availabilitySchema
-  .refine((data) => consolidateAvailability(data))
+  .transform((data) => consolidateAvailability(data))
   .readonly();
 
 export const limitedAvailabilitySchema = z
   .record(weekdaySchema, z.array(dateRangeSchema).length(1))
-  .refine((data) => consolidateAvailability(data))
+  .transform((data) => consolidateAvailability(data))
   .readonly();
 
 /**
