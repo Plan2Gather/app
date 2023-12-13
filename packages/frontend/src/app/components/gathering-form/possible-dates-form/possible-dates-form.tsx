@@ -6,6 +6,7 @@ import {
   useForm,
 } from 'react-hook-form-mui';
 import { Weekday, weekdays } from '@plan2gather/backend/types';
+import { sortWeekdays } from '@plan2gather/backend/utils';
 
 const PossibleDates = forwardRef<unknown, { initial: Weekday[] }>(
   ({ initial }, ref) => {
@@ -26,7 +27,10 @@ const PossibleDates = forwardRef<unknown, { initial: Weekday[] }>(
               if (!data.possibleDates?.length) {
                 resolve({ valid: false });
               } else {
-                resolve({ valid: true, data: data.possibleDates });
+                resolve({
+                  valid: true,
+                  data: sortWeekdays(data.possibleDates),
+                });
               }
             },
             () => resolve({ valid: false })
