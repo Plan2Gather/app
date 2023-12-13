@@ -1,7 +1,6 @@
 import { execSync } from 'child_process';
 
-// let branch = process.env.CF_PAGES_BRANCH; // Environment variable
-let branch = 'main'; // For testing locally
+const branch = process.env.CF_PAGES_BRANCH; // Environment variable
 
 console.log(`Building for branch: ${branch}`);
 
