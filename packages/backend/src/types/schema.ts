@@ -1,4 +1,7 @@
 import { z } from 'zod';
+import { weekdays } from './const';
+// eslint-disable-next-line import/no-cycle
+import { consolidateAvailability } from '../utils';
 
 /**
  * A valid datetime string with an offset.
@@ -33,31 +36,22 @@ export const dateRangeSchema = z
 
 export type DateRange = z.infer<typeof dateRangeSchema>;
 
-export const weekdays = [
-  'sunday',
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday',
-] as const;
-
-export const weekdaySchema = z.enum(weekdays);
+export const weekdaySchema = z.enum(weekdays).readonly();
 
 export type Weekday = z.infer<typeof weekdaySchema>;
 
-export const availabilitySchema = z.record(
-  weekdaySchema,
-  z.array(dateRangeSchema)
-);
+const availabilitySchema = z.record(weekdaySchema, z.array(dateRangeSchema));
 
 export type Availability = z.infer<typeof availabilitySchema>;
 
-export const limitedAvailabilitySchema = z.record(
-  weekdaySchema,
-  z.array(dateRangeSchema).length(1)
-);
+export const sortedAvailabilitySchema = availabilitySchema
+  .refine((data) => consolidateAvailability(data))
+  .readonly();
+
+export const limitedAvailabilitySchema = z
+  .record(weekdaySchema, z.array(dateRangeSchema).length(1))
+  .refine((data) => consolidateAvailability(data))
+  .readonly();
 
 /**
  * User availability schema.
@@ -67,16 +61,15 @@ export const limitedAvailabilitySchema = z.record(
 export const userAvailabilitySchema = z
   .object({
     name: z.string(),
-    availability: availabilitySchema,
+    availability: sortedAvailabilitySchema,
   })
   .readonly();
 
 export type UserAvailability = z.infer<typeof userAvailabilitySchema>;
 
-export const userAvailabilityBackendSchema = z.record(
-  z.string(),
-  userAvailabilitySchema
-);
+export const userAvailabilityBackendSchema = z
+  .record(z.string(), userAvailabilitySchema)
+  .readonly();
 
 export type UserAvailabilityBackend = z.infer<
   typeof userAvailabilityBackendSchema
@@ -133,17 +126,21 @@ export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;
  * My Meeting Page Schema
  */
 
-export const ownedGatheringSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-});
+export const ownedGatheringSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+  })
+  .readonly();
 
 export type OwnedGatheringData = z.infer<typeof ownedGatheringSchema>;
 
-export const participatingGatheringSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-});
+export const participatingGatheringSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+  })
+  .readonly();
 
 export type ParticipatingGathering = z.infer<
   typeof participatingGatheringSchema

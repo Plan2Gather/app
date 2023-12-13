@@ -1,11 +1,8 @@
 import { DateTime } from 'luxon';
-import {
-  Availability,
-  DateRange,
-  Weekday,
-  availabilitySchema,
-  weekdays,
-} from '../types';
+import { weekdays } from '../types/const';
+// eslint-disable-next-line import/no-cycle
+import { sortedAvailabilitySchema } from '../types';
+import type { Availability, DateRange, Weekday } from '../types';
 
 export const sortWeekdays = (days: Weekday[]): Weekday[] =>
   days.sort((a, b) => weekdays.indexOf(a) - weekdays.indexOf(b));
@@ -86,7 +83,7 @@ export const convertTimePeriodsToBackendDates = (
   }
 
   // Validate the overall schedule - this strips the id field
-  const parsedSchedule = availabilitySchema.parse(convertedSchedule);
+  const parsedSchedule = sortedAvailabilitySchema.parse(convertedSchedule);
 
   return parsedSchedule;
 };
@@ -130,13 +127,15 @@ export function consolidateAvailability(
 ): Availability {
   const consolidatedAvailability: Availability = {};
 
-  Object.keys(availability).forEach((day) => {
-    const dayAvailability = availability[day as Weekday];
-    if (dayAvailability) {
-      const mergedRanges = mergeDateRanges(dayAvailability);
-      consolidatedAvailability[day as Weekday] = mergedRanges;
+  sortWeekdays(Object.keys(availability) as (keyof Availability)[]).forEach(
+    (day) => {
+      const dayAvailability = availability[day as Weekday];
+      if (dayAvailability) {
+        const mergedRanges = mergeDateRanges(dayAvailability);
+        consolidatedAvailability[day as Weekday] = mergedRanges;
+      }
     }
-  });
+  );
 
   return consolidatedAvailability;
 }
