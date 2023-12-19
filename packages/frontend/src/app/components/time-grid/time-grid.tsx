@@ -5,13 +5,15 @@ import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
 import PossibleTime from '../possible-time/possible-time';
 
+type CellData = {
+  color: string;
+  topBorder: string;
+  names: string[];
+  period: { start: DateTime; end: DateTime };
+};
+
 interface TimeGridProps {
-  data: {
-    color: string;
-    topBorder: string;
-    names: string[];
-    period: { start: DateTime; end: DateTime };
-  }[][];
+  data: CellData[][];
   columnLabels: string[];
   rowLabels: string[];
   timezone: string;
@@ -28,9 +30,19 @@ export default function TimeGrid({
 }: TimeGridProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [selectedCell, setSelectedCell] = useState<CellData | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    rowIndex: number,
+    colIndex: number
+  ) => {
+    const selectedCellData = data[rowIndex][colIndex];
+    setSelectedCell(selectedCellData);
+
+    if (selectedCellData.names.length > 0) {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleClose = () => {
@@ -74,45 +86,46 @@ export default function TimeGrid({
 
           {/* Render data cells */}
           {rowData.map((cellData, colIndex) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <Fragment key={`${rowIndex}-${colIndex}`}>
-              <Box
-                sx={{
-                  width: cellWidth,
-                  height: cellHeight,
-                  backgroundColor: cellData.color,
-                  borderTop: cellData.topBorder,
-                  borderBottom: '1px dotted grey',
-                  borderLeft: '1px solid black',
-                  borderRight: '1px solid black',
-                }}
-                aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
-                onClick={handleClick}
-                component="button"
-              />
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-              >
-                <PossibleTime
-                  dateRange={{
-                    start: cellData.period.start.toISO()!,
-                    end: cellData.period.end.toISO()!,
-                  }}
-                  users={cellData.names}
-                  timezone={timezone}
-                />
-              </Popover>
-            </Fragment>
+            <Box
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${rowIndex}-${colIndex}`}
+              sx={{
+                width: cellWidth,
+                height: cellHeight,
+                backgroundColor: cellData.color,
+                borderTop: cellData.topBorder,
+                borderBottom: '1px dotted grey',
+                borderLeft: '1px solid black',
+                borderRight: '1px solid black',
+              }}
+              aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
+              onClick={(event) => handleClick(event, rowIndex, colIndex)}
+              component="button"
+            />
           ))}
         </Fragment>
       ))}
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        {selectedCell && (
+          <PossibleTime
+            dateRange={{
+              start: selectedCell.period.start.toISO()!,
+              end: selectedCell.period.end.toISO()!,
+            }}
+            users={selectedCell.names}
+            timezone={timezone}
+          />
+        )}
+      </Popover>
     </Box>
   );
 }

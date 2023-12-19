@@ -83,7 +83,7 @@ export default function PossibleTime({
           padding: '10px',
         }}
       >
-        <Typography variant="body1" sx={{ mb: 2 }}>
+        <Typography variant="body1">
           {startDate.weekdayLong}
           {' @ '}
           {startDate.toFormat('t')}
@@ -93,6 +93,7 @@ export default function PossibleTime({
             : ''}
           {endDate.toFormat('t')}
         </Typography>
+        <Typography variant="subtitle2">{timezone}</Typography>
 
         <AvatarGroup max={maxAmt}>
           {displayedUsers.map((user) => (
