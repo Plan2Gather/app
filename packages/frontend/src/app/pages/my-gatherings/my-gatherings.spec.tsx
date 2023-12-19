@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import MyMeetings from './my-meetings-page';
+import MyGatherings from './my-gatherings';
 import { TRPCWrapper } from '../../../utils/test-utils';
 
-describe('MyMeetings', () => {
+describe('MyGatherings', () => {
   it('renders without crashing', () => {
     render(
       <TRPCWrapper>
-        <MyMeetings />
+        <MyGatherings />
       </TRPCWrapper>
     );
   });

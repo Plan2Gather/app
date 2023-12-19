@@ -123,7 +123,7 @@ export const gatheringBackendDataSchema = z
 export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;
 
 /**
- * My Meeting Page Schema
+ * My Gathering Page Schema
  */
 
 export const ownedGatheringSchema = z

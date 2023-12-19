@@ -10,8 +10,8 @@ type Story = StoryObj<typeof GatheringDetails>;
 export const Primary: Story = {
   args: {
     gatheringData: {
-      name: 'Test Meeting',
-      description: 'This is a test meeting',
+      name: 'Test Gathering',
+      description: 'This is a test gathering',
       timezone: 'America/New_York',
       allowedPeriods: [{ start: '', end: '' }],
       id: '123',

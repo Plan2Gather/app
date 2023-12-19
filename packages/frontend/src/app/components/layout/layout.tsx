@@ -13,7 +13,7 @@ import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Grid from '@mui/material/Unstable_Grid2';
 import CreateGatheringButton from '../create-gathering-button/create-gathering-button';
-import MyMeetingsButton from '../my-meetings-button/my-meetings-button';
+import MyGatheringsButton from '../my-gatherings-button/my-gatherings-button';
 import BulletedListItem from '../bulleted-list/bulleted-list-item/bulleted-list-item';
 import BulletedList from '../bulleted-list/bulleted-list';
 
@@ -127,7 +127,7 @@ export default function Layout(props: LayoutProps) {
               </Link>
             </nav>
             <Box mr={1}>
-              <MyMeetingsButton variant="toolbar" />
+              <MyGatheringsButton variant="toolbar" />
             </Box>
             <CreateGatheringButton variant="toolbar" />
           </Toolbar>
