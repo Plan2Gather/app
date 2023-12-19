@@ -23,7 +23,12 @@ export default function TimeGridWrapper({
     timezone
   );
   return data.length > 0 ? (
-    <TimeGrid data={data} columnLabels={columnLabels} rowLabels={rowLabels} />
+    <TimeGrid
+      data={data}
+      columnLabels={columnLabels}
+      rowLabels={rowLabels}
+      timezone={timezone}
+    />
   ) : (
     <Typography>No availability found</Typography>
   );
