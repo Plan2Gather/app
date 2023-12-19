@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import MyGatherings from './my-gatherings-page';
+import MyGatherings from './my-gatherings';
 import { TRPCWrapper } from '../../../utils/test-utils';
 
 describe('MyGatherings', () => {

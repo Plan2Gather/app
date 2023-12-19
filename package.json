@@ -10,10 +10,10 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
-    "@mui/icons-material": "^5.15.0",
-    "@mui/material": "^5.15.0",
+    "@mui/icons-material": "^5.15.1",
+    "@mui/material": "^5.15.1",
     "@mui/x-date-pickers": "^6.18.5",
-    "@sentry/react": "^7.88.0",
+    "@sentry/react": "^7.89.0",
     "@sentry/vite-plugin": "^2.10.2",
     "@swc/helpers": "^0.5.3",
     "@tanstack/react-query": "^4.36.1",
@@ -39,7 +39,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20231121.0",
+    "@cloudflare/workers-types": "^4.20231218.0",
     "@nx/esbuild": "17.2.6",
     "@nx/eslint": "17.2.6",
     "@nx/eslint-plugin": "17.2.6",
@@ -52,11 +52,11 @@
     "@nx/web": "17.2.6",
     "@nx/webpack": "17.2.6",
     "@nx/workspace": "17.2.6",
-    "@storybook/addon-essentials": "~7.6.5",
-    "@storybook/addon-interactions": "~7.6.5",
-    "@storybook/core-server": "~7.6.5",
+    "@storybook/addon-essentials": "~7.6.6",
+    "@storybook/addon-interactions": "~7.6.6",
+    "@storybook/core-server": "~7.6.6",
     "@storybook/jest": "0.2.3",
-    "@storybook/react-vite": "7.6.5",
+    "@storybook/react-vite": "~7.6.6",
     "@storybook/testing-library": "0.2.2",
     "@swc-node/register": "~1.6.7",
     "@swc/cli": "^0.1.63",
@@ -101,6 +101,6 @@
     "typescript": "~5.2.2",
     "vite": "~5.0.8",
     "vitest": "0.34.6",
-    "wrangler": "^3.21.0"
+    "wrangler": "^3.22.0"
   }
 }
