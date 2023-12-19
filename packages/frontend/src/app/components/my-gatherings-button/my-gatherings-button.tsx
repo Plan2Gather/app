@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { ListAlt } from '@mui/icons-material';
 
-export default function MyMeetingsButton({
+export default function MyGatheringsButton({
   variant,
 }: {
   variant: 'toolbar' | 'homepage';
@@ -12,10 +12,10 @@ export default function MyMeetingsButton({
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   );
-  const route = '/my-meetings';
+  const route = '/my-gatherings';
   const icon = <ListAlt />;
   const isToolbar = variant === 'toolbar';
-  const text = 'My Meetings';
+  const text = 'My Gatherings';
 
   if (isToolbar) {
     return isMobile ? (
@@ -34,7 +34,7 @@ export default function MyMeetingsButton({
       href={route}
       startIcon={(isMobile || variant !== 'homepage') && icon}
       variant={variant === 'homepage' ? 'contained' : 'outlined'}
-      data-testid="my-meetings-button"
+      data-testid="my-gatherings-button"
     >
       {text}
     </Button>

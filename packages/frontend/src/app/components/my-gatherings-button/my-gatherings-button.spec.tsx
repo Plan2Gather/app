@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import MyMeetingsButton from './my-meetings-button';
+import MyGatheringsButton from './my-gatherings-button';
 import { renderWithTheme } from '../../../utils/theme-test-helper.spec';
 
 type ButtonConfig = {
@@ -8,7 +8,7 @@ type ButtonConfig = {
   width: number;
 };
 
-describe('MyMeetingsButton', () => {
+describe('MyGatheringsButton', () => {
   const themeOptions = {}; // define your theme options here
   const testCases = [
     { variant: 'toolbar', width: 500 }, // Mobile, Toolbar
@@ -21,14 +21,14 @@ describe('MyMeetingsButton', () => {
     it(`should render correctly for ${variant} variant on ${
       width < 600 ? 'mobile' : 'desktop'
     }`, () => {
-      renderWithTheme(<MyMeetingsButton variant={variant} />, {
+      renderWithTheme(<MyGatheringsButton variant={variant} />, {
         themeOptions,
         width,
       });
       const button = screen.getByRole('link');
       expect(button).toBeInTheDocument();
 
-      expect(button).toHaveAttribute('href', '/my-meetings');
+      expect(button).toHaveAttribute('href', '/my-gatherings');
 
       if (variant === 'toolbar' && width < 600) {
         expect(button).toHaveClass('MuiIconButton-root');

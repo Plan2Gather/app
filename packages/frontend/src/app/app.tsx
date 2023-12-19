@@ -15,7 +15,7 @@ import Creation from './pages/gathering-creation/gathering-creation';
 import Team from './pages/team/team';
 import Contact from './pages/contact/contact';
 import GatheringView from './pages/gathering-view/gathering-view';
-import MyMeetings from './pages/my-meetings-page/my-meetings-page';
+import MyGatherings from './pages/my-gatherings/my-gatherings';
 
 export default function App() {
   const [queryClient] = useState(() => {
@@ -57,8 +57,8 @@ export default function App() {
       element: <Privacy />,
     },
     {
-      path: '/my-meetings',
-      element: <MyMeetings />,
+      path: '/my-gatherings',
+      element: <MyGatherings />,
     },
   ]);
 

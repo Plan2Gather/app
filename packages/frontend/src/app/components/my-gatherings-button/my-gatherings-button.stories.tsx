@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react';
-import MyMeetingsButton from './my-meetings-button';
+import MyGatheringsButton from './my-gatherings-button';
 
-const meta: Meta<typeof MyMeetingsButton> = {
-  component: MyMeetingsButton,
+const meta: Meta<typeof MyGatheringsButton> = {
+  component: MyGatheringsButton,
   argTypes: {
     variant: {
       options: ['toolbar', 'homepage'],
