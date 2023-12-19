@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Button } from '@mui/material';
+import { Button, Divider, Stack, Switch, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { DateTime } from 'luxon';
 import GatheringDetails from '../../components/gathering-details/gathering-details';
 import { trpc } from '../../../trpc';
 import NotFound from '../not-found/not-found';
@@ -14,6 +15,7 @@ import useGatheringViewData from './gathering-view.store';
 
 export default function GatheringView() {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [myTimezone, setMyTimezone] = useState(false);
   const { id } = useParams();
 
   const { checkedUsers } = useGatheringViewData();
@@ -24,6 +26,10 @@ export default function GatheringView() {
 
   const handleClose = () => {
     setDialogOpen(false);
+  };
+
+  const handleTimezoneSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMyTimezone(event.target.checked);
   };
 
   if (!id) {
@@ -64,6 +70,8 @@ export default function GatheringView() {
     return <NotFound />;
   }
 
+  const timezone = myTimezone ? DateTime.local().zoneName : data.timezone;
+
   return (
     <>
       <Grid container spacing={2}>
@@ -74,22 +82,34 @@ export default function GatheringView() {
               ? 'Edit your Availability'
               : 'Submit your Availability'}
           </Button>
-        </Grid>
-        {fullAvailabilityData && fullAvailabilityData.length > 0 && (
-          <>
-            <Grid xs={12} md={5}>
-              <TimeGridWrapper
-                userAvailability={fullAvailabilityData}
-                requiredUsers={checkedUsers}
-                allUsers={userLabels}
-                timezone={data.timezone}
-              />
-            </Grid>
-            <Grid xs={12} md={3}>
+          {fullAvailabilityData && fullAvailabilityData.length > 0 && (
+            <>
+              <Divider sx={{ my: 1 }} />
+              Grid Timezone
+              <Stack direction="row" spacing={1} alignItems="center">
+                <Typography variant="subtitle2">Event</Typography>
+                <Switch
+                  checked={myTimezone}
+                  onChange={handleTimezoneSwitch}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+                <Typography variant="subtitle2">Yours</Typography>
+              </Stack>
+              <Divider sx={{ my: 1 }} />
               Required Attendance
               <Filter userLabels={userLabels} />
-            </Grid>
-          </>
+            </>
+          )}
+        </Grid>
+        {fullAvailabilityData && fullAvailabilityData.length > 0 && (
+          <Grid xs={12} md={8}>
+            <TimeGridWrapper
+              userAvailability={fullAvailabilityData}
+              requiredUsers={checkedUsers}
+              allUsers={userLabels}
+              timezone={timezone}
+            />
+          </Grid>
         )}
       </Grid>
       <TimePeriodDialog
