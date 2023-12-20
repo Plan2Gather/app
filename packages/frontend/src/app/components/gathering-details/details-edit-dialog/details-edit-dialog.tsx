@@ -53,7 +53,11 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
   return (
     <Dialog onClose={() => handleClose()} open={open}>
       <DialogContent>
-        <DetailsForm initial={details} ref={formSubmitRef} />
+        <DetailsForm
+          initial={details}
+          ref={formSubmitRef}
+          disableTimezoneEdit
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleClose()} type="button">
