@@ -3,8 +3,9 @@ import {
   GatheringFormDetails,
 } from '@plan2gather/backend/types';
 import Typography from '@mui/material/Typography';
-import { IconButton, Stack } from '@mui/material';
+import { Box, IconButton, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { trpc } from '../../../trpc';
 import DetailsEditDialog from './details-edit-dialog/details-edit-dialog';
@@ -16,7 +17,7 @@ export interface GatheringDetailsProps {
 export default function GatheringDetails({
   gatheringData,
 }: GatheringDetailsProps) {
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone = DateTime.local().zoneName;
 
   const [openEdit, setOpenEdit] = useState(false);
 
@@ -30,8 +31,8 @@ export default function GatheringDetails({
 
   return (
     <>
-      <Stack direction="row" spacing={2}>
-        <Typography variant="h4" component="h2">
+      <Stack direction="row" alignItems="center" spacing={2}>
+        <Typography variant="h5" component="h2">
           {gatheringData.name}
         </Typography>
         {canEdit && (
@@ -40,13 +41,17 @@ export default function GatheringDetails({
           </IconButton>
         )}
       </Stack>
-      <Typography variant="subtitle1">{gatheringData.description}</Typography>
-      <Typography variant="body2">
-        Event Timezone: {gatheringData.timezone}
+      <Typography variant="body1" gutterBottom>
+        {gatheringData.description}
       </Typography>
-      {gatheringData.timezone !== userTimezone && (
-        <Typography variant="body2">Your Timezone: {userTimezone}</Typography>
-      )}
+      <Box sx={{ mb: 1 }}>
+        <Typography variant="body2">
+          Event Timezone: {gatheringData.timezone}
+        </Typography>
+        {gatheringData.timezone !== userTimezone && (
+          <Typography variant="body2">Your Timezone: {userTimezone}</Typography>
+        )}
+      </Box>
       <DetailsEditDialog
         data={gatheringData as GatheringData}
         open={openEdit}
