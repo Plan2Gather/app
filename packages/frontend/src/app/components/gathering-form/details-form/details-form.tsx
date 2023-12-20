@@ -20,8 +20,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 const DetailsForm = forwardRef<
   unknown,
-  { initial: GatheringFormDetails | null }
->(({ initial }, ref) => {
+  { initial: GatheringFormDetails | null; disableTimezoneEdit?: boolean }
+>(({ initial, disableTimezoneEdit }, ref) => {
   // Get all valid timezones
   const allTimeZones = Object.entries(zones)
     .filter(([_, v]) => Array.isArray(v))
@@ -39,12 +39,12 @@ const DetailsForm = forwardRef<
     });
 
   // Guess the user's timezone
-  const guessedTimezone = DateTime.local().zoneName ?? '';
+  const userTimezone = DateTime.local().zoneName ?? '';
 
   const formContext = useForm<GatheringFormDetails>({
     resolver: zodResolver(gatheringFormDetailsSchema),
     defaultValues: initial ?? {
-      timezone: guessedTimezone,
+      timezone: userTimezone,
     },
   });
 
@@ -54,7 +54,7 @@ const DetailsForm = forwardRef<
     formContext.watch('timezone')
   );
 
-  const diffTimezone = formContext.watch('timezone') !== guessedTimezone;
+  const diffTimezone = formContext.watch('timezone') !== userTimezone;
   const calculatedDiff =
     selectedDateTime.offset / 60 - DateTime.local().offset / 60;
 
@@ -114,6 +114,7 @@ const DetailsForm = forwardRef<
                     option.toLowerCase().includes(normalizedInput)
                   );
                 },
+                disabled: disableTimezoneEdit,
               }}
               textFieldProps={{
                 helperText:
@@ -121,6 +122,16 @@ const DetailsForm = forwardRef<
               }}
               required
             />
+            {disableTimezoneEdit && (
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'warning.main' }}
+                gutterBottom
+              >
+                This gathering is in {formContext.watch('timezone')}. To change
+                the timezone, create a new gathering.
+              </Typography>
+            )}
           </Stack>
           {selectedTimezone && (
             <Grid container sx={{ textAlign: 'center' }}>
@@ -147,10 +158,10 @@ const DetailsForm = forwardRef<
                   </Grid>
                   <Grid xs={12} sm={5}>
                     <Typography variant="subtitle2" gutterBottom>
-                      Your current time in {guessedTimezone}:{' '}
+                      Your current time in {userTimezone}:{' '}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                      {DateTime.local().setZone(guessedTimezone).toFormat('ff')}
+                      {DateTime.local().setZone(userTimezone).toFormat('ff')}
                     </Typography>
                   </Grid>
                 </>
@@ -162,5 +173,9 @@ const DetailsForm = forwardRef<
     </>
   );
 });
+
+DetailsForm.defaultProps = {
+  disableTimezoneEdit: false,
+};
 
 export default DetailsForm;

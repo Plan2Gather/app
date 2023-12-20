@@ -15,10 +15,12 @@ import type {
   Weekday,
 } from '@plan2gather/backend/types';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
+import { DateTime } from 'luxon';
 import TimePeriods from '../gathering-form/time-periods/time-periods';
 import { SubmitFunction } from '../gathering-form/types';
 import { trpc } from '../../../trpc';
+import ConfirmTimezoneDialog from './confirm-timezone-dialog';
 
 export interface TimePeriodDialogProps {
   initial: UserAvailability | undefined;
@@ -29,6 +31,8 @@ export interface TimePeriodDialogProps {
 
 export default function TimePeriodDialog(props: TimePeriodDialogProps) {
   const { gatheringData, onClose, open, initial } = props;
+
+  const [confirmTimezoneOpen, setConfirmTimezoneOpen] = useState(false);
 
   const handleClose = () => {
     onClose();
@@ -55,9 +59,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
     },
   });
 
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const handleSubmit = async () => {
+  const submitToAPI = async () => {
     const nameResult = await new Promise<{
       valid: boolean;
       data?: { name: string };
@@ -92,45 +94,69 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
     }
   };
 
+  const handleSubmit = () => {
+    if (gatheringData.timezone !== DateTime.local().zoneName) {
+      setConfirmTimezoneOpen(true);
+    } else {
+      submitToAPI();
+    }
+  };
+
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth="xl">
-      <DialogTitle>Set your availability</DialogTitle>
-      <DialogContent>
-        <Stack spacing={1}>
-          <Typography variant="subtitle2" gutterBottom>
-            Treat all fields as public information. Do not include any personal
-            information.
-          </Typography>
-          <FormContainer formContext={formContext}>
-            <TextFieldElement
-              label="Your name"
-              name="name"
-              helperText="Enter your name as you want it to appear to other participants."
-              required
+    <>
+      <Dialog onClose={handleClose} open={open} maxWidth="xl">
+        <DialogTitle>Set your availability</DialogTitle>
+        <DialogContent>
+          <Stack spacing={1}>
+            <Typography variant="subtitle2" gutterBottom>
+              Treat all fields as public information. Do not include any
+              personal information.
+            </Typography>
+            <FormContainer formContext={formContext}>
+              <TextFieldElement
+                label="Your name"
+                name="name"
+                helperText="Enter your name as you want it to appear to other participants."
+                required
+              />
+            </FormContainer>
+            <DialogContentText>
+              Set your availability for the gathering. You can set multiple time
+              periods for each day.
+            </DialogContentText>
+            <Typography
+              variant="subtitle2"
+              sx={{ color: 'warning.main' }}
+              gutterBottom
+            >
+              Please enter your availability in the event timezone:{' '}
+              {gatheringData.timezone}
+            </Typography>
+            <TimePeriods
+              initial={initial ? initial.availability : {}}
+              restrictions={gatheringData.allowedPeriods}
+              days={Object.keys(gatheringData.allowedPeriods) as Weekday[]}
+              timezone={gatheringData.timezone}
+              ref={submitRef}
+              allowMultiple
             />
-          </FormContainer>
-          <DialogContentText>
-            Set your availability for the gathering. You can set multiple time
-            periods for each day.
-          </DialogContentText>
-          <Typography variant="subtitle2" gutterBottom>
-            Please enter your availability in your local timezone:{' '}
-            {userTimezone}
-          </Typography>
-          <TimePeriods
-            initial={initial ? initial.availability : {}}
-            restrictions={gatheringData.allowedPeriods}
-            days={Object.keys(gatheringData.allowedPeriods) as Weekday[]}
-            timezone={userTimezone}
-            ref={submitRef}
-            allowMultiple
-          />
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Join Gathering</Button>
-      </DialogActions>
-    </Dialog>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleSubmit}>Submit Availability</Button>
+        </DialogActions>
+      </Dialog>
+      <ConfirmTimezoneDialog
+        timezone={gatheringData.timezone}
+        open={confirmTimezoneOpen}
+        onClose={(confirmed) => {
+          setConfirmTimezoneOpen(false);
+          if (confirmed) {
+            submitToAPI();
+          }
+        }}
+      />
+    </>
   );
 }

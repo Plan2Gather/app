@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Button, Divider, Stack, Switch, Typography } from '@mui/material';
+import { Button, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { DateTime } from 'luxon';
 import GatheringDetails from '../../components/gathering-details/gathering-details';
@@ -15,7 +15,7 @@ import useGatheringViewData from './gathering-view.store';
 
 export default function GatheringView() {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [myTimezone, setMyTimezone] = useState(false);
+  // const [myTimezone, setMyTimezone] = useState(false);
   const { id } = useParams();
 
   const { checkedUsers } = useGatheringViewData();
@@ -28,9 +28,9 @@ export default function GatheringView() {
     setDialogOpen(false);
   };
 
-  const handleTimezoneSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMyTimezone(event.target.checked);
-  };
+  // const handleTimezoneSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setMyTimezone(event.target.checked);
+  // };
 
   if (!id) {
     return <NotFound />;
@@ -70,10 +70,14 @@ export default function GatheringView() {
     return <NotFound />;
   }
 
-  const timezone = myTimezone ? DateTime.local().zoneName : data.timezone;
+  const userTimezone = DateTime.local().zoneName;
+  // const timezone = myTimezone ? userTimezone : data.timezone;
 
   return (
     <>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Gathering Information
+      </Typography>
       <Grid container spacing={2}>
         <Grid xs={12} md={4}>
           <GatheringDetails gatheringData={data!} />
@@ -84,17 +88,21 @@ export default function GatheringView() {
           </Button>
           {fullAvailabilityData && fullAvailabilityData.length > 0 && (
             <>
-              <Divider sx={{ my: 1 }} />
-              Grid Timezone
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Typography variant="subtitle2">Event</Typography>
-                <Switch
-                  checked={myTimezone}
-                  onChange={handleTimezoneSwitch}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-                <Typography variant="subtitle2">Yours</Typography>
-              </Stack>
+              {/* {data.timezone !== userTimezone && (
+                <>
+                  <Divider sx={{ my: 1 }} />
+                  Grid Timezone
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography variant="subtitle2">Event</Typography>
+                    <Switch
+                      checked={myTimezone}
+                      onChange={handleTimezoneSwitch}
+                      inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                    <Typography variant="subtitle2">Yours</Typography>
+                  </Stack>
+                </>
+              )} */}
               <Divider sx={{ my: 1 }} />
               Required Attendance
               <Filter userLabels={userLabels} />
@@ -103,11 +111,23 @@ export default function GatheringView() {
         </Grid>
         {fullAvailabilityData && fullAvailabilityData.length > 0 && (
           <Grid xs={12} md={8}>
+            <Typography variant="h5" gutterBottom>
+              Availability
+            </Typography>
+            {data.timezone !== userTimezone && (
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'warning.main' }}
+                gutterBottom
+              >
+                The time grid is in the {data.timezone} timezone.
+              </Typography>
+            )}
             <TimeGridWrapper
               userAvailability={fullAvailabilityData}
               requiredUsers={checkedUsers}
               allUsers={userLabels}
-              timezone={timezone}
+              timezone={data.timezone}
             />
           </Grid>
         )}
