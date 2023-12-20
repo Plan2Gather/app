@@ -14,69 +14,6 @@ Key Features:
 
 Plan2Gather is perfect for teams and individuals seeking a hassle-free, secure, and efficient way to schedule gatherings. Join us in reshaping the way gatherings are planned!
 
-## Figma Prototype
-
-Our initial prototype for our CSC 307 class can be [viewed here](https://www.figma.com/file/s9YONOuOrl8I9VEbHSozyq/Plan2Gather?type=design&node-id=203%3A2&mode=design&t=f2rkCtoQH74eMCMq-1).
-
-## Class Diagram
-
-Our data structure for storing gathering data looks like:
-
-```mermaid
-classDiagram
-    direction LR
-    class ValidDatetime {
-        +String datetime
-    }
-    class DateRange {
-        +ValidDatetime start
-        +ValidDatetime end
-    }
-    class Weekday {
-        +Enum weekdays
-    }
-    class Availability {
-        +Weekday weekday
-        +DateRange[] dateRanges
-    }
-    class LimitedAvailability {
-        +Weekday weekday
-        +DateRange dateRange
-    }
-    class UserAvailability {
-        +String name
-        +Availability availability
-    }
-    class UserAvailabilityBackend {
-        +String userId
-        +UserAvailability userAvailability
-    }
-    class GatheringData {
-        +String name
-        +String description
-        +String timezone
-        +LimitedAvailability allowedPeriods
-        +String id
-        +ValidDatetime creationDate
-    }
-    class GatheringBackendData {
-        +GatheringData gatheringData
-        +String creationUserId
-        +UserAvailabilityBackend userAvailabilityBackend
-    }
-    ValidDatetime <|-- DateRange
-    Weekday "1" -- "*" Availability : contains
-    DateRange "1" -- "*" Availability : contains
-    Weekday "1" -- "1" LimitedAvailability : contains
-    DateRange "1" -- "1" LimitedAvailability : contains
-    Availability "1" -- "1" UserAvailability : has
-    UserAvailability "1" -- "*" UserAvailabilityBackend : contains
-    LimitedAvailability "1" -- "1" GatheringData : has
-    ValidDatetime "1" -- "1" GatheringData : has
-    GatheringData "1" -- "1" GatheringBackendData : has
-    UserAvailabilityBackend "1" -- "1" GatheringBackendData : has
-```
-
 ## Developing
 
 ### Frontend
