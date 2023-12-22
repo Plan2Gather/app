@@ -53,6 +53,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
       utils.gatherings.get.invalidate({ id: gatheringData.id });
       utils.gatherings.getAvailability.invalidate({ id: gatheringData.id });
       utils.gatherings.getOwnAvailability.invalidate({ id: gatheringData.id });
+      utils.gatherings.getParticipatingGatherings.invalidate();
       setLoading(false);
       handleClose();
     },

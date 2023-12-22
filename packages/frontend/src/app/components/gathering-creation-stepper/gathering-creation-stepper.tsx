@@ -63,12 +63,14 @@ export default function GatheringCreationStepper() {
   );
   const navigate = useNavigate();
 
+  const utils = trpc.useUtils();
   const createGathering = trpc.gatherings.put.useMutation({
     onMutate: () => {
       setLoading(true);
     },
-    onSuccess: (data) => {
-      navigate(`/gathering/${data}`);
+    onSuccess: (id) => {
+      utils.gatherings.getOwnedGatherings.invalidate();
+      navigate(`/gathering/${id}`);
       setLoading(false);
     },
   });
