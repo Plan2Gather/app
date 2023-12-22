@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   GatheringData,
   GatheringFormDetails,
@@ -7,6 +7,7 @@ import {
 import DetailsForm from '../../gathering-form/details-form/details-form';
 import { trpc } from '../../../../trpc';
 import { SubmitFunction } from '../../gathering-form/types';
+import LoadingButton from '../../loading-button/loading-button';
 
 export interface DetailsEditDialogProps {
   data: GatheringData;
@@ -16,6 +17,8 @@ export interface DetailsEditDialogProps {
 
 export default function DetailsEditDialog(props: DetailsEditDialogProps) {
   const { data, onClose, open } = props;
+
+  const [loading, setLoading] = useState(false);
 
   const formSubmitRef = useRef<{
     submit: SubmitFunction<GatheringFormDetails>;
@@ -28,9 +31,13 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
   const utils = trpc.useUtils();
 
   const submitAPI = trpc.gatherings.putDetails.useMutation({
+    onMutate: () => {
+      setLoading(true);
+    },
     onSuccess: () => {
       utils.gatherings.get.invalidate({ id: data.id });
       handleClose();
+      setLoading(false);
     },
   });
 
@@ -60,12 +67,12 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose()} type="button">
+        <Button onClick={() => handleClose()} disabled={loading} type="button">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} type="submit">
+        <LoadingButton onClick={handleSubmit} loading={loading} type="submit">
           Submit
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );

@@ -21,6 +21,7 @@ import TimePeriods from '../gathering-form/time-periods/time-periods';
 import { SubmitFunction } from '../gathering-form/types';
 import { trpc } from '../../../trpc';
 import ConfirmTimezoneDialog from './confirm-timezone-dialog';
+import LoadingButton from '../loading-button/loading-button';
 
 export interface TimePeriodDialogProps {
   initial: UserAvailability | undefined;
@@ -34,6 +35,8 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
 
   const [confirmTimezoneOpen, setConfirmTimezoneOpen] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   const handleClose = () => {
     onClose();
   };
@@ -43,10 +46,14 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
   const utils = trpc.useUtils();
 
   const putAvailabilityAPI = trpc.gatherings.putAvailability.useMutation({
+    onMutate: () => {
+      setLoading(true);
+    },
     onSuccess: () => {
       utils.gatherings.get.invalidate({ id: gatheringData.id });
       utils.gatherings.getAvailability.invalidate({ id: gatheringData.id });
       utils.gatherings.getOwnAvailability.invalidate({ id: gatheringData.id });
+      setLoading(false);
       handleClose();
     },
   });
@@ -94,7 +101,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (gatheringData.timezone !== DateTime.local().zoneName) {
       setConfirmTimezoneOpen(true);
     } else {
@@ -143,8 +150,12 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit Availability</Button>
+          <Button onClick={handleClose} disabled={loading} type="button">
+            Cancel
+          </Button>
+          <LoadingButton onClick={handleSubmit} loading={loading} type="submit">
+            Submit Availability
+          </LoadingButton>
         </DialogActions>
       </Dialog>
       <ConfirmTimezoneDialog

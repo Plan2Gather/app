@@ -1,14 +1,16 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '../../loading-button/loading-button';
 
 interface StepperControlsProps {
   activeStep: number;
   setActiveStep: (callback: (prevStep: number) => number) => void;
   numSteps: number;
+  loading: boolean;
 }
 
 export default function StepperControls(props: StepperControlsProps) {
-  const { activeStep, setActiveStep, numSteps } = props;
+  const { activeStep, setActiveStep, numSteps, loading } = props;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -22,16 +24,16 @@ export default function StepperControls(props: StepperControlsProps) {
     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
       <Button
         color="inherit"
-        disabled={activeStep === 0}
+        disabled={activeStep === 0 || loading}
         onClick={handleBack}
         sx={{ mr: 1 }}
       >
         Back
       </Button>
       <Box sx={{ flex: '1 1 auto' }} />
-      <Button onClick={handleNext}>
+      <LoadingButton onClick={handleNext} loading={loading}>
         {activeStep === numSteps - 1 ? 'Finish' : 'Next'}
-      </Button>
+      </LoadingButton>
     </Box>
   );
 }
