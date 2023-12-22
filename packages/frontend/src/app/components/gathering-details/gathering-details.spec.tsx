@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 
 import { GatheringFormData } from '@plan2gather/backend/types';
+import { BrowserRouter } from 'react-router-dom';
 import GatheringDetails from './gathering-details';
 import { TRPCWrapper } from '../../../utils/test-utils';
 
@@ -21,9 +22,11 @@ const defaultGatheringData: GatheringFormData = {
 describe('GatheringDetails', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <TRPCWrapper>
-        <GatheringDetails gatheringData={defaultGatheringData} />
-      </TRPCWrapper>
+      <BrowserRouter>
+        <TRPCWrapper>
+          <GatheringDetails gatheringData={defaultGatheringData} />
+        </TRPCWrapper>
+      </BrowserRouter>
     );
     expect(baseElement).toBeTruthy();
   });

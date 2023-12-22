@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { GatheringFormData } from '@plan2gather/backend/types';
+import { BrowserRouter } from 'react-router-dom';
 import DetailsEditDialog from './details-edit-dialog';
 import { TRPCWrapper } from '../../../../utils/test-utils';
 
@@ -20,13 +21,15 @@ describe('DetailsEditDialog', () => {
 
   it('should render successfully', () => {
     const { baseElement } = render(
-      <TRPCWrapper>
-        <DetailsEditDialog
-          data={defaultGatheringData}
-          open
-          onClose={() => {}}
-        />
-      </TRPCWrapper>
+      <BrowserRouter>
+        <TRPCWrapper>
+          <DetailsEditDialog
+            data={defaultGatheringData}
+            open
+            onClose={() => {}}
+          />
+        </TRPCWrapper>
+      </BrowserRouter>
     );
     expect(baseElement).toBeTruthy();
   });
