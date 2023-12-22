@@ -4,6 +4,7 @@ import KvWrapper from './kv-wrapper';
 import {
   GatheringBackendData,
   GatheringFormDetails,
+  GatheringListResponseData,
   UserAvailabilityBackend,
   gatheringBackendDataSchema,
   gatheringDataSchema,
@@ -42,16 +43,20 @@ export default class KVDAO {
    * @param userId - The ID of the user to get the gatherings for.
    * @returns - The IDs of the gatherings the user owns.
    */
-  async getOwnedGatherings(userId: string) {
+  async getOwnedGatherings(userId: string): Promise<GatheringListResponseData> {
     const gatherings = await this.gatheringsNamespace.getAll(
       gatheringBackendDataSchema
     );
 
-    const ownedGatheringIds: string[] = [];
+    const ownedGatheringIds: GatheringListResponseData = [];
 
     gatherings.forEach((gathering) => {
       if (gathering.creationUserId === userId) {
-        ownedGatheringIds.push(gathering.id);
+        ownedGatheringIds.push({
+          id: gathering.id,
+          name: gathering.name,
+          editPerms: true,
+        });
       }
     });
 
@@ -63,16 +68,22 @@ export default class KVDAO {
    * @param userId - The ID of the user to get the gatherings for.
    * @returns - The IDs of the gatherings the user is participating in.
    */
-  async getParticipatingGatherings(userId: string) {
+  async getParticipatingGatherings(
+    userId: string
+  ): Promise<GatheringListResponseData> {
     const gatherings = await this.gatheringsNamespace.getAll(
       gatheringBackendDataSchema
     );
 
-    const participatingGatheringIds: string[] = [];
+    const participatingGatheringIds: GatheringListResponseData = [];
 
     gatherings.forEach((gathering) => {
       if (gathering.availability[userId]) {
-        participatingGatheringIds.push(gathering.id);
+        participatingGatheringIds.push({
+          id: gathering.id,
+          name: gathering.name,
+          editPerms: gathering.creationUserId === userId,
+        });
       }
     });
 

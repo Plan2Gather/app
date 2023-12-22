@@ -8,6 +8,7 @@ import DetailsForm from '../../gathering-form/details-form/details-form';
 import { trpc } from '../../../../trpc';
 import { SubmitFunction } from '../../gathering-form/types';
 import LoadingButton from '../../loading-button/loading-button';
+import DeleteGatheringDialog from '../../delete-gathering-dialog/delete-gathering-dialog';
 
 export interface DetailsEditDialogProps {
   data: GatheringData;
@@ -19,6 +20,7 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
   const { data, onClose, open } = props;
 
   const [loading, setLoading] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const formSubmitRef = useRef<{
     submit: SubmitFunction<GatheringFormDetails>;
@@ -58,22 +60,42 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
   };
 
   return (
-    <Dialog onClose={() => handleClose()} open={open}>
-      <DialogContent>
-        <DetailsForm
-          initial={details}
-          ref={formSubmitRef}
-          disableTimezoneEdit
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => handleClose()} disabled={loading} type="button">
-          Cancel
-        </Button>
-        <LoadingButton onClick={handleSubmit} loading={loading} type="submit">
-          Submit
-        </LoadingButton>
-      </DialogActions>
-    </Dialog>
+    <>
+      <Dialog onClose={() => handleClose()} open={open}>
+        <DialogContent>
+          <DetailsForm
+            initial={details}
+            ref={formSubmitRef}
+            disableTimezoneEdit
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setDeleteOpen(true)}
+            disabled={loading}
+            color="error"
+            type="button"
+            sx={{ marginRight: 'auto' }}
+          >
+            Delete Gathering
+          </Button>
+          <Button
+            onClick={() => handleClose()}
+            disabled={loading}
+            type="button"
+          >
+            Cancel
+          </Button>
+          <LoadingButton onClick={handleSubmit} loading={loading} type="submit">
+            Submit
+          </LoadingButton>
+        </DialogActions>
+      </Dialog>
+      <DeleteGatheringDialog
+        open={deleteOpen}
+        onClose={() => setDeleteOpen(false)}
+        id={data.id}
+      />
+    </>
   );
 }
