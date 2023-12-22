@@ -1,54 +1,48 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 import { trpc } from '../../../trpc';
 import ConfirmationDialog from '../confirmation-dialog/confirmation-dialog';
 
-type DeleteGatheringDialogProps = {
+type LeaveGatheringDialogProps = {
   open: boolean;
   id: string;
-  onClose: () => void;
+  onClose: (didLeave: boolean) => void;
 };
 
-export default function DeleteGatheringDialog({
+export default function LeaveGatheringDialog({
   open,
   id,
   onClose,
-}: DeleteGatheringDialogProps) {
+}: LeaveGatheringDialogProps) {
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
   const utils = trpc.useUtils();
-  const deleteAPI = trpc.gatherings.remove.useMutation({
+  const leaveAPI = trpc.gatherings.leaveGathering.useMutation({
     onMutate: () => {
       setLoading(true);
     },
     onSuccess: () => {
       utils.gatherings.get.invalidate({ id });
-      utils.gatherings.getEditPermission.invalidate({ id });
       utils.gatherings.getOwnAvailability.invalidate({ id });
       utils.gatherings.getAvailability.invalidate({ id });
-      utils.gatherings.getOwnedGatherings.invalidate();
       utils.gatherings.getParticipatingGatherings.invalidate();
-      onClose();
-      navigate('/my-gatherings');
+      onClose(true);
       setLoading(false);
     },
   });
 
-  const handleDelete = () => {
-    deleteAPI.mutate({ id });
+  const handleLeave = () => {
+    leaveAPI.mutate({ id });
   };
 
   return (
     <ConfirmationDialog
-      dialogTitle="Delete Gathering"
-      dialogText="Are you sure you want to delete this gathering?"
-      buttonText="Delete Gathering"
+      dialogTitle="Leave Gathering"
+      dialogText="Are you sure you want to leave this gathering?"
+      buttonText="Leave Gathering"
       buttonColor="error"
-      handleClick={handleDelete}
+      handleClick={handleLeave}
       loading={loading}
-      onClose={onClose}
+      onClose={() => onClose(false)}
       open={open}
     />
   );

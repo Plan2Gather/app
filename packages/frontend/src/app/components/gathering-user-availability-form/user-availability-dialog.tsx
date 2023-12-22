@@ -21,6 +21,7 @@ import TimePeriods from '../gathering-form/time-periods/time-periods';
 import { SubmitFunction } from '../gathering-form/types';
 import { trpc } from '../../../trpc';
 import ConfirmTimezoneDialog from './confirm-timezone-dialog';
+import LeaveGatheringDialog from '../leave-gathering-dialog/leave-gathering-dialog';
 import LoadingButton from '../loading-button/loading-button';
 
 export interface TimePeriodDialogProps {
@@ -34,6 +35,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
   const { gatheringData, onClose, open, initial } = props;
 
   const [confirmTimezoneOpen, setConfirmTimezoneOpen] = useState(false);
+  const [leaveOpen, setLeaveOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -151,6 +153,17 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
           </Stack>
         </DialogContent>
         <DialogActions>
+          {initial && (
+            <Button
+              onClick={() => setLeaveOpen(true)}
+              disabled={loading}
+              type="button"
+              color="error"
+              sx={{ mr: 'auto' }}
+            >
+              Leave Gathering
+            </Button>
+          )}
           <Button onClick={handleClose} disabled={loading} type="button">
             Cancel
           </Button>
@@ -168,6 +181,16 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
             submitToAPI();
           }
         }}
+      />
+      <LeaveGatheringDialog
+        open={leaveOpen}
+        onClose={(didLeave) => {
+          setLeaveOpen(false);
+          if (didLeave) {
+            handleClose();
+          }
+        }}
+        id={gatheringData.id}
       />
     </>
   );

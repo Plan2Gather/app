@@ -100,6 +100,13 @@ export default t.router({
   getParticipatingGatherings: userProcedure.query(async ({ ctx }) =>
     ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
   ),
+  leaveGathering: userProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.env.kvDao.removeAvailability(input.id, ctx.userId);
+
+      return 'ok';
+    }),
   remove: userProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
