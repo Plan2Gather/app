@@ -66,8 +66,9 @@ export default defineConfig(({ mode }) => ({
     cache: {
       dir: '../../node_modules/.vitest',
     },
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['src/utils/theme-test-helper.spec.tsx'],
+    setupFiles: './tests/setup.ts',
   },
 }));

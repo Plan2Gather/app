@@ -34,6 +34,7 @@ type StepInfo<T> = {
 export default function GatheringCreationStepper() {
   // Keeps track of the current step in the stepper
   const [activeStep, setActiveStep] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const detailsRef = useRef<{ submit: SubmitFunction<GatheringFormDetails> }>(
     null
@@ -63,8 +64,12 @@ export default function GatheringCreationStepper() {
   const navigate = useNavigate();
 
   const createGathering = trpc.gatherings.put.useMutation({
+    onMutate: () => {
+      setLoading(true);
+    },
     onSuccess: (data) => {
       navigate(`/gathering/${data}`);
+      setLoading(false);
     },
   });
 
@@ -170,10 +175,11 @@ export default function GatheringCreationStepper() {
           activeStep={activeStep}
           setActiveStep={handleSetStep}
           numSteps={steps.length}
+          loading={loading}
         />
       </>
     ),
-    [activeStep, handleSetStep, steps.length]
+    [activeStep, handleSetStep, loading, steps.length]
   );
 
   return (
