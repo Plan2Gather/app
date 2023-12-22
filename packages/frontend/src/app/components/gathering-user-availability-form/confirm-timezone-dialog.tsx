@@ -1,12 +1,5 @@
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-} from '@mui/material';
 import { DateTime } from 'luxon';
+import ConfirmationDialog from '../confirmation-dialog/confirmation-dialog';
 
 export interface ConfirmTimezoneDialogProps {
   timezone: string;
@@ -28,19 +21,16 @@ export default function ConfirmTimezoneDialog(
   };
 
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth="xl">
-      <DialogTitle>Verify Timezone</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          This gathering is happening in the {timezone} timezone. You are
-          currently in the {DateTime.local().zoneName} timezone. Please confirm
-          the times you have selected are in the {timezone} timezone.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleConfirm}>Confirm</Button>
-      </DialogActions>
-    </Dialog>
+    <ConfirmationDialog
+      dialogTitle="Verify Timezone"
+      dialogText={`This gathering is happening in the ${timezone} timezone. You are currently in the ${
+        DateTime.local().zoneName
+      } timezone. Please confirm the times you have selected are in the ${timezone} timezone.`}
+      buttonText="Confirm"
+      loading={false}
+      handleClick={handleConfirm}
+      onClose={handleClose}
+      open={open}
+    />
   );
 }
