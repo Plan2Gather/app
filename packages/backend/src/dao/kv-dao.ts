@@ -155,6 +155,27 @@ export default class KVDAO {
     await this.putGathering(gatheringWithAvailability);
   }
 
+  async removeAvailability(id: string, userId: string) {
+    const existingGathering = await this.getBackendGathering(id);
+
+    if (!existingGathering) {
+      throw new TRPCError({
+        code: 'BAD_REQUEST',
+        message: `Could not find gathering with id ${id}`,
+      });
+    }
+
+    const updatedAvailability = { ...existingGathering.availability };
+    delete updatedAvailability[userId];
+
+    const gatheringWithAvailability = {
+      ...existingGathering,
+      availability: updatedAvailability,
+    };
+
+    await this.putGathering(gatheringWithAvailability);
+  }
+
   /**
    * Remove a gathering.
    *
