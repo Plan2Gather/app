@@ -8,7 +8,7 @@ import createIDBPersister from '../utils/idbPersister';
 import { trpc, trpcClientOptions } from '../trpc';
 
 import Homepage from './pages/homepage/homepage';
-import Layout from './components/layout/layout';
+import Layout from './components/shared/layout/layout';
 import Privacy from './pages/privacy/privacy';
 import NotFound from './pages/not-found/not-found';
 import Creation from './pages/gathering-creation/gathering-creation';

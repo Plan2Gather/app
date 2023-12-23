@@ -8,7 +8,7 @@ import GatheringDetails from '../../components/gathering-details/gathering-detai
 import { trpc } from '../../../trpc';
 import NotFound from '../not-found/not-found';
 import Filter from '../../components/filter/filter';
-import TimePeriodDialog from '../../components/gathering-user-availability-form/user-availability-dialog';
+import TimePeriodDialog from '../../components/dialogs/user-availability/user-availability';
 import TimeGridWrapper from '../../components/time-grid/time-grid-wrapper';
 
 import useGatheringViewData from './gathering-view.store';

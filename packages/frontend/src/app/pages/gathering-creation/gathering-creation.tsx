@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 
-import GatheringCreationStepper from '../../components/gathering-creation-stepper/gathering-creation-stepper';
+import CreationStepper from '../../components/creation-form/stepper/stepper';
 
 export default function Creation() {
   return (
@@ -14,7 +14,7 @@ export default function Creation() {
       >
         Plan a Gathering
       </Typography>
-      <GatheringCreationStepper />
+      <CreationStepper />
     </>
   );
 }
