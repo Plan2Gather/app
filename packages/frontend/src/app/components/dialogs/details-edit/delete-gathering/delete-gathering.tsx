@@ -21,12 +21,14 @@ export default function DeleteGatheringDialog({ open, id, onClose }: DeleteGathe
       setLoading(true);
     },
     onSuccess: async () => {
-      await utils.gatherings.get.invalidate({ id });
-      await utils.gatherings.getEditPermission.invalidate({ id });
-      await utils.gatherings.getOwnAvailability.invalidate({ id });
-      await utils.gatherings.getAvailability.invalidate({ id });
-      await utils.gatherings.getOwnedGatherings.invalidate();
-      await utils.gatherings.getParticipatingGatherings.invalidate();
+      // We don't await because the gathering is already deleted
+      // The API will likely return an error
+      void utils.gatherings.get.invalidate({ id });
+      void utils.gatherings.getEditPermission.invalidate({ id });
+      void utils.gatherings.getOwnAvailability.invalidate({ id });
+      void utils.gatherings.getAvailability.invalidate({ id });
+      void utils.gatherings.getOwnedGatherings.invalidate();
+      void utils.gatherings.getParticipatingGatherings.invalidate();
       onClose();
       navigate('/my-gatherings');
       setLoading(false);
