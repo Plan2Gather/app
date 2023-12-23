@@ -56,14 +56,14 @@ const DetailsStep = forwardRef<
         valid: boolean;
         data?: GatheringFormDetails;
       }>((resolve) => {
-        formContext.handleSubmit(
+        void formContext.handleSubmit(
           (data) => {
             resolve({ valid: true, data });
           },
           () => {
             resolve({ valid: false });
           }
-        );
+        )();
       });
 
       return isFormValid;

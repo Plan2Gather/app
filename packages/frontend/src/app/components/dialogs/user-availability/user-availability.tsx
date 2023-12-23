@@ -81,14 +81,14 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
       valid: boolean;
       data?: { name: string };
     }>((resolve) => {
-      formContext.handleSubmit(
+      void formContext.handleSubmit(
         (data) => {
           resolve({ valid: true, data });
         },
         () => {
           resolve({ valid: false });
         }
-      );
+      )();
     });
 
     const timePeriodResult = await submitRef.current?.submit();

@@ -48,7 +48,7 @@ const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
           valid: boolean;
           data?: Availability;
         }>((resolve) => {
-          formContext.handleSubmit(
+          void formContext.handleSubmit(
             (data) => {
               resolve({
                 valid: true,
@@ -61,7 +61,7 @@ const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
             () => {
               resolve({ valid: false });
             }
-          );
+          )();
         });
 
         return isFormValid;
