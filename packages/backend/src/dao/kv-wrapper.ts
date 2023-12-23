@@ -10,10 +10,7 @@ import type {
 export default class KvWrapper {
   constructor(private readonly kv: KVNamespace) {}
 
-  async get<T extends ZodTypeAny>(
-    parser: T,
-    key: string
-  ): Promise<zodInfer<T>> {
+  async get<T extends ZodTypeAny>(parser: T, key: string): Promise<zodInfer<T>> {
     const json = await this.kv.get(key, 'json');
     if (!json) {
       throw new TRPCError({ code: 'NOT_FOUND' });
@@ -50,9 +47,7 @@ export default class KvWrapper {
     const possiblyNullJson = await Promise.all(
       list.keys.map(async (key) => await this.kv.get(key.name, 'json'))
     );
-    return possiblyNullJson
-      .filter((exists) => exists)
-      .map((json) => parser.parse(json));
+    return possiblyNullJson.filter((exists) => exists).map((json) => parser.parse(json));
   }
 
   async put<T extends ZodTypeAny, U extends zodInfer<T>>(

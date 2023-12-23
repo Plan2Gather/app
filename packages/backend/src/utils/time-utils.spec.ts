@@ -7,18 +7,8 @@ import { mergeDateRanges, sortWeekdays } from './time-utils'; // Adjust the impo
 describe('time-utils', () => {
   describe('sortWeekdays', () => {
     it('should sort weekdays correctly', () => {
-      const unsortedWeekdays: Weekday[] = [
-        'tuesday',
-        'monday',
-        'sunday',
-        'wednesday',
-      ];
-      const sortedWeekdays: Weekday[] = [
-        'sunday',
-        'monday',
-        'tuesday',
-        'wednesday',
-      ];
+      const unsortedWeekdays: Weekday[] = ['tuesday', 'monday', 'sunday', 'wednesday'];
+      const sortedWeekdays: Weekday[] = ['sunday', 'monday', 'tuesday', 'wednesday'];
       expect(sortWeekdays(unsortedWeekdays)).toEqual(sortedWeekdays);
     });
   });

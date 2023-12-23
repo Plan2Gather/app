@@ -16,10 +16,7 @@ function setCORSHeaders(origin: string | null, env: Env) {
   };
 
   if (origin) {
-    const allowedOrigins = [
-      'https://plan2gather.net',
-      'https://plan2gather.pages.dev',
-    ];
+    const allowedOrigins = ['https://plan2gather.net', 'https://plan2gather.pages.dev'];
 
     if (env.stage === 'dev') {
       allowedOrigins.push('http://localhost:4200', 'http://localhost:4400');

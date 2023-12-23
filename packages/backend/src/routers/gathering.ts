@@ -2,7 +2,6 @@ import { TRPCError } from '@trpc/server';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
-
 import t from '../trpc';
 import {
   gatheringFormDataSchema,
@@ -92,11 +91,11 @@ export default t.router({
 
       return availability as UserAvailability | 'none';
     }),
-  getOwnedGatherings: userProcedure.query(async ({ ctx }) =>
-    await ctx.env.kvDao.getOwnedGatherings(ctx.userId)
+  getOwnedGatherings: userProcedure.query(
+    async ({ ctx }) => await ctx.env.kvDao.getOwnedGatherings(ctx.userId)
   ),
-  getParticipatingGatherings: userProcedure.query(async ({ ctx }) =>
-    await ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
+  getParticipatingGatherings: userProcedure.query(
+    async ({ ctx }) => await ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
   ),
   leaveGathering: userProcedure
     .input(z.object({ id: z.string() }))
