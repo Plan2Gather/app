@@ -89,5 +89,8 @@
         ]
       }
     }
+  },
+  "affected": {
+    "defaultBase": "origin/main"
   }
 }
