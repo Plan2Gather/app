@@ -1,7 +1,9 @@
 import { z } from 'zod';
+
+import { consolidateAvailability } from '../utils';
+
 import { weekdays } from './const';
 // eslint-disable-next-line import/no-cycle
-import { consolidateAvailability } from '../utils';
 
 /**
  * A valid datetime string with an offset.

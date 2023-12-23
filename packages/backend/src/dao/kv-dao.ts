@@ -1,19 +1,20 @@
 import { TRPCError } from '@trpc/server';
-import KvWrapper from './kv-wrapper';
 
 import {
-  GatheringBackendData,
-  GatheringFormDetails,
-  GatheringListResponseData,
-  UserAvailabilityBackend,
+  type GatheringBackendData,
+  type GatheringFormDetails,
+  type GatheringListResponseData,
+  type UserAvailabilityBackend,
   gatheringBackendDataSchema,
   gatheringDataSchema,
 } from '../types/schema';
 
+import type KvWrapper from './kv-wrapper';
+
 const EXPIRATION_TTL = 60 * 60 * 24 * 7; // 7 days
 
 export default class KVDAO {
-  constructor(private gatheringsNamespace: KvWrapper) {}
+  constructor(private readonly gatheringsNamespace: KvWrapper) {}
 
   /**
    * Get a gathering.
@@ -21,10 +22,10 @@ export default class KVDAO {
    * @param id - The ID of the gathering to get.
    * @returns - The gathering with the given ID.
    */
-  getGathering(id: string) {
+  async getGathering(id: string) {
     // The backend data is gatheringBackendDataSchema, but we want to return the
     // data without the creationUserId.
-    return this.gatheringsNamespace.get(gatheringDataSchema, id);
+    return await this.gatheringsNamespace.get(gatheringDataSchema, id);
   }
 
   /**
@@ -34,8 +35,8 @@ export default class KVDAO {
    * @param id - The ID of the gathering to get.
    * @returns - The gathering with the given ID.
    */
-  getBackendGathering(id: string) {
-    return this.gatheringsNamespace.get(gatheringBackendDataSchema, id);
+  async getBackendGathering(id: string) {
+    return await this.gatheringsNamespace.get(gatheringBackendDataSchema, id);
   }
 
   /**
@@ -155,6 +156,7 @@ export default class KVDAO {
     }
 
     const updatedAvailability = { ...existingGathering.availability };
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete updatedAvailability[userId];
 
     const gatheringWithAvailability = {

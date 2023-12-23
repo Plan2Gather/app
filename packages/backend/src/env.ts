@@ -1,7 +1,9 @@
 import { z } from 'zod';
-import type { KVNamespace } from '@cloudflare/workers-types';
+
 import KVDAO from './dao/kv-dao';
 import KvWrapper from './dao/kv-wrapper';
+
+import type { KVNamespace } from '@cloudflare/workers-types';
 
 export class Env {
   kvDao: KVDAO;

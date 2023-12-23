@@ -1,7 +1,8 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
+
 import { Env, getCloudflareEnv } from './env';
-import t from './trpc';
 import gatheringRouter from './routers/gathering';
+import t from './trpc';
 
 export const appRouter = t.router({
   gatherings: gatheringRouter,
@@ -66,7 +67,7 @@ export default {
       });
     }
 
-    return fetchRequestHandler({
+    return await fetchRequestHandler({
       endpoint: '',
       req: request,
       router: appRouter,

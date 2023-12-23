@@ -1,7 +1,7 @@
-import { z } from 'zod';
-import { nanoid } from 'nanoid';
 import { TRPCError } from '@trpc/server';
-import userProcedure from './userid-middleware';
+import { nanoid } from 'nanoid';
+import { z } from 'zod';
+
 
 import t from '../trpc';
 import {
@@ -11,12 +11,14 @@ import {
   userAvailabilitySchema,
 } from '../types/schema';
 
+import userProcedure from './userid-middleware';
+
 import type { GatheringBackendData, UserAvailability } from '../types/schema';
 
 export default t.router({
   get: t.procedure
     .input(z.object({ id: z.string() }))
-    .query(({ input, ctx }) => ctx.env.kvDao.getGathering(input.id)),
+    .query(async ({ input, ctx }) => await ctx.env.kvDao.getGathering(input.id)),
   getEditPermission: userProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -91,10 +93,10 @@ export default t.router({
       return availability as UserAvailability | 'none';
     }),
   getOwnedGatherings: userProcedure.query(async ({ ctx }) =>
-    ctx.env.kvDao.getOwnedGatherings(ctx.userId)
+    await ctx.env.kvDao.getOwnedGatherings(ctx.userId)
   ),
   getParticipatingGatherings: userProcedure.query(async ({ ctx }) =>
-    ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
+    await ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
   ),
   leaveGathering: userProcedure
     .input(z.object({ id: z.string() }))

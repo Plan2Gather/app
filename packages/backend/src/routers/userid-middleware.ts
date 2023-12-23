@@ -1,4 +1,5 @@
 import { TRPCError } from '@trpc/server';
+
 import t from '../trpc';
 
 const isUser = t.middleware(async (opts) => {
@@ -9,7 +10,7 @@ const isUser = t.middleware(async (opts) => {
       code: 'UNAUTHORIZED',
     });
   }
-  return opts.next({
+  return await opts.next({
     ctx: {
       userId: ctx.userId,
     },

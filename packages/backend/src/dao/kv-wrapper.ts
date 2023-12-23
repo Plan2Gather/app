@@ -1,5 +1,5 @@
-import { infer as zodInfer, SafeParseReturnType, ZodTypeAny } from 'zod';
 import { TRPCError } from '@trpc/server';
+import { type infer as zodInfer, type SafeParseReturnType, type ZodTypeAny } from 'zod';
 
 import type {
   KVNamespace,
@@ -8,7 +8,7 @@ import type {
 } from '@cloudflare/workers-types';
 
 export default class KvWrapper {
-  constructor(private kv: KVNamespace) {}
+  constructor(private readonly kv: KVNamespace) {}
 
   async get<T extends ZodTypeAny>(
     parser: T,
@@ -41,35 +41,35 @@ export default class KvWrapper {
     }
   }
 
-  getUnsafe(key: string) {
-    return this.kv.get(key, 'json');
+  async getUnsafe(key: string) {
+    return await this.kv.get(key, 'json');
   }
 
-  async getAll<T extends ZodTypeAny>(parser: T): Promise<zodInfer<T>[]> {
+  async getAll<T extends ZodTypeAny>(parser: T): Promise<Array<zodInfer<T>>> {
     const list = await this.kv.list();
     const possiblyNullJson = await Promise.all(
-      list.keys.map((key) => this.kv.get(key.name, 'json'))
+      list.keys.map(async (key) => await this.kv.get(key.name, 'json'))
     );
     return possiblyNullJson
       .filter((exists) => exists)
       .map((json) => parser.parse(json));
   }
 
-  put<T extends ZodTypeAny, U extends zodInfer<T>>(
+  async put<T extends ZodTypeAny, U extends zodInfer<T>>(
     parser: T,
     key: string,
     data: U,
     options?: KVNamespacePutOptions
   ) {
     const parsed = parser.parse(data);
-    return this.kv.put(key, JSON.stringify(parsed), options);
+    await this.kv.put(key, JSON.stringify(parsed), options);
   }
 
-  delete(key: string) {
-    return this.kv.delete(key);
+  async delete(key: string) {
+    await this.kv.delete(key);
   }
 
-  list(options?: KVNamespaceListOptions) {
-    return this.kv.list(options);
+  async list(options?: KVNamespaceListOptions) {
+    return await this.kv.list(options);
   }
 }

@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon';
-import { weekdays } from '../types/const';
-// eslint-disable-next-line import/no-cycle
+
 import { sortedAvailabilitySchema } from '../types';
+import { weekdays } from '../types/const';
+
+// eslint-disable-next-line import/no-cycle
 import type { Availability, DateRange, Weekday } from '../types';
 
 export const sortWeekdays = (days: Weekday[]): Weekday[] =>
@@ -118,7 +120,7 @@ export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
 export function consolidateAvailability(availability: Availability): Availability {
   const consolidatedAvailability: Availability = {};
 
-  sortWeekdays(Object.keys(availability) as (keyof Availability)[]).forEach((day) => {
+  sortWeekdays(Object.keys(availability) as Array<keyof Availability>).forEach((day) => {
     const dayAvailability = availability[day as Weekday];
     if (dayAvailability) {
       const mergedRanges = mergeDateRanges(dayAvailability);
