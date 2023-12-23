@@ -1,5 +1,5 @@
-import { create } from 'zustand';
 import { nanoid } from 'nanoid';
+import { create } from 'zustand';
 
 interface UserStore {
   userId: string;
@@ -8,7 +8,7 @@ interface UserStore {
 
 function getUserId() {
   let userId = localStorage.getItem('userId');
-  if (!userId) {
+  if (userId == null) {
     userId = nanoid();
     localStorage.setItem('userId', userId);
   }

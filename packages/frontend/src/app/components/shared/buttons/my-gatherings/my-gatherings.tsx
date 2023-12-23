@@ -1,17 +1,11 @@
-import { Theme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import { ListAlt } from '@mui/icons-material';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import { type Theme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function MyGatheringsButton({
-  variant,
-}: {
-  variant: 'toolbar' | 'homepage';
-}) {
-  const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('sm')
-  );
+export default function MyGatheringsButton({ variant }: { variant: 'toolbar' | 'homepage' }) {
+  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const route = '/my-gatherings';
   const icon = <ListAlt />;
   const isToolbar = variant === 'toolbar';

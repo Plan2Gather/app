@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+
 import ConfirmationDialog from '../../confirmation/confirmation';
 
 export interface ConfirmTimezoneDialogProps {
@@ -7,9 +8,7 @@ export interface ConfirmTimezoneDialogProps {
   onClose: (confirmed: boolean) => void;
 }
 
-export default function ConfirmTimezoneDialog(
-  props: ConfirmTimezoneDialogProps
-) {
+export default function ConfirmTimezoneDialog(props: ConfirmTimezoneDialogProps) {
   const { timezone, onClose, open } = props;
 
   const handleClose = () => {

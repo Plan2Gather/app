@@ -1,8 +1,10 @@
+import { type CreateTRPCClientOptions, httpLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
-import { CreateTRPCClientOptions, httpLink } from '@trpc/client';
-import type { AppRouter } from '@plan2gather/backend';
+
 import { config } from './config';
 import useUserStore from './hooks/user.store';
+
+import type { AppRouter } from '@plan2gather/backend';
 
 export const trpc = createTRPCReact<AppRouter>();
 

@@ -44,9 +44,7 @@ export default class KVDAO {
    * @returns - The IDs of the gatherings the user owns.
    */
   async getOwnedGatherings(userId: string): Promise<GatheringListResponseData> {
-    const gatherings = await this.gatheringsNamespace.getAll(
-      gatheringBackendDataSchema
-    );
+    const gatherings = await this.gatheringsNamespace.getAll(gatheringBackendDataSchema);
 
     const ownedGatheringIds: GatheringListResponseData = [];
 
@@ -68,12 +66,8 @@ export default class KVDAO {
    * @param userId - The ID of the user to get the gatherings for.
    * @returns - The IDs of the gatherings the user is participating in.
    */
-  async getParticipatingGatherings(
-    userId: string
-  ): Promise<GatheringListResponseData> {
-    const gatherings = await this.gatheringsNamespace.getAll(
-      gatheringBackendDataSchema
-    );
+  async getParticipatingGatherings(userId: string): Promise<GatheringListResponseData> {
+    const gatherings = await this.gatheringsNamespace.getAll(gatheringBackendDataSchema);
 
     const participatingGatheringIds: GatheringListResponseData = [];
 
@@ -98,14 +92,9 @@ export default class KVDAO {
    * @returns The gathering that was added/updated.
    */
   async putGathering(gathering: GatheringBackendData) {
-    await this.gatheringsNamespace.put(
-      gatheringBackendDataSchema,
-      gathering.id,
-      gathering,
-      {
-        expirationTtl: EXPIRATION_TTL,
-      }
-    );
+    await this.gatheringsNamespace.put(gatheringBackendDataSchema, gathering.id, gathering, {
+      expirationTtl: EXPIRATION_TTL,
+    });
 
     return gathering;
   }

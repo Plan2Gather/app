@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import Homepage from './homepage';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof Homepage> = {
   component: Homepage,

@@ -1,20 +1,22 @@
+import { type Theme, useMediaQuery } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Theme, useMediaQuery } from '@mui/material';
-import { DateTime } from 'luxon';
-import { useForm } from 'react-hook-form';
+import { type DateTime } from 'luxon';
 import { Fragment, forwardRef, useImperativeHandle } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormContainer } from 'react-hook-form-mui';
-import { Availability, Weekday } from '@plan2gather/backend/types';
+
+import { type Availability, type Weekday } from '@plan2gather/backend/types';
 import {
   convertBackendDatesToTimePeriods,
   convertTimePeriodsToBackendDates,
   sortWeekdays,
 } from '@plan2gather/backend/utils';
+
 import TimeRangeSelections from './time-range-selections/time-range-selections';
 
 export interface TimePeriodsStepProps {
@@ -31,17 +33,12 @@ function DayHeaderCell({ day }: { day: Weekday }) {
 }
 
 const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
-  (
-    { initial, days, restrictions, timezone, allowMultiple, assumeFullDay },
-    ref
-  ) => {
+  ({ initial, days, restrictions, timezone, allowMultiple, assumeFullDay }, ref) => {
     const initialValues = convertBackendDatesToTimePeriods(initial);
     const formContext = useForm<Record<string, DateTime>>({
       defaultValues: initialValues ?? {},
     });
-    const isSmallScreen = useMediaQuery((theme: Theme) =>
-      theme.breakpoints.down('sm')
-    );
+    const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     const sortedDays = sortWeekdays(days);
 
@@ -55,13 +52,16 @@ const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
             (data) => {
               resolve({
                 valid: true,
-                data: assumeFullDay
-                  ? convertTimePeriodsToBackendDates(data, days)
-                  : convertTimePeriodsToBackendDates(data),
+                data:
+                  assumeFullDay ?? false
+                    ? convertTimePeriodsToBackendDates(data, days)
+                    : convertTimePeriodsToBackendDates(data),
               });
             },
-            () => resolve({ valid: false })
-          )();
+            () => {
+              resolve({ valid: false });
+            }
+          );
         });
 
         return isFormValid;
@@ -129,6 +129,8 @@ const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
 );
 
 export default TimePeriodsStep;
+
+TimePeriodsStep.displayName = 'TimePeriodsStep';
 
 TimePeriodsStep.defaultProps = {
   restrictions: undefined,

@@ -1,7 +1,6 @@
+import { init, Replay, BrowserTracing } from '@sentry/react';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-
-import { init, Replay, BrowserTracing } from '@sentry/react';
 
 import App from './app/app';
 
@@ -23,9 +22,8 @@ if (import.meta.env.MODE === 'prod') {
   });
 }
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
   <StrictMode>
     <App />

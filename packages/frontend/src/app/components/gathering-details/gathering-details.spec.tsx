@@ -1,9 +1,11 @@
 import { render } from '@testing-library/react';
-
-import { GatheringFormData } from '@plan2gather/backend/types';
 import { BrowserRouter } from 'react-router-dom';
-import GatheringDetails from './gathering-details';
+
+import { type GatheringFormData } from '@plan2gather/backend/types';
+
 import { TRPCWrapper } from '../../../utils/test-utils';
+
+import GatheringDetails from './gathering-details';
 
 const defaultGatheringData: GatheringFormData = {
   name: 'Test Gathering',

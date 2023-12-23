@@ -1,7 +1,7 @@
 import Avatar from '@mui/material/Avatar';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import Container from '@mui/material/Container';
 
 export default function Team() {
   const teamMembers = [
@@ -47,12 +47,7 @@ export default function Team() {
             <Typography variant="h5" align="center" gutterBottom>
               {member.name}
             </Typography>
-            <Typography
-              variant="subtitle1"
-              align="center"
-              color="textSecondary"
-              paragraph
-            >
+            <Typography variant="subtitle1" align="center" color="textSecondary" paragraph>
               {member.major}
             </Typography>
             <Typography variant="body1" align="center" paragraph>

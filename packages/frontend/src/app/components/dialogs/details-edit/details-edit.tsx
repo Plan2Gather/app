@@ -1,13 +1,13 @@
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import { useCallback, useRef, useState } from 'react';
-import {
-  GatheringData,
-  GatheringFormDetails,
-} from '@plan2gather/backend/types';
-import DetailsStep from '../../creation-form/steps/details/details';
+
+import { type GatheringData, type GatheringFormDetails } from '@plan2gather/backend/types';
+
 import { trpc } from '../../../../trpc';
-import { SubmitFunction } from '../../creation-form/types';
+import DetailsStep from '../../creation-form/steps/details/details';
+import { type SubmitFunction } from '../../creation-form/types';
 import LoadingButton from '../../shared/buttons/loading/loading';
+
 import DeleteGatheringDialog from './delete-gathering/delete-gathering';
 
 export interface DetailsEditDialogProps {
@@ -36,8 +36,8 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
     onMutate: () => {
       setLoading(true);
     },
-    onSuccess: () => {
-      utils.gatherings.get.invalidate({ id: data.id });
+    onSuccess: async () => {
+      await utils.gatherings.get.invalidate({ id: data.id });
       handleClose();
       setLoading(false);
     },
@@ -61,17 +61,20 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
 
   return (
     <>
-      <Dialog onClose={() => handleClose()} open={open}>
+      <Dialog
+        onClose={() => {
+          handleClose();
+        }}
+        open={open}
+      >
         <DialogContent>
-          <DetailsStep
-            initial={details}
-            ref={formSubmitRef}
-            disableTimezoneEdit
-          />
+          <DetailsStep initial={details} ref={formSubmitRef} disableTimezoneEdit />
         </DialogContent>
         <DialogActions>
           <Button
-            onClick={() => setDeleteOpen(true)}
+            onClick={() => {
+              setDeleteOpen(true);
+            }}
             disabled={loading}
             color="error"
             type="button"
@@ -80,20 +83,30 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
             Delete Gathering
           </Button>
           <Button
-            onClick={() => handleClose()}
+            onClick={() => {
+              handleClose();
+            }}
             disabled={loading}
             type="button"
           >
             Cancel
           </Button>
-          <LoadingButton onClick={handleSubmit} loading={loading} type="submit">
+          <LoadingButton
+            onClick={() => {
+              void handleSubmit();
+            }}
+            loading={loading}
+            type="submit"
+          >
             Submit
           </LoadingButton>
         </DialogActions>
       </Dialog>
       <DeleteGatheringDialog
         open={deleteOpen}
-        onClose={() => setDeleteOpen(false)}
+        onClose={() => {
+          setDeleteOpen(false);
+        }}
         id={data.id}
       />
     </>

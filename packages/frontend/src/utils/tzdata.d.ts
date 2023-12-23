@@ -13,9 +13,7 @@ declare module 'tzdata' {
 
   export type LocationTimezoneRules = TimeRule[];
 
-  export interface TimezoneData {
-    [location: string]: LocationTimezoneRules;
-  }
+  export type TimezoneData = Record<string, LocationTimezoneRules>;
 
   // Assuming the tzdata module exports an object with a property 'zones'
   // that contains all the timezone data

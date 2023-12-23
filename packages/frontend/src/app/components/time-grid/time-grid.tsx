@@ -1,16 +1,17 @@
-import { Fragment, useState } from 'react';
-import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
+import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { DateTime } from 'luxon';
+import { type DateTime } from 'luxon';
+import { Fragment, useState } from 'react';
+
 import PossibleTime from './time-popover/time-popover';
 
-type CellData = {
+interface CellData {
   color: string;
   topBorder: string;
   names: string[];
   period: { start: DateTime; end: DateTime };
-};
+}
 
 interface TimeGridProps {
   data: CellData[][];
@@ -22,12 +23,7 @@ interface TimeGridProps {
 const cellWidth = 100;
 const cellHeight = 20;
 
-export default function TimeGrid({
-  data,
-  columnLabels,
-  rowLabels,
-  timezone,
-}: TimeGridProps) {
+export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: TimeGridProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedCell, setSelectedCell] = useState<CellData | null>(null);
@@ -99,7 +95,9 @@ export default function TimeGrid({
                 borderRight: '1px solid black',
               }}
               aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
-              onClick={(event) => handleClick(event, rowIndex, colIndex)}
+              onClick={(event) => {
+                handleClick(event, rowIndex, colIndex);
+              }}
               component="button"
             />
           ))}

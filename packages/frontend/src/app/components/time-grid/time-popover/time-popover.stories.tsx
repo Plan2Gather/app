@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import TimePopover from './time-popover';
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof TimePopover> = {
   component: TimePopover,

@@ -1,19 +1,18 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+
 import BulletedList from './bulleted-list';
 import BulletedListItem from './bulleted-list-item/bulleted-list-item';
-import '@testing-library/jest-dom';
 
 describe('BulletedList', () => {
   it('should render list successfully', () => {
-    const { baseElement } = render(
+    render(
       <BulletedList>
         <BulletedListItem>Test</BulletedListItem>
       </BulletedList>
     );
-    expect(baseElement).toBeInTheDocument();
 
-    const list = baseElement.querySelector('ul');
-    expect(list).toBeTruthy();
+    const list = screen.getByRole('list');
+    expect(list).toBeInTheDocument();
     expect(list).toHaveStyle('list-style-type: disc');
     expect(list).toHaveStyle('padding-left: 20px');
   });

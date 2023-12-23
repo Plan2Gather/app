@@ -7,7 +7,9 @@ export interface GatheringViewData {
 
 const useGatheringViewData = create<GatheringViewData>((set) => ({
   checkedUsers: [],
-  setCheckedUsers: (checkedUsers) => set({ checkedUsers }),
+  setCheckedUsers: (checkedUsers) => {
+    set({ checkedUsers });
+  },
 }));
 
 export default useGatheringViewData;

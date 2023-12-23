@@ -17,8 +17,7 @@ export default defineConfig(({ mode }) => ({
       onLog(level, log, handler) {
         if (
           log.cause &&
-          (log.cause as any).message ===
-            `Can't resolve original location of error.`
+          (log.cause as any).message === `Can't resolve original location of error.`
         ) {
           return;
         }
@@ -57,6 +56,7 @@ export default defineConfig(({ mode }) => ({
   // },
 
   test: {
+    watch: false,
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../coverage/packages/frontend',

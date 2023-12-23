@@ -1,8 +1,9 @@
 import { BrowserRouter } from 'react-router-dom';
-import { renderWithTheme } from '../../../utils/theme-test-helper.spec';
-import Creation from './gathering-creation';
 
 import { TRPCWrapper } from '../../../utils/test-utils';
+import { renderWithTheme } from '../../../utils/theme-test-helper.spec';
+
+import Creation from './gathering-creation';
 
 describe('Gathering Creation', () => {
   it('should render successfully', () => {

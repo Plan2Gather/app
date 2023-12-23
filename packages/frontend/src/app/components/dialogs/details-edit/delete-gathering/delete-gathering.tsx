@@ -1,19 +1,16 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+
 import { trpc } from '../../../../../trpc';
 import ConfirmationDialog from '../../confirmation/confirmation';
 
-type DeleteGatheringDialogProps = {
+interface DeleteGatheringDialogProps {
   open: boolean;
   id: string;
   onClose: () => void;
-};
+}
 
-export default function DeleteGatheringDialog({
-  open,
-  id,
-  onClose,
-}: DeleteGatheringDialogProps) {
+export default function DeleteGatheringDialog({ open, id, onClose }: DeleteGatheringDialogProps) {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -23,13 +20,13 @@ export default function DeleteGatheringDialog({
     onMutate: () => {
       setLoading(true);
     },
-    onSuccess: () => {
-      utils.gatherings.get.invalidate({ id });
-      utils.gatherings.getEditPermission.invalidate({ id });
-      utils.gatherings.getOwnAvailability.invalidate({ id });
-      utils.gatherings.getAvailability.invalidate({ id });
-      utils.gatherings.getOwnedGatherings.invalidate();
-      utils.gatherings.getParticipatingGatherings.invalidate();
+    onSuccess: async () => {
+      await utils.gatherings.get.invalidate({ id });
+      await utils.gatherings.getEditPermission.invalidate({ id });
+      await utils.gatherings.getOwnAvailability.invalidate({ id });
+      await utils.gatherings.getAvailability.invalidate({ id });
+      await utils.gatherings.getOwnedGatherings.invalidate();
+      await utils.gatherings.getParticipatingGatherings.invalidate();
       onClose();
       navigate('/my-gatherings');
       setLoading(false);

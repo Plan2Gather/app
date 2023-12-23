@@ -1,7 +1,9 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
 import { DateTime } from 'luxon';
-import { zones } from 'tzdata';
+import { forwardRef, useImperativeHandle } from 'react';
 import {
   AutocompleteElement,
   FormContainer,
@@ -9,14 +11,9 @@ import {
   TextareaAutosizeElement,
   useForm,
 } from 'react-hook-form-mui';
-import {
-  GatheringFormDetails,
-  gatheringFormDetailsSchema,
-} from '@plan2gather/backend/types';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { forwardRef, useImperativeHandle } from 'react';
+import { zones } from 'tzdata';
 
-import Grid from '@mui/material/Unstable_Grid2';
+import { type GatheringFormDetails, gatheringFormDetailsSchema } from '@plan2gather/backend/types';
 
 const DetailsStep = forwardRef<
   unknown,
@@ -26,9 +23,7 @@ const DetailsStep = forwardRef<
   const allTimeZones = Object.entries(zones)
     .filter(([_, v]) => Array.isArray(v))
     .map(([zoneName]) => zoneName)
-    .filter(
-      (tz) => DateTime.local().setZone(tz).isValid && tz.indexOf('/') !== -1
-    )
+    .filter((tz) => DateTime.local().setZone(tz).isValid && tz.includes('/'))
     .sort((a, b) => {
       // Extract the numerical part and parse it into an integer
       const offsetA = parseInt(a.split('GMT')[1], 10);
@@ -50,13 +45,10 @@ const DetailsStep = forwardRef<
 
   const selectedTimezone = formContext.watch('timezone');
 
-  const selectedDateTime = DateTime.local().setZone(
-    formContext.watch('timezone')
-  );
+  const selectedDateTime = DateTime.local().setZone(formContext.watch('timezone'));
 
   const diffTimezone = formContext.watch('timezone') !== userTimezone;
-  const calculatedDiff =
-    selectedDateTime.offset / 60 - DateTime.local().offset / 60;
+  const calculatedDiff = selectedDateTime.offset / 60 - DateTime.local().offset / 60;
 
   useImperativeHandle(ref, () => ({
     submit: async () => {
@@ -68,8 +60,10 @@ const DetailsStep = forwardRef<
           (data) => {
             resolve({ valid: true, data });
           },
-          () => resolve({ valid: false })
-        )();
+          () => {
+            resolve({ valid: false });
+          }
+        );
       });
 
       return isFormValid;
@@ -82,8 +76,7 @@ const DetailsStep = forwardRef<
         Gathering Details
       </Typography>
       <Typography variant="subtitle2" gutterBottom sx={{ paddingBottom: 1.5 }}>
-        Treat all fields as public information. Do not include any personal
-        information.
+        Treat all fields as public information. Do not include any personal information.
       </Typography>
       <FormContainer formContext={formContext}>
         <Stack spacing={2} direction="column">
@@ -107,12 +100,8 @@ const DetailsStep = forwardRef<
                 isOptionEqualToValue: (option, value) => option === value,
                 getOptionLabel: (option) => option.replace(/_/g, ' '),
                 filterOptions: (options, { inputValue }) => {
-                  const normalizedInput = inputValue
-                    .toLowerCase()
-                    .replace(/\s/g, '_'); // Replace spaces with underscores and make lowercase for comparison
-                  return options.filter((option) =>
-                    option.toLowerCase().includes(normalizedInput)
-                  );
+                  const normalizedInput = inputValue.toLowerCase().replace(/\s/g, '_'); // Replace spaces with underscores and make lowercase for comparison
+                  return options.filter((option) => option.toLowerCase().includes(normalizedInput));
                 },
                 disabled: disableTimezoneEdit,
               }}
@@ -123,13 +112,9 @@ const DetailsStep = forwardRef<
               required
             />
             {disableTimezoneEdit && (
-              <Typography
-                variant="subtitle2"
-                sx={{ color: 'warning.main' }}
-                gutterBottom
-              >
-                This gathering is in {formContext.watch('timezone')}. To change
-                the timezone, create a new gathering.
+              <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
+                This gathering is in {formContext.watch('timezone')}. To change the timezone, create
+                a new gathering.
               </Typography>
             )}
           </Stack>
@@ -173,6 +158,8 @@ const DetailsStep = forwardRef<
     </>
   );
 });
+
+DetailsStep.displayName = 'DetailsStep';
 
 DetailsStep.defaultProps = {
   disableTimezoneEdit: false,

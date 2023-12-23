@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react';
-import { DateRange } from '@plan2gather/backend/types';
+
+import { type DateRange } from '@plan2gather/backend/types';
+
 import TimePopover from './time-popover';
 
 const dateRange: DateRange = {
@@ -10,11 +12,7 @@ const dateRange: DateRange = {
 describe('TimePopover', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <TimePopover
-        dateRange={dateRange}
-        users={['Chris']}
-        timezone="America/Los_Angeles"
-      />
+      <TimePopover dateRange={dateRange} users={['Chris']} timezone="America/Los_Angeles" />
     );
     expect(baseElement).toBeTruthy();
   });

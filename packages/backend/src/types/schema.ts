@@ -71,9 +71,7 @@ export const userAvailabilityBackendSchema = z
   .record(z.string(), userAvailabilitySchema)
   .readonly();
 
-export type UserAvailabilityBackend = z.infer<
-  typeof userAvailabilityBackendSchema
->;
+export type UserAvailabilityBackend = z.infer<typeof userAvailabilityBackendSchema>;
 
 export const gatheringFormDetailsSchema = z.object({
   name: z.string().min(1, { message: 'A gathering name is required.' }),
@@ -94,9 +92,7 @@ export const gatheringFormPeriodsSchema = z.object({
 
 export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
 
-export const gatheringFormDataSchema = gatheringFormDetailsSchema.merge(
-  gatheringFormPeriodsSchema
-);
+export const gatheringFormDataSchema = gatheringFormDetailsSchema.merge(gatheringFormPeriodsSchema);
 
 export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
 
@@ -136,6 +132,4 @@ export const gatheringListResponseSchema = z.array(
     .readonly()
 );
 
-export type GatheringListResponseData = z.infer<
-  typeof gatheringListResponseSchema
->;
+export type GatheringListResponseData = z.infer<typeof gatheringListResponseSchema>;
