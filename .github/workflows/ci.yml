@@ -22,7 +22,7 @@ jobs:
       (github.event_name == 'pull_request' &&
       (github.base_ref == 'main' || github.base_ref == 'beta'))
     name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.1
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
     with:
       main-branch-name: ${{ (github.ref == 'refs/heads/main' || github.base_ref == 'main') && 'main' || 'beta' }}
       number-of-agents: 3
@@ -31,9 +31,9 @@ jobs:
       parallel-commands: |
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
-        npx nx affected --target=lint --parallel=3
-        npx nx affected --target=test --parallel=3 --ci --coverage
-        npx nx affected --target=build --parallel=3
+        npx nx affected --base=origin/main --target=lint --parallel=3
+        npx nx affected --base=origin/main --target=test --parallel=3 --ci --coverage
+        npx nx affected --base=origin/main --target=build --parallel=3
 
   agents:
     if: >
@@ -41,7 +41,7 @@ jobs:
       (github.event_name == 'pull_request' &&
       (github.base_ref == 'main' || github.base_ref == 'beta'))
     name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.1
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
     with:
       number-of-agents: 3
 
