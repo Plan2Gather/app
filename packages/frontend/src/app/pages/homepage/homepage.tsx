@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import CreateGatheringButton from '../../components/create-gathering-button/create-gathering-button';
+import CreateGatheringButton from '../../components/shared/buttons/create-gathering/create-gathering';
 
 export default function Homepage() {
   return (

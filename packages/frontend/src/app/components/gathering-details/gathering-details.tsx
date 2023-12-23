@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { trpc } from '../../../trpc';
-import DetailsEditDialog from './details-edit-dialog/details-edit-dialog';
+import DetailsEditDialog from '../dialogs/details-edit/details-edit';
 
 export interface GatheringDetailsProps {
   gatheringData: GatheringData | GatheringFormDetails;

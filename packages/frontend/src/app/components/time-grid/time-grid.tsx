@@ -3,7 +3,7 @@ import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
-import PossibleTime from '../possible-time/possible-time';
+import PossibleTime from './time-popover/time-popover';
 
 type CellData = {
   color: string;
