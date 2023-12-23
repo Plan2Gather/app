@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import DetailsStep from './details';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof DetailsStep> = {
   component: DetailsStep,

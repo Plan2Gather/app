@@ -1,7 +1,11 @@
 {
   "extends": [
     "plugin:@nx/react",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:storybook/recommended",
     "../../.eslintrc.json"
   ],
   "ignorePatterns": ["!**/*"],
@@ -10,20 +14,14 @@
   },
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "react/react-in-jsx-scope": "off"
-      }
-    },
-    {
       "files": ["*.ts", "*.tsx"],
       "rules": {
         "react/jsx-filename-extension": [2, { "extensions": [".tsx"] }]
       }
     },
     {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
+      "files": ["*.spec.ts", "*.spec.tsx"],
+      "extends": ["plugin:vitest/recommended", "plugin:testing-library/react"]
     }
   ]
 }

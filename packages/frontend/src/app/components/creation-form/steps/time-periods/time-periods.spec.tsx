@@ -1,5 +1,6 @@
-import TimePeriodsStep from './time-periods';
 import { renderWithTheme } from '../../../../../utils/theme-test-helper.spec';
+
+import TimePeriodsStep from './time-periods';
 
 describe('TimePeriodsStep', () => {
   it('should render successfully', () => {

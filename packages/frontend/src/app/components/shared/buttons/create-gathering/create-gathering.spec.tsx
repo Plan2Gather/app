@@ -1,12 +1,13 @@
 import { screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import CreateGatheringButton from './create-gathering';
+
 import { renderWithTheme } from '../../../../../utils/theme-test-helper.spec';
 
-type ButtonConfig = {
+import CreateGatheringButton from './create-gathering';
+
+interface ButtonConfig {
   variant: 'toolbar' | 'homepage';
   width: number;
-};
+}
 
 describe('CreateGatheringButton', () => {
   const themeOptions = {}; // define your theme options here

@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import PossibleDatesStep from './possible-dates';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof PossibleDatesStep> = {
   component: PossibleDatesStep,

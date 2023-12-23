@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import AvatarGroup from '@mui/material/AvatarGroup';
 import { Box, Paper } from '@mui/material';
-import { DateRange } from '@plan2gather/backend/types';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
+import { useState, useEffect } from 'react';
+
+import { type DateRange } from '@plan2gather/backend/types';
 
 export interface TimePopoverProps {
   dateRange: DateRange;
@@ -53,11 +54,7 @@ function stringAvatar(name: string) {
   };
 }
 
-export default function TimePopover({
-  dateRange,
-  users,
-  timezone,
-}: TimePopoverProps) {
+export default function TimePopover({ dateRange, users, timezone }: TimePopoverProps) {
   const { start, end } = dateRange;
   const startDate = DateTime.fromISO(start).setZone(timezone);
   const endDate = DateTime.fromISO(end).setZone(timezone);
@@ -88,9 +85,7 @@ export default function TimePopover({
           {' @ '}
           {startDate.toFormat('t')}
           {' - '}
-          {startDate.weekdayLong !== endDate.weekdayLong
-            ? `${endDate.weekdayLong} @ `
-            : ''}
+          {startDate.weekdayLong !== endDate.weekdayLong ? `${endDate.weekdayLong} @ ` : ''}
           {endDate.toFormat('t')}
         </Typography>
         <Typography variant="subtitle2">{timezone}</Typography>

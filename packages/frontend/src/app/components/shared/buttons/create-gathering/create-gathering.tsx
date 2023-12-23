@@ -1,17 +1,11 @@
-import { Theme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 import GroupsIcon from '@mui/icons-material/Groups'; // or any other relevant icon
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import { type Theme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function CreateGatheringButton({
-  variant,
-}: {
-  variant: 'toolbar' | 'homepage';
-}) {
-  const isMobile = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down('sm')
-  );
+export default function CreateGatheringButton({ variant }: { variant: 'toolbar' | 'homepage' }) {
+  const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const route = '/create';
   const icon = <GroupsIcon />;
   const isToolbar = variant === 'toolbar';

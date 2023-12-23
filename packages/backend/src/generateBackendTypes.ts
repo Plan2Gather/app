@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { readFileSync, writeFileSync } from 'fs';
-import { parse } from 'toml';
 import { resolve } from 'path';
+
+import { parse } from 'toml';
 
 // From https://stackoverflow.com/questions/5612787/converting-an-object-to-a-string
 function objToString(obj: any, ndeep = 1): string {
@@ -21,9 +23,7 @@ function objToString(obj: any, ndeep = 1): string {
       return `${
         openBrace +
         Object.keys(obj)
-          .map(
-            (key) => `\n${indent}${key}: ${objToString(obj[key], ndeep + 1)},`
-          )
+          .map((key) => `\n${indent}${key}: ${objToString(obj[key], ndeep + 1)},`)
           .join('')
       }\n${indent.slice(0, -4)}${closeBrace}`;
     }
@@ -32,10 +32,7 @@ function objToString(obj: any, ndeep = 1): string {
   }
 }
 
-const workerToml = readFileSync(
-  resolve(__dirname, '../wrangler.toml'),
-  'utf-8'
-);
+const workerToml = readFileSync(resolve(__dirname, '../wrangler.toml'), 'utf-8');
 const parsedToml = parse(workerToml);
 
 const nameSpaceDefinitions = Object.entries(parsedToml.env)
@@ -74,14 +71,9 @@ export const LOCAL_ENV: APIEnv = {
     url: "http://${parsedToml.dev.ip}:${parsedToml.dev.port}",
 };
 
-export const cloudflareNamespaceInformation = ${objToString(
-  nameSpaceDefinitions
-)} as const;
+export const cloudflareNamespaceInformation = ${objToString(nameSpaceDefinitions)} as const;
 
 export const cloudflareAccountId = "${parsedToml.account_id}";
 `;
 
-writeFileSync(
-  resolve(__dirname, './generated/tomlGenerated.ts'),
-  tomlTypeOutput
-);
+writeFileSync(resolve(__dirname, './generated/tomlGenerated.ts'), tomlTypeOutput);

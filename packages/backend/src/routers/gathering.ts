@@ -1,7 +1,6 @@
-import { z } from 'zod';
-import { nanoid } from 'nanoid';
 import { TRPCError } from '@trpc/server';
-import userProcedure from './userid-middleware';
+import { nanoid } from 'nanoid';
+import { z } from 'zod';
 
 import t from '../trpc';
 import {
@@ -11,12 +10,14 @@ import {
   userAvailabilitySchema,
 } from '../types/schema';
 
+import userProcedure from './userid-middleware';
+
 import type { GatheringBackendData, UserAvailability } from '../types/schema';
 
 export default t.router({
   get: t.procedure
     .input(z.object({ id: z.string() }))
-    .query(({ input, ctx }) => ctx.env.kvDao.getGathering(input.id)),
+    .query(async ({ input, ctx }) => await ctx.env.kvDao.getGathering(input.id)),
   getEditPermission: userProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -24,24 +25,22 @@ export default t.router({
 
       return gathering.creationUserId === ctx.userId;
     }),
-  put: userProcedure
-    .input(gatheringFormDataSchema)
-    .mutation(async ({ ctx, input }) => {
-      const gatheringId = nanoid();
+  put: userProcedure.input(gatheringFormDataSchema).mutation(async ({ ctx, input }) => {
+    const gatheringId = nanoid();
 
-      const gathering: GatheringBackendData = {
-        id: gatheringId,
-        ...input,
-        allowedPeriods: input.allowedPeriods,
-        availability: {},
-        creationDate: new Date().toISOString(),
-        creationUserId: ctx.userId,
-      };
+    const gathering: GatheringBackendData = {
+      id: gatheringId,
+      ...input,
+      allowedPeriods: input.allowedPeriods,
+      availability: {},
+      creationDate: new Date().toISOString(),
+      creationUserId: ctx.userId,
+    };
 
-      await ctx.env.kvDao.putGathering(gathering);
+    await ctx.env.kvDao.putGathering(gathering);
 
-      return gatheringId;
-    }),
+    return gatheringId;
+  }),
   putDetails: userProcedure
     .input(z.object({ id: z.string(), details: gatheringFormDetailsSchema }))
     .mutation(async ({ ctx, input }) => {
@@ -75,15 +74,13 @@ export default t.router({
 
       return 'ok';
     }),
-  getAvailability: t.procedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ input, ctx }) => {
-      const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
+  getAvailability: t.procedure.input(z.object({ id: z.string() })).query(async ({ input, ctx }) => {
+    const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
 
-      // We need to parse the user availability to the frontend schema.
-      // This strips the userId from the availability.
-      return Object.values(gathering.availability);
-    }),
+    // We need to parse the user availability to the frontend schema.
+    // This strips the userId from the availability.
+    return Object.values(gathering.availability);
+  }),
   getOwnAvailability: userProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -94,11 +91,11 @@ export default t.router({
 
       return availability as UserAvailability | 'none';
     }),
-  getOwnedGatherings: userProcedure.query(async ({ ctx }) =>
-    ctx.env.kvDao.getOwnedGatherings(ctx.userId)
+  getOwnedGatherings: userProcedure.query(
+    async ({ ctx }) => await ctx.env.kvDao.getOwnedGatherings(ctx.userId)
   ),
-  getParticipatingGatherings: userProcedure.query(async ({ ctx }) =>
-    ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
+  getParticipatingGatherings: userProcedure.query(
+    async ({ ctx }) => await ctx.env.kvDao.getParticipatingGatherings(ctx.userId)
   ),
   leaveGathering: userProcedure
     .input(z.object({ id: z.string() }))
@@ -107,20 +104,18 @@ export default t.router({
 
       return 'ok';
     }),
-  remove: userProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
+  remove: userProcedure.input(z.object({ id: z.string() })).mutation(async ({ ctx, input }) => {
+    const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
 
-      if (gathering.creationUserId !== ctx.userId) {
-        throw new TRPCError({
-          message: 'You are not allowed to remove this gathering.',
-          code: 'FORBIDDEN',
-        });
-      }
+    if (gathering.creationUserId !== ctx.userId) {
+      throw new TRPCError({
+        message: 'You are not allowed to remove this gathering.',
+        code: 'FORBIDDEN',
+      });
+    }
 
-      await ctx.env.kvDao.removeGathering(input.id);
+    await ctx.env.kvDao.removeGathering(input.id);
 
-      return 'ok';
-    }),
+    return 'ok';
+  }),
 });

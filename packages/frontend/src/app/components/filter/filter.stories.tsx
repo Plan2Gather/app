@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import Filter from './filter';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof Filter> = {
   component: Filter,

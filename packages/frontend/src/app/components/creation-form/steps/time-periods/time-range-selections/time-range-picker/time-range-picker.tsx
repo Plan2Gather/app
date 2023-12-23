@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircleOutline';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircleOutline';
-import { TimePickerElement, TimePickerElementProps } from 'react-hook-form-mui';
-import { useState } from 'react';
-import { DateRange } from '@plan2gather/backend/types';
 import { DateTime } from 'luxon';
+import { useState } from 'react';
+import { TimePickerElement, type TimePickerElementProps } from 'react-hook-form-mui';
+
+import { type DateRange } from '@plan2gather/backend/types';
 
 interface TimeRangeProps {
   onRemove: () => void;
@@ -35,19 +36,11 @@ export default function TimeRangePicker({
     disableIgnoringDatePartForTimeValidation: true,
   });
 
-  const startRestriction = restriction?.start
-    ? DateTime.fromISO(restriction?.start)
-    : undefined;
-  const endRestriction = restriction?.end
-    ? DateTime.fromISO(restriction?.end)
-    : undefined;
+  const startRestriction = restriction?.start ? DateTime.fromISO(restriction?.start) : undefined;
+  const endRestriction = restriction?.end ? DateTime.fromISO(restriction?.end) : undefined;
 
   return (
-    <Stack
-      direction="row"
-      spacing={1}
-      sx={{ alignItems: 'center', minWidth: 310 }}
-    >
+    <Stack direction="row" spacing={1} sx={{ alignItems: 'center', minWidth: 310 }}>
       <IconButton size="large" onClick={onRemove}>
         <RemoveCircleIcon fontSize="inherit" />
       </IconButton>
@@ -58,11 +51,7 @@ export default function TimeRangePicker({
         onChange={setStartTime}
       />
       <Typography>&ndash;</Typography>
-      <TimePickerElement
-        {...timePickerProps('end')}
-        minTime={startTime}
-        maxTime={endRestriction}
-      />
+      <TimePickerElement {...timePickerProps('end')} minTime={startTime} maxTime={endRestriction} />
     </Stack>
   );
 }

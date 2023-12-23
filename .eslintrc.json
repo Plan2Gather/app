@@ -1,21 +1,25 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "plugins": ["@nx", "eslint-plugin-import", "no-relative-import-paths", "eslint-plugin-tsdoc"],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "extends": ["airbnb", "airbnb-typescript"],
-      "rules": {
-        "import/no-extraneous-dependencies": "off"
-      }
-    },
-    {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
+      "extends": [
+        "plugin:@nx/typescript",
+        "plugin:import/recommended",
+        "standard-with-typescript",
+        "prettier"
+      ],
       "settings": {
+        "import/parsers": {
+          "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
         "import/resolver": {
-          "typescript": {}
+          "typescript": {
+            "alwaysTryTypes": true,
+            "project": ["packages/*/tsconfig.json"]
+          }
         }
       },
       "rules": {
@@ -24,13 +28,33 @@
           {
             "argsIgnorePattern": "^_"
           }
-        ]
+        ],
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "import/order": [
+          "error",
+          {
+            "groups": [
+              "builtin",
+              "external",
+              "internal",
+              "parent",
+              "sibling",
+              "index",
+              "object",
+              "type"
+            ],
+            "newlines-between": "always",
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            },
+            "warnOnUnassignedImports": true
+          }
+        ],
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-non-null-assertion": "warn",
+        "tsdoc/syntax": "warn"
       }
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nx/javascript"],
-      "rules": {}
     }
   ]
 }

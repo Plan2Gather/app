@@ -1,8 +1,8 @@
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import { useCallback, useEffect, useState } from 'react';
+
 import useGatheringViewData from '../../pages/gathering-view/gathering-view.store';
 
 interface FilterProps {
@@ -10,13 +10,10 @@ interface FilterProps {
 }
 
 export default function Filter({ userLabels }: FilterProps) {
-  const initialState = userLabels.reduce<Record<string, boolean>>(
-    (acc, label) => {
-      acc[label] = false;
-      return acc;
-    },
-    {}
-  );
+  const initialState = userLabels.reduce<Record<string, boolean>>((acc, label) => {
+    acc[label] = false;
+    return acc;
+  }, {});
   const [state, setState] = useState(initialState);
 
   const { setCheckedUsers } = useGatheringViewData();
@@ -58,13 +55,7 @@ export default function Filter({ userLabels }: FilterProps) {
       {userLabels.map((userLabel) => (
         <FormControlLabel
           key={userLabel}
-          control={
-            <Checkbox
-              checked={state[userLabel]}
-              onChange={handleChange}
-              name={userLabel}
-            />
-          }
+          control={<Checkbox checked={state[userLabel]} onChange={handleChange} name={userLabel} />}
           label={userLabel}
         />
       ))}

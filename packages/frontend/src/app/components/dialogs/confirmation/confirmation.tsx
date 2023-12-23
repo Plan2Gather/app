@@ -1,14 +1,15 @@
-import Button, { ButtonProps } from '@mui/material/Button';
+import Button, { type ButtonProps } from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import LoadingButton from '../../shared/buttons/loading/loading';
 
-type ConfirmationDialogProps = {
+interface ConfirmationDialogProps {
   open: boolean;
   loading: boolean;
   dialogTitle: string;
@@ -17,7 +18,7 @@ type ConfirmationDialogProps = {
   buttonColor?: ButtonProps['color'];
   handleClick: () => void;
   onClose: () => void;
-};
+}
 
 export default function ConfirmationDialog({
   open,
@@ -47,12 +48,7 @@ export default function ConfirmationDialog({
         <Button onClick={onClose} disabled={loading} type="button">
           Cancel
         </Button>
-        <LoadingButton
-          onClick={handleClick}
-          loading={loading}
-          color={buttonColor}
-          type="submit"
-        >
+        <LoadingButton onClick={handleClick} loading={loading} color={buttonColor} type="submit">
           {buttonText}
         </LoadingButton>
       </DialogActions>

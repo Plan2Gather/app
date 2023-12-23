@@ -1,15 +1,15 @@
-import {
-  DateRange,
-  UserAvailability,
-  Weekday,
-} from '@plan2gather/backend/types';
 import { DateTime } from 'luxon';
+
+import { type DateRange, type UserAvailability, type Weekday } from '@plan2gather/backend/types';
 import { sortWeekdays } from '@plan2gather/backend/utils';
 
-type DateRangeLuxon = { start: DateTime; end: DateTime };
+interface DateRangeLuxon {
+  start: DateTime;
+  end: DateTime;
+}
 
 function fuzzyGetPeriod(
-  periods: (DateRangeLuxon & { names: string[] })[],
+  periods: Array<DateRangeLuxon & { names: string[] }>,
   target: DateTime,
   targetPeople: string[],
   requiredPeople: string[]
@@ -36,9 +36,7 @@ function fuzzyGetPeriod(
 
     if (peopleCount !== 0 && requiredPeopleCount === requiredPeople.length) {
       return {
-        color: `rgba(0, ${
-          100 + 155 * (peopleCount / targetPeople.length)
-        }, 0, 1)`,
+        color: `rgba(0, ${100 + 155 * (peopleCount / targetPeople.length)}, 0, 1)`,
         topBorder,
         names: foundPeriod.names,
         period: { start: foundPeriod.start, end: foundPeriod.end },
@@ -55,10 +53,7 @@ function fuzzyGetPeriod(
 }
 
 export function parseListForTimeSlots(
-  combinedAvailability: Record<
-    string,
-    (DateRangeLuxon & { names: string[] })[]
-  >,
+  combinedAvailability: Record<string, Array<DateRangeLuxon & { names: string[] }>>,
   filteredNames: string[],
   allNames: string[],
   timezone: string,
@@ -86,9 +81,7 @@ export function parseListForTimeSlots(
       Array.from({ length: days.length }, (_1, colIndex) =>
         fuzzyGetPeriod(
           combinedAvailability[days[colIndex]],
-          DateTime.fromMillis(rowIndex * increment + dayStart).setZone(
-            timezone
-          ),
+          DateTime.fromMillis(rowIndex * increment + dayStart).setZone(timezone),
           allNames,
           filteredNames
         )
@@ -116,16 +109,11 @@ function isAvailable(
   end: DateTime
 ): boolean {
   return (
-    individualTimePeriods?.some(
-      (period) => start >= period.start && end <= period.end
-    ) ?? false
+    individualTimePeriods?.some((period) => start >= period.start && end <= period.end) ?? false
   );
 }
 
-function convertToLuxonDateRange(
-  dateRange: DateRange,
-  timezone: string
-): DateRangeLuxon {
+function convertToLuxonDateRange(dateRange: DateRange, timezone: string): DateRangeLuxon {
   return {
     start: DateTime.fromISO(dateRange.start).setZone(timezone),
     end: DateTime.fromISO(dateRange.end).setZone(timezone),
@@ -135,9 +123,8 @@ function convertToLuxonDateRange(
 export function combineTimeSlots(
   groupTimePeriods: UserAvailability[],
   timezone: string
-): Record<string, (DateRangeLuxon & { names: string[] })[]> {
-  const finalResult: Record<string, (DateRangeLuxon & { names: string[] })[]> =
-    {};
+): Record<string, Array<DateRangeLuxon & { names: string[] }>> {
+  const finalResult: Record<string, Array<DateRangeLuxon & { names: string[] }>> = {};
   const usedDays = new Set<Weekday>();
 
   groupTimePeriods.forEach((person) => {
@@ -164,7 +151,7 @@ export function combineTimeSlots(
     });
 
     const dayStartStop = createStartStopFromSeries(
-      Array.from(dayStartStopSet).sort()
+      Array.from(dayStartStopSet).sort((a, b) => a.valueOf() - b.valueOf())
     );
 
     dayStartStop.forEach((period) => {
@@ -176,9 +163,7 @@ export function combineTimeSlots(
       groupTimePeriods.forEach((person) => {
         if (
           isAvailable(
-            person.availability[day]?.map((p) =>
-              convertToLuxonDateRange(p, timezone)
-            ),
+            person.availability[day]?.map((p) => convertToLuxonDateRange(p, timezone)),
             period.start,
             period.end
           )

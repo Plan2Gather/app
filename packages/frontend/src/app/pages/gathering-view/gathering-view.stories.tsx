@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import GatheringView from './gathering-view';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof GatheringView> = {
   component: GatheringView,

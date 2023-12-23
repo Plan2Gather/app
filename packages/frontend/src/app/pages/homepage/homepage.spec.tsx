@@ -1,7 +1,8 @@
-import { screen } from '@testing-library/dom';
-import Homepage from './homepage';
+import { screen } from '@testing-library/react';
+
 import { renderWithTheme } from '../../../utils/theme-test-helper.spec';
-import '@testing-library/jest-dom';
+
+import Homepage from './homepage';
 
 describe('Homepage', () => {
   it('should render successfully', () => {
@@ -13,11 +14,7 @@ describe('Homepage', () => {
 
     // Expect title, subtitle, and button to be rendered
     expect(screen.getByText('Plan2Gather')).toBeInTheDocument();
-    expect(
-      screen.getByText('Discover the lightning-speed hangout harmonizer')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: 'Plan a Gathering' })
-    ).toBeInTheDocument();
+    expect(screen.getByText('Discover the lightning-speed hangout harmonizer')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Plan a Gathering' })).toBeInTheDocument();
   });
 });

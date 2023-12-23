@@ -1,5 +1,7 @@
-import { UserAvailability } from '@plan2gather/backend/types';
 import { Typography } from '@mui/material';
+
+import { type UserAvailability } from '@plan2gather/backend/types';
+
 import TimeGrid from './time-grid';
 import { combineTimeSlots, parseListForTimeSlots } from './time-grid.helpers';
 
@@ -23,12 +25,7 @@ export default function TimeGridWrapper({
     timezone
   );
   return data.length > 0 ? (
-    <TimeGrid
-      data={data}
-      columnLabels={columnLabels}
-      rowLabels={rowLabels}
-      timezone={timezone}
-    />
+    <TimeGrid data={data} columnLabels={columnLabels} rowLabels={rowLabels} timezone={timezone} />
   ) : (
     <Typography>No availability found</Typography>
   );

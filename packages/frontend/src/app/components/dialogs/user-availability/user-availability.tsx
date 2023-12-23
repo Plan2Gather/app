@@ -1,5 +1,3 @@
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
 import {
   Button,
   DialogActions,
@@ -8,21 +6,26 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import { DateTime } from 'luxon';
+import { useRef, useState } from 'react';
+import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
+
+import { trpc } from '../../../../trpc';
+import TimePeriodsStep from '../../creation-form/steps/time-periods/time-periods';
+import { type SubmitFunction } from '../../creation-form/types';
+import LoadingButton from '../../shared/buttons/loading/loading';
+
+import ConfirmTimezoneDialog from './confirm-timezone/confirm-timezone';
+import LeaveGatheringDialog from './leave-gathering/leave-gathering';
+
 import type {
   Availability,
   GatheringData,
   UserAvailability,
   Weekday,
 } from '@plan2gather/backend/types';
-import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
-import { useRef, useState } from 'react';
-import { DateTime } from 'luxon';
-import TimePeriodsStep from '../../creation-form/steps/time-periods/time-periods';
-import { SubmitFunction } from '../../creation-form/types';
-import { trpc } from '../../../../trpc';
-import ConfirmTimezoneDialog from './confirm-timezone/confirm-timezone';
-import LeaveGatheringDialog from './leave-gathering/leave-gathering';
-import LoadingButton from '../../shared/buttons/loading/loading';
 
 export interface TimePeriodDialogProps {
   initial: UserAvailability | undefined;
@@ -51,11 +54,15 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
     onMutate: () => {
       setLoading(true);
     },
-    onSuccess: () => {
-      utils.gatherings.get.invalidate({ id: gatheringData.id });
-      utils.gatherings.getAvailability.invalidate({ id: gatheringData.id });
-      utils.gatherings.getOwnAvailability.invalidate({ id: gatheringData.id });
-      utils.gatherings.getParticipatingGatherings.invalidate();
+    onSuccess: async () => {
+      await utils.gatherings.get.invalidate({ id: gatheringData.id });
+      await utils.gatherings.getAvailability.invalidate({
+        id: gatheringData.id,
+      });
+      await utils.gatherings.getOwnAvailability.invalidate({
+        id: gatheringData.id,
+      });
+      await utils.gatherings.getParticipatingGatherings.invalidate();
       setLoading(false);
       handleClose();
     },
@@ -74,21 +81,20 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
       valid: boolean;
       data?: { name: string };
     }>((resolve) => {
-      formContext.handleSubmit(
+      void formContext.handleSubmit(
         (data) => {
-          resolve({
-            valid: true,
-            data,
-          });
+          resolve({ valid: true, data });
         },
-        () => resolve({ valid: false })
+        () => {
+          resolve({ valid: false });
+        }
       )();
     });
+
     const timePeriodResult = await submitRef.current?.submit();
 
     if (
       timePeriodResult &&
-      nameResult &&
       timePeriodResult.valid &&
       nameResult.valid &&
       nameResult.data &&
@@ -104,11 +110,11 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (gatheringData.timezone !== DateTime.local().zoneName) {
       setConfirmTimezoneOpen(true);
     } else {
-      submitToAPI();
+      void submitToAPI();
     }
   };
 
@@ -119,8 +125,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
         <DialogContent>
           <Stack spacing={1}>
             <Typography variant="subtitle2" gutterBottom>
-              Treat all fields as public information. Do not include any
-              personal information.
+              Treat all fields as public information. Do not include any personal information.
             </Typography>
             <FormContainer formContext={formContext}>
               <TextFieldElement
@@ -131,16 +136,11 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
               />
             </FormContainer>
             <DialogContentText>
-              Set your availability for the gathering. You can set multiple time
-              periods for each day.
+              Set your availability for the gathering. You can set multiple time periods for each
+              day.
             </DialogContentText>
-            <Typography
-              variant="subtitle2"
-              sx={{ color: 'warning.main' }}
-              gutterBottom
-            >
-              Please enter your availability in the event timezone:{' '}
-              {gatheringData.timezone}
+            <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
+              Please enter your availability in the event timezone: {gatheringData.timezone}
             </Typography>
             <TimePeriodsStep
               initial={initial ? initial.availability : {}}
@@ -155,7 +155,9 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
         <DialogActions>
           {initial && (
             <Button
-              onClick={() => setLeaveOpen(true)}
+              onClick={() => {
+                setLeaveOpen(true);
+              }}
               disabled={loading}
               type="button"
               color="error"
@@ -178,7 +180,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
         onClose={(confirmed) => {
           setConfirmTimezoneOpen(false);
           if (confirmed) {
-            submitToAPI();
+            void submitToAPI();
           }
         }}
       />

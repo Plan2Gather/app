@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import MyGatheringsButton from './my-gatherings';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof MyGatheringsButton> = {
   component: MyGatheringsButton,

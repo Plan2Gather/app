@@ -1,18 +1,15 @@
 import { useState } from 'react';
+
 import { trpc } from '../../../../../trpc';
 import ConfirmationDialog from '../../confirmation/confirmation';
 
-type LeaveGatheringDialogProps = {
+interface LeaveGatheringDialogProps {
   open: boolean;
   id: string;
   onClose: (didLeave: boolean) => void;
-};
+}
 
-export default function LeaveGatheringDialog({
-  open,
-  id,
-  onClose,
-}: LeaveGatheringDialogProps) {
+export default function LeaveGatheringDialog({ open, id, onClose }: LeaveGatheringDialogProps) {
   const [loading, setLoading] = useState(false);
 
   const utils = trpc.useUtils();
@@ -20,11 +17,11 @@ export default function LeaveGatheringDialog({
     onMutate: () => {
       setLoading(true);
     },
-    onSuccess: () => {
-      utils.gatherings.get.invalidate({ id });
-      utils.gatherings.getOwnAvailability.invalidate({ id });
-      utils.gatherings.getAvailability.invalidate({ id });
-      utils.gatherings.getParticipatingGatherings.invalidate();
+    onSuccess: async () => {
+      await utils.gatherings.get.invalidate({ id });
+      await utils.gatherings.getOwnAvailability.invalidate({ id });
+      await utils.gatherings.getAvailability.invalidate({ id });
+      await utils.gatherings.getParticipatingGatherings.invalidate();
       onClose(true);
       setLoading(false);
     },
@@ -42,7 +39,9 @@ export default function LeaveGatheringDialog({
       buttonColor="error"
       handleClick={handleLeave}
       loading={loading}
-      onClose={() => onClose(false)}
+      onClose={() => {
+        onClose(false);
+      }}
       open={open}
     />
   );

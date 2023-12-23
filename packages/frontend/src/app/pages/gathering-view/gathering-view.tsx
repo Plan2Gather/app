@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { useParams } from 'react-router';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Button, Divider, Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { DateTime } from 'luxon';
-import GatheringDetails from '../../components/gathering-details/gathering-details';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 import { trpc } from '../../../trpc';
-import NotFound from '../not-found/not-found';
-import Filter from '../../components/filter/filter';
 import TimePeriodDialog from '../../components/dialogs/user-availability/user-availability';
+import Filter from '../../components/filter/filter';
+import GatheringDetails from '../../components/gathering-details/gathering-details';
 import TimeGridWrapper from '../../components/time-grid/time-grid-wrapper';
+import NotFound from '../not-found/not-found';
 
 import useGatheringViewData from './gathering-view.store';
 
@@ -32,7 +33,7 @@ export default function GatheringView() {
   //   setMyTimezone(event.target.checked);
   // };
 
-  if (!id) {
+  if (id == null) {
     return <NotFound />;
   }
 
@@ -46,19 +47,15 @@ export default function GatheringView() {
     id,
   });
 
-  const isLoading =
-    gathering.isLoading ||
-    fullAvailability.isLoading ||
-    ownAvailability.isLoading;
+  const isLoading = gathering.isLoading || fullAvailability.isLoading || ownAvailability.isLoading;
 
   const { data } = gathering;
   const fullAvailabilityData = fullAvailability.data;
-  const ownAvailabilityData =
-    ownAvailability.data === 'none' ? undefined : ownAvailability.data;
+  const ownAvailabilityData = ownAvailability.data === 'none' ? undefined : ownAvailability.data;
 
   let userLabels: string[] = [];
 
-  if (!isLoading && fullAvailabilityData) {
+  if (!isLoading && fullAvailabilityData != null) {
     userLabels = fullAvailabilityData.map((a) => a.name);
   }
 
@@ -80,11 +77,9 @@ export default function GatheringView() {
       </Typography>
       <Grid container spacing={2}>
         <Grid xs={12} md={4}>
-          <GatheringDetails gatheringData={data!} />
+          <GatheringDetails gatheringData={data} />
           <Button onClick={handleClickOpen} variant="outlined">
-            {ownAvailabilityData
-              ? 'Edit your Availability'
-              : 'Submit your Availability'}
+            {ownAvailabilityData ? 'Edit your Availability' : 'Submit your Availability'}
           </Button>
           {fullAvailabilityData && fullAvailabilityData.length > 0 && (
             <>
@@ -115,11 +110,7 @@ export default function GatheringView() {
               Availability
             </Typography>
             {data.timezone !== userTimezone && (
-              <Typography
-                variant="subtitle2"
-                sx={{ color: 'warning.main' }}
-                gutterBottom
-              >
+              <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
                 The time grid is in the {data.timezone} timezone.
               </Typography>
             )}

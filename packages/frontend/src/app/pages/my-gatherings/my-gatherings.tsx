@@ -1,18 +1,15 @@
+import { Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Typography } from '@mui/material';
+
 import { trpc } from '../../../trpc';
 import GatheringList from '../../components/gathering-list/gathering-list';
 
 export default function MyGatherings() {
   const ownedGatheringsQuery = trpc.gatherings.getOwnedGatherings.useQuery();
-  const participatingGatheringsQuery =
-    trpc.gatherings.getParticipatingGatherings.useQuery();
+  const participatingGatheringsQuery = trpc.gatherings.getParticipatingGatherings.useQuery();
 
-  if (
-    ownedGatheringsQuery.isLoading ||
-    participatingGatheringsQuery.isLoading
-  ) {
+  if (ownedGatheringsQuery.isLoading || participatingGatheringsQuery.isLoading) {
     return <CircularProgress />;
   }
 

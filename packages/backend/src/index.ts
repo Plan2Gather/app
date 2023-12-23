@@ -1,7 +1,8 @@
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
+
 import { Env, getCloudflareEnv } from './env';
-import t from './trpc';
 import gatheringRouter from './routers/gathering';
+import t from './trpc';
 
 export const appRouter = t.router({
   gatherings: gatheringRouter,
@@ -15,10 +16,7 @@ function setCORSHeaders(origin: string | null, env: Env) {
   };
 
   if (origin) {
-    const allowedOrigins = [
-      'https://plan2gather.net',
-      'https://plan2gather.pages.dev',
-    ];
+    const allowedOrigins = ['https://plan2gather.net', 'https://plan2gather.pages.dev'];
 
     if (env.stage === 'dev') {
       allowedOrigins.push('http://localhost:4200', 'http://localhost:4400');
@@ -66,7 +64,7 @@ export default {
       });
     }
 
-    return fetchRequestHandler({
+    return await fetchRequestHandler({
       endpoint: '',
       req: request,
       router: appRouter,

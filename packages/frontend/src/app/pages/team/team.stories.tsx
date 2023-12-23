@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import Team from './team';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof Team> = {
   component: Team,

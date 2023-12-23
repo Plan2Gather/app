@@ -1,12 +1,11 @@
-import {
-  GatheringData,
-  GatheringFormDetails,
-} from '@plan2gather/backend/types';
-import Typography from '@mui/material/Typography';
-import { Box, IconButton, Stack } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import { Box, IconButton, Stack } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
+
+import { type GatheringData, type GatheringFormDetails } from '@plan2gather/backend/types';
+
 import { trpc } from '../../../trpc';
 import DetailsEditDialog from '../dialogs/details-edit/details-edit';
 
@@ -14,9 +13,7 @@ export interface GatheringDetailsProps {
   gatheringData: GatheringData | GatheringFormDetails;
 }
 
-export default function GatheringDetails({
-  gatheringData,
-}: GatheringDetailsProps) {
+export default function GatheringDetails({ gatheringData }: GatheringDetailsProps) {
   const userTimezone = DateTime.local().zoneName;
 
   const [openEdit, setOpenEdit] = useState(false);
@@ -36,7 +33,12 @@ export default function GatheringDetails({
           {gatheringData.name}
         </Typography>
         {canEdit && (
-          <IconButton onClick={() => setOpenEdit(true)} aria-label="edit">
+          <IconButton
+            onClick={() => {
+              setOpenEdit(true);
+            }}
+            aria-label="edit"
+          >
             <EditIcon />
           </IconButton>
         )}
@@ -45,9 +47,7 @@ export default function GatheringDetails({
         {gatheringData.description}
       </Typography>
       <Box sx={{ mb: 1 }}>
-        <Typography variant="body2">
-          Event Timezone: {gatheringData.timezone}
-        </Typography>
+        <Typography variant="body2">Event Timezone: {gatheringData.timezone}</Typography>
         {gatheringData.timezone !== userTimezone && (
           <Typography variant="body2">Your Timezone: {userTimezone}</Typography>
         )}
@@ -55,7 +55,9 @@ export default function GatheringDetails({
       <DetailsEditDialog
         data={gatheringData as GatheringData}
         open={openEdit}
-        onClose={() => setOpenEdit(false)}
+        onClose={() => {
+          setOpenEdit(false);
+        }}
       />
     </>
   );

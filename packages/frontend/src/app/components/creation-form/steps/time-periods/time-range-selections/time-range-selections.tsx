@@ -1,20 +1,22 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
+import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import { v4 as uuidv4 } from 'uuid';
-import { DateRange, Weekday } from '@plan2gather/backend/types';
-import { DateTime } from 'luxon';
+import { type DateTime } from 'luxon';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form-mui';
+import { v4 as uuidv4 } from 'uuid';
+
+import { type DateRange, type Weekday } from '@plan2gather/backend/types';
+
 import TimeRangePicker from './time-range-picker/time-range-picker';
 
-type TimeRangeSelectionsProps = {
+interface TimeRangeSelectionsProps {
   initial: Record<string, DateTime>;
   day: Weekday;
   allowMultiple: boolean;
   restriction: DateRange | undefined;
   timezone: string | undefined;
-};
+}
 
 function TimeRangeSelections({
   initial,
@@ -23,7 +25,7 @@ function TimeRangeSelections({
   restriction,
   timezone,
 }: TimeRangeSelectionsProps) {
-  const [timePeriods, setTimePeriods] = useState<{ id: string }[]>([]);
+  const [timePeriods, setTimePeriods] = useState<Array<{ id: string }>>([]);
 
   const { unregister } = useFormContext();
 
@@ -76,12 +78,19 @@ function TimeRangeSelections({
             namePrefix={`${day}_${index}`}
             restriction={restriction}
             timezone={timezone}
-            onRemove={() => removeTimePeriod(range.id, `${day}_${index}`)}
+            onRemove={() => {
+              removeTimePeriod(range.id, `${day}_${index}`);
+            }}
           />
         ))}
       </Stack>
       {(allowMultiple || timePeriods.length < 1) && (
-        <IconButton size="large" onClick={() => addTimePeriod()}>
+        <IconButton
+          size="large"
+          onClick={() => {
+            addTimePeriod();
+          }}
+        >
           <AddCircleIcon fontSize="inherit" />
         </IconButton>
       )}

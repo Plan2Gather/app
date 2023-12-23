@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon';
-import { weekdays } from '../types/const';
-// eslint-disable-next-line import/no-cycle
+
 import { sortedAvailabilitySchema } from '../types';
+import { weekdays } from '../types/const';
+
+// eslint-disable-next-line import/no-cycle
 import type { Availability, DateRange, Weekday } from '../types';
 
 export const sortWeekdays = (days: Weekday[]): Weekday[] =>
@@ -55,9 +57,7 @@ export const convertTimePeriodsToBackendDates = (
           convertedSchedule[weekday] = [];
         }
 
-        let timeSlot = convertedSchedule[weekday]?.find(
-          (slot) => slot.id === index
-        );
+        let timeSlot = convertedSchedule[weekday]?.find((slot) => slot.id === index);
         if (!timeSlot) {
           timeSlot = { id: index, start: '', end: '' };
           convertedSchedule[weekday]!.push(timeSlot);
@@ -91,9 +91,7 @@ export const convertTimePeriodsToBackendDates = (
 export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
   // Sort ranges by start date
   ranges.sort(
-    (a, b) =>
-      DateTime.fromISO(a.start).toUnixInteger() -
-      DateTime.fromISO(b.start).toUnixInteger()
+    (a, b) => DateTime.fromISO(a.start).toUnixInteger() - DateTime.fromISO(b.start).toUnixInteger()
   );
 
   const mergedRanges: DateRange[] = [];
@@ -108,10 +106,7 @@ export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
         // Create a new DateRange with updated end time if there is an overlap
         mergedRanges[mergedRanges.length - 1] = {
           start: lastRange.start,
-          end:
-            lastRangeEnd > DateTime.fromISO(range.end)
-              ? lastRange.end
-              : range.end,
+          end: lastRangeEnd > DateTime.fromISO(range.end) ? lastRange.end : range.end,
         };
       } else {
         mergedRanges.push(range);
@@ -122,20 +117,16 @@ export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
   return mergedRanges;
 }
 
-export function consolidateAvailability(
-  availability: Availability
-): Availability {
+export function consolidateAvailability(availability: Availability): Availability {
   const consolidatedAvailability: Availability = {};
 
-  sortWeekdays(Object.keys(availability) as (keyof Availability)[]).forEach(
-    (day) => {
-      const dayAvailability = availability[day as Weekday];
-      if (dayAvailability) {
-        const mergedRanges = mergeDateRanges(dayAvailability);
-        consolidatedAvailability[day as Weekday] = mergedRanges;
-      }
+  sortWeekdays(Object.keys(availability) as Array<keyof Availability>).forEach((day) => {
+    const dayAvailability = availability[day as Weekday];
+    if (dayAvailability) {
+      const mergedRanges = mergeDateRanges(dayAvailability);
+      consolidatedAvailability[day as Weekday] = mergedRanges;
     }
-  );
+  });
 
   return consolidatedAvailability;
 }

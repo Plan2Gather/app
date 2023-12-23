@@ -1,7 +1,9 @@
-import type { Meta } from '@storybook/react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+
 import TimePeriodsStep from './time-periods';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof TimePeriodsStep> = {
   component: TimePeriodsStep,

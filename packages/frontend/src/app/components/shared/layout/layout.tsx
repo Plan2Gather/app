@@ -1,21 +1,22 @@
-import { useMemo } from 'react';
-import createTheme from '@mui/material/styles/createTheme';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Link from '@mui/material/Link';
-import Toolbar from '@mui/material/Toolbar';
-import Typography, { TypographyOwnProps } from '@mui/material/Typography';
+import createTheme from '@mui/material/styles/createTheme';
 import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import Toolbar from '@mui/material/Toolbar';
+import Typography, { type TypographyOwnProps } from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useMemo } from 'react';
+
+import BulletedList from '../bulleted-list/bulleted-list';
+import BulletedListItem from '../bulleted-list/bulleted-list-item/bulleted-list-item';
 import CreateGatheringButton from '../buttons/create-gathering/create-gathering';
 import MyGatheringsButton from '../buttons/my-gatherings/my-gatherings';
-import BulletedListItem from '../bulleted-list/bulleted-list-item/bulleted-list-item';
-import BulletedList from '../bulleted-list/bulleted-list';
 
 function Copyright(props: TypographyOwnProps) {
   return (
@@ -82,9 +83,7 @@ export default function Layout(props: LayoutProps) {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <GlobalStyles
-        styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }}
-      />
+      <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
       <Box
         sx={{
@@ -101,28 +100,13 @@ export default function Layout(props: LayoutProps) {
           sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}
         >
           <Toolbar sx={{ flexWrap: 'wrap' }}>
-            <Typography
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              <Link
-                href="/"
-                underline="none"
-                color="inherit"
-                data-testid="website-title-link"
-              >
+            <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+              <Link href="/" underline="none" color="inherit" data-testid="website-title-link">
                 Plan2Gather
               </Link>
             </Typography>
             <nav>
-              <Link
-                variant="button"
-                color="text.primary"
-                href="/contact"
-                sx={{ marginRight: 1.5 }}
-              >
+              <Link variant="button" color="text.primary" href="/contact" sx={{ marginRight: 1.5 }}>
                 Contact
               </Link>
             </nav>
@@ -172,11 +156,7 @@ export default function Layout(props: LayoutProps) {
                   <BulletedList>
                     {footer.description.map((item) => (
                       <BulletedListItem key={item.text} sx={{ mt: 0, mb: 0 }}>
-                        <Link
-                          href={item.link}
-                          variant="subtitle1"
-                          color="text.secondary"
-                        >
+                        <Link href={item.link} variant="subtitle1" color="text.secondary">
                           {item.text}
                         </Link>
                       </BulletedListItem>

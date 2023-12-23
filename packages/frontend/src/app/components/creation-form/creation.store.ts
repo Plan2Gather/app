@@ -1,8 +1,9 @@
 import { create } from 'zustand';
+
 import {
-  Availability,
-  GatheringFormDetails,
-  Weekday,
+  type Availability,
+  type GatheringFormDetails,
+  type Weekday,
 } from '@plan2gather/backend/types';
 
 export interface CreationStore {
@@ -19,9 +20,15 @@ const useCreationStore = create<CreationStore>((set) => ({
   possibleDates: [],
   timePeriods: {},
   timePeriodsFormData: null,
-  setDetails: (details) => set({ details }),
-  setPossibleDates: (possibleDates) => set({ possibleDates }),
-  setTimePeriods: (timePeriods) => set({ timePeriods }),
+  setDetails: (details) => {
+    set({ details });
+  },
+  setPossibleDates: (possibleDates) => {
+    set({ possibleDates });
+  },
+  setTimePeriods: (timePeriods) => {
+    set({ timePeriods });
+  },
 }));
 
 export default useCreationStore;

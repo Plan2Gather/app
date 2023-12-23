@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+
 import LoadingButton from '../../../shared/buttons/loading/loading';
 
 interface CreationStepperControlsProps {
@@ -9,9 +10,7 @@ interface CreationStepperControlsProps {
   loading: boolean;
 }
 
-export default function CreationStepperControls(
-  props: CreationStepperControlsProps
-) {
+export default function CreationStepperControls(props: CreationStepperControlsProps) {
   const { activeStep, setActiveStep, numSteps, loading } = props;
 
   const handleNext = () => {

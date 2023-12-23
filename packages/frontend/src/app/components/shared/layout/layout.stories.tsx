@@ -1,5 +1,6 @@
-import type { Meta } from '@storybook/react';
 import Layout from './layout';
+
+import type { Meta } from '@storybook/react';
 
 const meta: Meta<typeof Layout> = {
   component: Layout,

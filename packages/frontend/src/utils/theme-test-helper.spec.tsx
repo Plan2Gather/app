@@ -1,13 +1,13 @@
 /* eslint-disable import/prefer-default-export */
-import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
+import { type ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
 import { render } from '@testing-library/react';
-import { ReactElement } from 'react';
-import mediaQuery from 'css-mediaquery';
+import { match } from 'css-mediaquery';
+import { type ReactElement } from 'react';
 
 // Create a matchMedia mock function using the helper you provided
 function createMatchMedia(width: number) {
   return (query: string): MediaQueryList => {
-    const matches = mediaQuery.match(query, { width });
+    const matches = match(query, { width });
     // We create a dummy MediaQueryList object that includes all required properties.
     const mql: Partial<MediaQueryList> = {
       matches,
@@ -29,10 +29,7 @@ interface RenderOptions {
 }
 
 // Helper function to wrap the component with a theme provider and specific breakpoint
-export function renderWithTheme(
-  ui: ReactElement,
-  { themeOptions, width }: RenderOptions
-) {
+export function renderWithTheme(ui: ReactElement, { themeOptions, width }: RenderOptions) {
   // This function will use the width to simulate the screen size
   window.matchMedia = createMatchMedia(width);
 
