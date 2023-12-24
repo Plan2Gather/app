@@ -16,11 +16,11 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["packages/frontend/src/*"],
       "@backend": ["packages/backend/src/index.ts"],
       "@backend/config": ["packages/backend/src/generated/tomlGenerated.ts"],
       "@backend/types": ["packages/backend/src/types/index.ts"],
-      "@backend/utils": ["packages/backend/src/utils/index.ts"],
-      "@/*": ["packages/frontend/src/*"]
+      "@backend/utils": ["packages/backend/src/utils/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
