@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { trpc } from '../../../../../trpc';
-import ConfirmationDialog from '../../confirmation/confirmation';
+import ConfirmationDialog from '@/app/components/dialogs/confirmation/confirmation';
+import { trpc } from '@/trpc';
 
 interface LeaveGatheringDialogProps {
   open: boolean;

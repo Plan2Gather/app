@@ -7,8 +7,8 @@ import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
-import BulletedList from '../../components/shared/bulleted-list/bulleted-list';
-import BulletedListItem from '../../components/shared/bulleted-list/bulleted-list-item/bulleted-list-item';
+import BulletedList from '@/app/components/shared/bulleted-list/bulleted-list';
+import BulletedListItem from '@/app/components/shared/bulleted-list/bulleted-list-item/bulleted-list-item';
 
 const Accordion = styled((props: AccordionProps) => (
   // eslint-disable-next-line react/jsx-props-no-spreading

@@ -10,12 +10,12 @@ import { Fragment, forwardRef, useImperativeHandle } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormContainer } from 'react-hook-form-mui';
 
-import { type Availability, type Weekday } from '@plan2gather/backend/types';
+import { type Availability, type Weekday } from '@backend/types';
 import {
   convertBackendDatesToTimePeriods,
   convertTimePeriodsToBackendDates,
   sortWeekdays,
-} from '@plan2gather/backend/utils';
+} from '@backend/utils';
 
 import TimeRangeSelections from './time-range-selections/time-range-selections';
 

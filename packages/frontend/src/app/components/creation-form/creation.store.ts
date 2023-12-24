@@ -1,10 +1,6 @@
 import { create } from 'zustand';
 
-import {
-  type Availability,
-  type GatheringFormDetails,
-  type Weekday,
-} from '@plan2gather/backend/types';
+import { type Availability, type GatheringFormDetails, type Weekday } from '@backend/types';
 
 export interface CreationStore {
   details: GatheringFormDetails | null;

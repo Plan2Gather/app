@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
-import { type DateRange, type UserAvailability, type Weekday } from '@plan2gather/backend/types';
-import { sortWeekdays } from '@plan2gather/backend/utils';
+import { type DateRange, type UserAvailability, type Weekday } from '@backend/types';
+import { sortWeekdays } from '@backend/utils';
 
 interface DateRangeLuxon {
   start: DateTime;

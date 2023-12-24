@@ -1,10 +1,9 @@
 import { DateTime } from 'luxon';
 
-import { sortedAvailabilitySchema } from '../types';
-import { weekdays } from '../types/const';
+import { sortedAvailabilitySchema, weekdays } from '@backend/types';
 
 // eslint-disable-next-line import/no-cycle
-import type { Availability, DateRange, Weekday } from '../types';
+import type { Availability, DateRange, Weekday } from '@backend/types';
 
 export const sortWeekdays = (days: Weekday[]): Weekday[] =>
   days.sort((a, b) => weekdays.indexOf(a) - weekdays.indexOf(b));

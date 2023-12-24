@@ -7,7 +7,7 @@ import {
   type UserAvailabilityBackend,
   gatheringBackendDataSchema,
   gatheringDataSchema,
-} from '../types/schema';
+} from '@backend/types';
 
 import type KvWrapper from './kv-wrapper';
 

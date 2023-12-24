@@ -53,7 +53,8 @@
         ],
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/no-non-null-assertion": "warn",
-        "tsdoc/syntax": "warn"
+        "tsdoc/syntax": "warn",
+        "no-relative-import-paths/no-relative-import-paths": ["error", { "allowSameFolder": true }]
       }
     }
   ]

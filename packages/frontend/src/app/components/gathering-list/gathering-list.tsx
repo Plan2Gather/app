@@ -1,9 +1,8 @@
 import { Link, Typography } from '@mui/material';
 
-import { type GatheringListResponseData } from '@plan2gather/backend/types';
-
-import BulletedList from '../shared/bulleted-list/bulleted-list';
-import BulletedListItem from '../shared/bulleted-list/bulleted-list-item/bulleted-list-item';
+import BulletedList from '@/app/components/shared/bulleted-list/bulleted-list';
+import BulletedListItem from '@/app/components/shared/bulleted-list/bulleted-list-item/bulleted-list-item';
+import { type GatheringListResponseData } from '@backend/types';
 
 export interface GatheringListProps {
   gatherings: GatheringListResponseData | undefined;

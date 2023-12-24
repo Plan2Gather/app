@@ -4,10 +4,9 @@ import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 
-import { type GatheringData, type GatheringFormDetails } from '@plan2gather/backend/types';
-
-import { trpc } from '../../../trpc';
-import DetailsEditDialog from '../dialogs/details-edit/details-edit';
+import DetailsEditDialog from '@/app/components/dialogs/details-edit/details-edit';
+import { trpc } from '@/trpc';
+import { type GatheringData, type GatheringFormDetails } from '@backend/types';
 
 export interface GatheringDetailsProps {
   gatheringData: GatheringData | GatheringFormDetails;

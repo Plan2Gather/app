@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import { type DateRange } from '@plan2gather/backend/types';
+import { type DateRange } from '@backend/types';
 
 import TimePopover from './time-popover';
 

@@ -1,12 +1,11 @@
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import { useCallback, useRef, useState } from 'react';
 
-import { type GatheringData, type GatheringFormDetails } from '@plan2gather/backend/types';
-
-import { trpc } from '../../../../trpc';
-import DetailsStep from '../../creation-form/steps/details/details';
-import { type SubmitFunction } from '../../creation-form/types';
-import LoadingButton from '../../shared/buttons/loading/loading';
+import DetailsStep from '@/app/components/creation-form/steps/details/details';
+import { type SubmitFunction } from '@/app/components/creation-form/types';
+import LoadingButton from '@/app/components/shared/buttons/loading/loading';
+import { trpc } from '@/trpc';
+import { type GatheringData, type GatheringFormDetails } from '@backend/types';
 
 import DeleteGatheringDialog from './delete-gathering/delete-gathering';
 

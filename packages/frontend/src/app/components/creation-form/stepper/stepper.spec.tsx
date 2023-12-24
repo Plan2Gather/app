@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 
-import { TRPCWrapper } from '../../../../utils/test-utils';
-import { renderWithTheme } from '../../../../utils/theme-test-helper.spec';
+import { TRPCWrapper } from '@/utils/test-utils';
+import { renderWithTheme } from '@/utils/theme-test-helper.spec';
 
 import CreationStepper from './stepper';
 

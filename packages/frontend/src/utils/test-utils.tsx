@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 
-import { trpc, trpcClientOptions } from '../trpc';
+import { trpc, trpcClientOptions } from '@/trpc';
 
 // eslint-disable-next-line import/prefer-default-export
 export function TRPCWrapper({ children }: { children: React.ReactNode }) {

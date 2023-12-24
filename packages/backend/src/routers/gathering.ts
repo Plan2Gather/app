@@ -2,17 +2,17 @@ import { TRPCError } from '@trpc/server';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
-import t from '../trpc';
 import {
   gatheringFormDataSchema,
   gatheringFormDetailsSchema,
   userAvailabilityBackendSchema,
   userAvailabilitySchema,
-} from '../types/schema';
+} from '@backend/types';
+import t from 'packages/backend/src/trpc';
 
 import userProcedure from './userid-middleware';
 
-import type { GatheringBackendData, UserAvailability } from '../types/schema';
+import type { GatheringBackendData, UserAvailability } from '@backend/types';
 
 export default t.router({
   get: t.procedure

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 
-import { renderWithTheme } from '../../../../../utils/theme-test-helper.spec';
+import { renderWithTheme } from '@/utils/theme-test-helper.spec';
 
 import MyGatheringsButton from './my-gatherings';
 

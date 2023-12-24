@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { consolidateAvailability } from '../utils';
+import { consolidateAvailability } from '@backend/utils';
 
 import { weekdays } from './const';
 // eslint-disable-next-line import/no-cycle
