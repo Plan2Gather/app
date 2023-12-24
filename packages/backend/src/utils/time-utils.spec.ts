@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { type DateRange, type Weekday } from '../types';
+import { type DateRange, type Weekday } from '@backend/types';
 
 import { mergeDateRanges, sortWeekdays } from './time-utils'; // Adjust the import path
 

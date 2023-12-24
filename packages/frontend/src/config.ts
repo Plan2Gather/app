@@ -1,9 +1,4 @@
-import {
-  LOCAL_ENV,
-  DEV_ENV,
-  PROD_ENV,
-  BETA_ENV,
-} from '@plan2gather/backend/config';
+import { LOCAL_ENV, DEV_ENV, PROD_ENV, BETA_ENV } from '@backend/config';
 
 export interface APIEnv {
   url: string;

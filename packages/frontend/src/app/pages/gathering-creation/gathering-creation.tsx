@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 
-import CreationStepper from '../../components/creation-form/stepper/stepper';
+import CreationStepper from '@/app/components/creation-form/stepper/stepper';
 
 export default function Creation() {
   return (

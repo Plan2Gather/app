@@ -13,7 +13,7 @@ import {
 } from 'react-hook-form-mui';
 import { zones } from 'tzdata';
 
-import { type GatheringFormDetails, gatheringFormDetailsSchema } from '@plan2gather/backend/types';
+import { type GatheringFormDetails, gatheringFormDetailsSchema } from '@backend/types';
 
 const DetailsStep = forwardRef<
   unknown,

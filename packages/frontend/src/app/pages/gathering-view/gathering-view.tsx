@@ -5,12 +5,12 @@ import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { trpc } from '../../../trpc';
-import TimePeriodDialog from '../../components/dialogs/user-availability/user-availability';
-import Filter from '../../components/filter/filter';
-import GatheringDetails from '../../components/gathering-details/gathering-details';
-import TimeGridWrapper from '../../components/time-grid/time-grid-wrapper';
-import NotFound from '../not-found/not-found';
+import TimePeriodDialog from '@/app/components/dialogs/user-availability/user-availability';
+import Filter from '@/app/components/filter/filter';
+import GatheringDetails from '@/app/components/gathering-details/gathering-details';
+import TimeGridWrapper from '@/app/components/time-grid/time-grid-wrapper';
+import NotFound from '@/app/pages/not-found/not-found';
+import { trpc } from '@/trpc';
 
 import useGatheringViewData from './gathering-view.store';
 

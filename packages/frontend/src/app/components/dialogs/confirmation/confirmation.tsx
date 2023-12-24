@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import LoadingButton from '../../shared/buttons/loading/loading';
+import LoadingButton from '@/app/components/shared/buttons/loading/loading';
 
 interface ConfirmationDialogProps {
   open: boolean;

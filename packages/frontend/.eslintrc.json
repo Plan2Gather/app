@@ -20,6 +20,15 @@
       }
     },
     {
+      "files": ["src/**/*.ts", "src/**/*.tsx"],
+      "rules": {
+        "no-relative-import-paths/no-relative-import-paths": [
+          "error",
+          { "allowSameFolder": true, "rootDir": "packages/frontend/src", "prefix": "@" }
+        ]
+      }
+    },
+    {
       "files": ["*.spec.ts", "*.spec.tsx"],
       "extends": ["plugin:vitest/recommended", "plugin:testing-library/react"]
     }

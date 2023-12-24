@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import LoadingButton from '../../../shared/buttons/loading/loading';
+import LoadingButton from '@/app/components/shared/buttons/loading/loading';
 
 interface CreationStepperControlsProps {
   activeStep: number;

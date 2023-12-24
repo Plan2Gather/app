@@ -3,7 +3,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import { useCallback, useEffect, useState } from 'react';
 
-import useGatheringViewData from '../../pages/gathering-view/gathering-view.store';
+import useGatheringViewData from '@/app/pages/gathering-view/gathering-view.store';
 
 interface FilterProps {
   userLabels: string[];

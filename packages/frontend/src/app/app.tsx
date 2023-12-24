@@ -5,8 +5,8 @@ import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { useMemo, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { trpc, trpcClientOptions } from '../trpc';
-import createIDBPersister from '../utils/idbPersister';
+import { trpc, trpcClientOptions } from '@/trpc';
+import createIDBPersister from '@/utils/idbPersister';
 
 import Layout from './components/shared/layout/layout';
 import Contact from './pages/contact/contact';

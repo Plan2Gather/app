@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form-mui';
 import { v4 as uuidv4 } from 'uuid';
 
-import { type DateRange, type Weekday } from '@plan2gather/backend/types';
+import { type DateRange, type Weekday } from '@backend/types';
 
 import TimeRangePicker from './time-range-picker/time-range-picker';
 

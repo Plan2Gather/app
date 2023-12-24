@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import ConfirmationDialog from '../../confirmation/confirmation';
+import ConfirmationDialog from '@/app/components/dialogs/confirmation/confirmation';
 
 export interface ConfirmTimezoneDialogProps {
   timezone: string;

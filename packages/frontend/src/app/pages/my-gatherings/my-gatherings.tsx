@@ -2,8 +2,8 @@ import { Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
-import { trpc } from '../../../trpc';
-import GatheringList from '../../components/gathering-list/gathering-list';
+import GatheringList from '@/app/components/gathering-list/gathering-list';
+import { trpc } from '@/trpc';
 
 export default function MyGatherings() {
   const ownedGatheringsQuery = trpc.gatherings.getOwnedGatherings.useQuery();

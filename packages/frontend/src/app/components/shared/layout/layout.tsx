@@ -13,10 +13,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useMemo } from 'react';
 
-import BulletedList from '../bulleted-list/bulleted-list';
-import BulletedListItem from '../bulleted-list/bulleted-list-item/bulleted-list-item';
-import CreateGatheringButton from '../buttons/create-gathering/create-gathering';
-import MyGatheringsButton from '../buttons/my-gatherings/my-gatherings';
+import BulletedList from '@/app/components/shared/bulleted-list/bulleted-list';
+import BulletedListItem from '@/app/components/shared/bulleted-list/bulleted-list-item/bulleted-list-item';
+import CreateGatheringButton from '@/app/components/shared/buttons/create-gathering/create-gathering';
+import MyGatheringsButton from '@/app/components/shared/buttons/my-gatherings/my-gatherings';
 
 function Copyright(props: TypographyOwnProps) {
   return (

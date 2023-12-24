@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { trpc } from '../../../../../trpc';
-import ConfirmationDialog from '../../confirmation/confirmation';
+import ConfirmationDialog from '@/app/components/dialogs/confirmation/confirmation';
+import { trpc } from '@/trpc';
 
 interface DeleteGatheringDialogProps {
   open: boolean;
@@ -20,7 +20,7 @@ export default function DeleteGatheringDialog({ open, id, onClose }: DeleteGathe
     onMutate: () => {
       setLoading(true);
     },
-    onSuccess: async () => {
+    onSuccess: () => {
       // We don't await because the gathering is already deleted
       // The API will likely return an error
       void utils.gatherings.get.invalidate({ id });

@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { TimePickerElement, type TimePickerElementProps } from 'react-hook-form-mui';
 
-import { type DateRange } from '@plan2gather/backend/types';
+import { type DateRange } from '@backend/types';
 
 interface TimeRangeProps {
   onRemove: () => void;

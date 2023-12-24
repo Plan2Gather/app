@@ -1,9 +1,8 @@
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { type GatheringFormData } from '@plan2gather/backend/types';
-
-import { TRPCWrapper } from '../../../../utils/test-utils';
+import { TRPCWrapper } from '@/utils/test-utils';
+import { type GatheringFormData } from '@backend/types';
 
 import DetailsEditDialog from './details-edit';
 

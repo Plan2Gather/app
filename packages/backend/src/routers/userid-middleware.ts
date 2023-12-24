@@ -1,6 +1,6 @@
 import { TRPCError } from '@trpc/server';
 
-import t from '../trpc';
+import t from 'packages/backend/src/trpc';
 
 const isUser = t.middleware(async (opts) => {
   const { ctx } = opts;

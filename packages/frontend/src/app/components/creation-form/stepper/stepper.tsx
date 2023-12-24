@@ -9,20 +9,21 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useCreationStore, {
+  type CreationStore,
+} from '@/app/components/creation-form/creation.store';
+import Confirmation from '@/app/components/creation-form/steps/confirmation/confirmation';
+import DetailsForm from '@/app/components/creation-form/steps/details/details';
+import PossibleDates from '@/app/components/creation-form/steps/possible-dates/possible-dates';
+import TimePeriodsStep from '@/app/components/creation-form/steps/time-periods/time-periods';
+import { type SubmitFunction } from '@/app/components/creation-form/types';
+import { trpc } from '@/trpc';
 import {
   type Availability,
   type GatheringFormData,
   type GatheringFormDetails,
   type Weekday,
-} from '@plan2gather/backend/types';
-
-import { trpc } from '../../../../trpc';
-import useCreationStore, { type CreationStore } from '../creation.store';
-import Confirmation from '../steps/confirmation/confirmation';
-import DetailsForm from '../steps/details/details';
-import PossibleDates from '../steps/possible-dates/possible-dates';
-import TimePeriodsStep from '../steps/time-periods/time-periods';
-import { type SubmitFunction } from '../types';
+} from '@backend/types';
 
 import CreationStepperControls from './stepper-controls/stepper-controls';
 
