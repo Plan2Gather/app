@@ -15,7 +15,7 @@ export default function GatheringList({ gatherings }: GatheringListProps) {
 
   return (
     <BulletedList>
-      {gatherings?.map(({ id, name }) => (
+      {gatherings.map(({ id, name }) => (
         <BulletedListItem key={id}>
           <Link href={`/gathering/${id}`}>{name}</Link>
         </BulletedListItem>
