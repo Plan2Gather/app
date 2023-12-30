@@ -15,7 +15,7 @@ function setCORSHeaders(origin: string | null, env: Env) {
     'Access-Control-Allow-Headers': '*',
   };
 
-  if (origin) {
+  if (origin != null) {
     const allowedOrigins = ['https://plan2gather.net', 'https://plan2gather.pages.dev'];
 
     if (env.stage === 'dev') {

@@ -4,7 +4,7 @@ import t from 'packages/backend/src/trpc';
 
 const isUser = t.middleware(async (opts) => {
   const { ctx } = opts;
-  if (!ctx.userId) {
+  if (ctx.userId == null) {
     throw new TRPCError({
       message: 'UserId is required',
       code: 'UNAUTHORIZED',

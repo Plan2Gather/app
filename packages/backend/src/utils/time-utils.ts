@@ -44,7 +44,7 @@ export const convertTimePeriodsToBackendDates = (
 
   Object.keys(tps).forEach((key) => {
     const match = key.match(/(^[a-zA-Z]+)_(\d+)_(start|end)$/);
-    if (match) {
+    if (match != null) {
       const day = match[1].toLowerCase(); // Convert to lowercase to match the enum values
       const index = match[2]; // Identifier for the time period
       const type = match[3] as 'start' | 'end';
@@ -52,12 +52,12 @@ export const convertTimePeriodsToBackendDates = (
       if (Object.values(weekdays).includes(day as Weekday)) {
         const weekday = day as Weekday;
 
-        if (!convertedSchedule[weekday]) {
+        if (convertedSchedule[weekday] == null) {
           convertedSchedule[weekday] = [];
         }
 
         let timeSlot = convertedSchedule[weekday]?.find((slot) => slot.id === index);
-        if (!timeSlot) {
+        if (timeSlot == null) {
           timeSlot = { id: index, start: '', end: '' };
           convertedSchedule[weekday]!.push(timeSlot);
         }
@@ -67,9 +67,9 @@ export const convertTimePeriodsToBackendDates = (
     }
   });
 
-  if (days) {
+  if (days != null) {
     days.forEach((day) => {
-      if (!convertedSchedule[day]) {
+      if (convertedSchedule[day] == null) {
         convertedSchedule[day] = [
           {
             id: 'none',
@@ -121,7 +121,7 @@ export function consolidateAvailability(availability: Availability): Availabilit
 
   sortWeekdays(Object.keys(availability) as Array<keyof Availability>).forEach((day) => {
     const dayAvailability = availability[day as Weekday];
-    if (dayAvailability) {
+    if (dayAvailability != null) {
       const mergedRanges = mergeDateRanges(dayAvailability);
       consolidatedAvailability[day as Weekday] = mergedRanges;
     }
