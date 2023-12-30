@@ -3,6 +3,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import checker from 'vite-plugin-checker';
 
 export default defineConfig(({ mode }) => ({
   root: __dirname,
@@ -40,6 +41,12 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     nxViteTsPaths(),
+    checker({
+      typescript: {
+        root: `${process.cwd()}/packages/frontend`,
+        tsconfigPath: 'tsconfig.app.json',
+      },
+    }),
     mode === 'prod'
       ? sentryVitePlugin({
           org: 'plan2gather',
