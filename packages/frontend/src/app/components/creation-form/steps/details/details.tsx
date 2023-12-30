@@ -43,7 +43,7 @@ const DetailsStep = forwardRef<
     },
   });
 
-  const selectedTimezone = formContext.watch('timezone');
+  const selectedTimezone = formContext.watch('timezone') as string | null;
 
   const selectedDateTime = DateTime.local().setZone(formContext.watch('timezone'));
 
@@ -111,14 +111,14 @@ const DetailsStep = forwardRef<
               }}
               required
             />
-            {disableTimezoneEdit && (
+            {(disableTimezoneEdit ?? false) && (
               <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
                 This gathering is in {formContext.watch('timezone')}. To change the timezone, create
                 a new gathering.
               </Typography>
             )}
           </Stack>
-          {selectedTimezone && (
+          {selectedTimezone != null && (
             <Grid container sx={{ textAlign: 'center' }}>
               <Grid xs={12} sm={diffTimezone ? 5 : 12}>
                 <Typography variant="subtitle2" gutterBottom>
@@ -137,7 +137,7 @@ const DetailsStep = forwardRef<
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       {/* Calculate hours different */}
-                      {calculatedDiff ? '+' : ''}
+                      {!Number.isNaN(calculatedDiff) ? '+' : ''}
                       {calculatedDiff} hours
                     </Typography>
                   </Grid>

@@ -9,6 +9,7 @@ import { trpc, trpcClientOptions } from '@/trpc';
 import createIDBPersister from '@/utils/idbPersister';
 
 import Layout from './components/shared/layout/layout';
+import PageContainer from './components/shared/page-container/page-container';
 import Contact from './pages/contact/contact';
 import Creation from './pages/gathering-creation/gathering-creation';
 import GatheringView from './pages/gathering-view/gathering-view';
@@ -39,27 +40,51 @@ export default function App() {
     },
     {
       path: '/create',
-      element: <Creation />,
+      element: (
+        <PageContainer>
+          <Creation />
+        </PageContainer>
+      ),
     },
     {
       path: '/gathering/:id',
-      element: <GatheringView />,
+      element: (
+        <PageContainer>
+          <GatheringView />
+        </PageContainer>
+      ),
     },
     {
       path: '/team',
-      element: <Team />,
+      element: (
+        <PageContainer>
+          <Team />
+        </PageContainer>
+      ),
     },
     {
       path: '/contact',
-      element: <Contact />,
+      element: (
+        <PageContainer>
+          <Contact />
+        </PageContainer>
+      ),
     },
     {
       path: '/privacy',
-      element: <Privacy />,
+      element: (
+        <PageContainer>
+          <Privacy />
+        </PageContainer>
+      ),
     },
     {
       path: '/my-gatherings',
-      element: <MyGatherings />,
+      element: (
+        <PageContainer>
+          <MyGatherings />
+        </PageContainer>
+      ),
     },
   ]);
 

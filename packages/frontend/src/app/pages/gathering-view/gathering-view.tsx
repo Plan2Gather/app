@@ -63,7 +63,7 @@ export default function GatheringView() {
     return <CircularProgress />;
   }
 
-  if (!data) {
+  if (data == null) {
     return <NotFound />;
   }
 
@@ -79,9 +79,9 @@ export default function GatheringView() {
         <Grid xs={12} md={4}>
           <GatheringDetails gatheringData={data} />
           <Button onClick={handleClickOpen} variant="outlined">
-            {ownAvailabilityData ? 'Edit your Availability' : 'Submit your Availability'}
+            {ownAvailabilityData != null ? 'Edit your Availability' : 'Submit your Availability'}
           </Button>
-          {fullAvailabilityData && fullAvailabilityData.length > 0 && (
+          {fullAvailabilityData != null && fullAvailabilityData.length > 0 && (
             <>
               {/* {data.timezone !== userTimezone && (
                 <>
@@ -104,7 +104,7 @@ export default function GatheringView() {
             </>
           )}
         </Grid>
-        {fullAvailabilityData && fullAvailabilityData.length > 0 && (
+        {fullAvailabilityData != null && fullAvailabilityData.length > 0 && (
           <Grid xs={12} md={8}>
             <Typography variant="h5" gutterBottom>
               Availability

@@ -75,7 +75,7 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
               marginTop: '-10px',
             }}
           >
-            {rowLabels[rowIndex].match(/:(00|30)\b/) && (
+            {rowLabels[rowIndex].match(/:(00|30)\b/) != null && (
               <Typography align="center">{rowLabels[rowIndex]}</Typography>
             )}
           </Box>
@@ -113,7 +113,7 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
           horizontal: 'left',
         }}
       >
-        {selectedCell && (
+        {selectedCell != null && (
           <PossibleTime
             dateRange={{
               start: selectedCell.period.start.toISO()!,

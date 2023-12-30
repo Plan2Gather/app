@@ -20,7 +20,7 @@ export type CloudflareEnv = z.infer<typeof cloudflareEnvParser>;
 
 // Can not really verify that the env is actually of type `KVNamespace`
 // The least we can do is see if it is a non null object
-const kvNamespaceParser = z.custom<KVNamespace>((n) => n && n !== null && typeof n === 'object');
+const kvNamespaceParser = z.custom<KVNamespace>((n) => n !== null && typeof n === 'object');
 const cloudflareEnvParser = z.object({
   PLAN2GATHER_GATHERINGS: kvNamespaceParser,
   IS_DEPLOYED: z.boolean(),

@@ -23,7 +23,7 @@ function fuzzyGetPeriod(
     topBorder = '1px solid black';
   }
 
-  if (foundPeriod) {
+  if (foundPeriod != null) {
     const peopleCount = targetPeople.reduce(
       (count, person) => count + (foundPeriod.names.includes(person) ? 1 : 0),
       0

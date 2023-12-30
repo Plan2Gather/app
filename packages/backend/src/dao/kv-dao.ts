@@ -1,5 +1,3 @@
-import { TRPCError } from '@trpc/server';
-
 import {
   type GatheringBackendData,
   type GatheringFormDetails,
@@ -73,7 +71,7 @@ export default class KVDAO {
     const participatingGatheringIds: GatheringListResponseData = [];
 
     gatherings.forEach((gathering) => {
-      if (gathering.availability[userId]) {
+      if (gathering.availability[userId] != null) {
         participatingGatheringIds.push({
           id: gathering.id,
           name: gathering.name,
@@ -102,14 +100,6 @@ export default class KVDAO {
 
   async putDetails(id: string, details: GatheringFormDetails) {
     const existingGathering = await this.getBackendGathering(id);
-
-    if (!existingGathering) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `Could not find gathering with id ${id}`,
-      });
-    }
-
     const gatheringWithDetails: GatheringBackendData = {
       ...existingGathering,
       ...details,
@@ -127,13 +117,6 @@ export default class KVDAO {
   async putAvailability(id: string, availability: UserAvailabilityBackend) {
     const existingGathering = await this.getBackendGathering(id);
 
-    if (!existingGathering) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `Could not find gathering with id ${id}`,
-      });
-    }
-
     const gatheringWithAvailability: GatheringBackendData = {
       ...existingGathering,
       availability: {
@@ -147,13 +130,6 @@ export default class KVDAO {
 
   async removeAvailability(id: string, userId: string) {
     const existingGathering = await this.getBackendGathering(id);
-
-    if (!existingGathering) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: `Could not find gathering with id ${id}`,
-      });
-    }
 
     const updatedAvailability = { ...existingGathering.availability };
     // eslint-disable-next-line @typescript-eslint/no-dynamic-delete

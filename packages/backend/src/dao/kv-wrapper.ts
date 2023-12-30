@@ -11,8 +11,8 @@ export default class KvWrapper {
   constructor(private readonly kv: KVNamespace) {}
 
   async get<T extends ZodTypeAny>(parser: T, key: string): Promise<zodInfer<T>> {
-    const json = await this.kv.get(key, 'json');
-    if (!json) {
+    const json = await this.kv.get<zodInfer<T>>(key, 'json');
+    if (json == null) {
       throw new TRPCError({ code: 'NOT_FOUND' });
     }
     return parser.parse(json);
@@ -22,7 +22,7 @@ export default class KvWrapper {
     parser: T,
     key: string
   ): Promise<SafeParseReturnType<T, zodInfer<T>>> {
-    const json = await this.kv.get(key, 'json');
+    const json = await this.kv.get<zodInfer<T>>(key, 'json');
     return parser.safeParse(json);
   }
 
@@ -30,24 +30,23 @@ export default class KvWrapper {
     parser: T,
     key: string
   ): Promise<zodInfer<T> | undefined> {
-    try {
-      const value = await this.get(parser, key);
-      return value;
-    } catch (_) {
-      return undefined;
-    }
+    const value = await this.safeGet<T>(parser, key);
+    return value.success ? value.data : undefined;
   }
 
-  async getUnsafe(key: string) {
-    return await this.kv.get(key, 'json');
+  async getUnsafe<T>(key: string) {
+    return await this.kv.get<T>(key, 'json');
   }
 
   async getAll<T extends ZodTypeAny>(parser: T): Promise<Array<zodInfer<T>>> {
     const list = await this.kv.list();
     const possiblyNullJson = await Promise.all(
-      list.keys.map(async (key) => await this.kv.get(key.name, 'json'))
+      list.keys.map(async (key) => {
+        const value = await this.safeGet<T>(parser, key.name);
+        return value.success ? value.data : null;
+      })
     );
-    return possiblyNullJson.filter((exists) => exists).map((json) => parser.parse(json));
+    return possiblyNullJson.filter((json) => json != null);
   }
 
   async put<T extends ZodTypeAny, U extends zodInfer<T>>(
