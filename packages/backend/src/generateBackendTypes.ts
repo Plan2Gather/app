@@ -14,7 +14,7 @@ function objToString(obj: any, ndeep = 1): string {
     case 'string':
       return `"${obj}"`;
     case 'function':
-      return obj.name || obj.toString();
+      return obj.name ?? obj.toString();
     case 'object': {
       const indent = Array(ndeep * 4 + 1).join(' ');
       const isArray = Array.isArray(obj);
@@ -44,7 +44,7 @@ const nameSpaceDefinitions = Object.entries(parsedToml.env)
   )
   .reduce((acc, envSet) => {
     Object.keys(envSet).forEach((key) => {
-      if (acc[key]) {
+      if (acc[key] != null) {
         acc[key] = { ...acc[key], ...envSet[key] };
       } else {
         acc[key] = envSet[key];
