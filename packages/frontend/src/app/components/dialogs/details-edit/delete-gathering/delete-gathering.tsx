@@ -8,9 +8,15 @@ interface DeleteGatheringDialogProps {
   open: boolean;
   id: string;
   onClose: () => void;
+  navOnClose?: boolean;
 }
 
-export default function DeleteGatheringDialog({ open, id, onClose }: DeleteGatheringDialogProps) {
+export default function DeleteGatheringDialog({
+  open,
+  id,
+  onClose,
+  navOnClose,
+}: DeleteGatheringDialogProps) {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -30,7 +36,9 @@ export default function DeleteGatheringDialog({ open, id, onClose }: DeleteGathe
       void utils.gatherings.getOwnedGatherings.invalidate();
       void utils.gatherings.getParticipatingGatherings.invalidate();
       onClose();
-      navigate('/my-gatherings');
+      if (navOnClose ?? true) {
+        navigate('/my-gatherings');
+      }
       setLoading(false);
     },
   });
