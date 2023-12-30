@@ -111,7 +111,7 @@ const DetailsStep = forwardRef<
               }}
               required
             />
-            {disableTimezoneEdit != null && (
+            {(disableTimezoneEdit ?? false) && (
               <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
                 This gathering is in {formContext.watch('timezone')}. To change the timezone, create
                 a new gathering.
