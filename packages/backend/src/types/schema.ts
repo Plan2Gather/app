@@ -124,14 +124,16 @@ export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;
  * My Gathering Page Schema
  */
 
-export const gatheringListResponseSchema = z.array(
-  z
-    .object({
-      id: z.string(),
-      name: z.string(),
-      editPerms: z.boolean(),
-    })
-    .readonly()
-);
+export const gatheringListItemSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    editPerms: z.boolean(),
+  })
+  .readonly();
+
+export type GatheringListItemData = z.infer<typeof gatheringListItemSchema>;
+
+export const gatheringListResponseSchema = z.array(gatheringListItemSchema);
 
 export type GatheringListResponseData = z.infer<typeof gatheringListResponseSchema>;

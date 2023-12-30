@@ -9,10 +9,6 @@ export default function MyGatherings() {
   const ownedGatheringsQuery = trpc.gatherings.getOwnedGatherings.useQuery();
   const participatingGatheringsQuery = trpc.gatherings.getParticipatingGatherings.useQuery();
 
-  if (ownedGatheringsQuery.isLoading || participatingGatheringsQuery.isLoading) {
-    return <CircularProgress />;
-  }
-
   return (
     <>
       <Typography component="h1" variant="h3" gutterBottom>
@@ -23,13 +19,27 @@ export default function MyGatherings() {
           <Typography component="h2" variant="h4">
             Owned Gatherings
           </Typography>
-          <GatheringList gatherings={ownedGatheringsQuery.data} />
+          <Typography variant="body2" gutterBottom>
+            Gatherings you have created
+          </Typography>
+          {ownedGatheringsQuery.isLoading ? (
+            <CircularProgress />
+          ) : (
+            <GatheringList gatherings={ownedGatheringsQuery.data} />
+          )}
         </Grid>
         <Grid xs={12} sm={6}>
           <Typography component="h2" variant="h4">
             Participating Gatherings
           </Typography>
-          <GatheringList gatherings={participatingGatheringsQuery.data} />
+          <Typography variant="body2" gutterBottom>
+            Gatherings you have previously submitted availability for
+          </Typography>
+          {participatingGatheringsQuery.isLoading ? (
+            <CircularProgress />
+          ) : (
+            <GatheringList gatherings={participatingGatheringsQuery.data} />
+          )}
         </Grid>
       </Grid>
     </>
