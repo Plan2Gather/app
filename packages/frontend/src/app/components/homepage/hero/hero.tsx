@@ -13,8 +13,6 @@ export default function Hero() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Increase the network loading priority of the background image. */}
-      <img style={{ display: 'none' }} src="/hero.webp" alt="increase priority" />
       <Typography variant="h1" fontWeight={1} align="center" color="text.primary">
         Plan2Gather
       </Typography>
