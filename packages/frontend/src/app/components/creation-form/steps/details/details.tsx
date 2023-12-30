@@ -43,7 +43,7 @@ const DetailsStep = forwardRef<
     },
   });
 
-  const selectedTimezone = formContext.watch('timezone');
+  const selectedTimezone = formContext.watch('timezone') as string | null;
 
   const selectedDateTime = DateTime.local().setZone(formContext.watch('timezone'));
 
@@ -118,7 +118,7 @@ const DetailsStep = forwardRef<
               </Typography>
             )}
           </Stack>
-          {selectedTimezone.length > 0 && (
+          {selectedTimezone != null && (
             <Grid container sx={{ textAlign: 'center' }}>
               <Grid xs={12} sm={diffTimezone ? 5 : 12}>
                 <Typography variant="subtitle2" gutterBottom>
