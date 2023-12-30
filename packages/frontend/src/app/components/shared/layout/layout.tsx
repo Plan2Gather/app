@@ -118,18 +118,7 @@ export default function Layout(props: LayoutProps) {
         </AppBar>
         {/* End Header */}
         {/* Main */}
-        <Container
-          maxWidth="lg"
-          sx={{
-            paddingY: 1.5,
-            flexGrow: 1,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-          component="main"
-        >
-          {children}
-        </Container>
+        {children}
         {/* End Main */}
         {/* Footer */}
         <Box
