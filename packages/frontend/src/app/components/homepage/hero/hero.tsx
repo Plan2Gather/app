@@ -8,13 +8,13 @@ export default function Hero() {
   return (
     <HeroLayout
       sxBackground={{
-        backgroundImage: 'url(/hero.png)',
+        backgroundImage: 'url(/hero.webp)',
         backgroundColor: '#448ab7',
         backgroundPosition: 'center',
       }}
     >
       {/* Increase the network loading priority of the background image. */}
-      <img style={{ display: 'none' }} src="/hero.png" alt="increase priority" />
+      <img style={{ display: 'none' }} src="/hero.webp" alt="increase priority" />
       <Typography variant="h1" fontWeight={1} align="center" color="text.primary">
         Plan2Gather
       </Typography>
