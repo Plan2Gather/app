@@ -20,7 +20,7 @@ const PossibleDatesStep = forwardRef<unknown, { initial: Weekday[] }>(({ initial
       }>((resolve) => {
         void formContext.handleSubmit(
           (data) => {
-            if (!data.possibleDates?.length) {
+            if (data.possibleDates?.length === 0) {
               resolve({ valid: false });
             } else {
               resolve({

@@ -89,11 +89,10 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
     const timePeriodResult = await submitRef.current?.submit();
 
     if (
-      timePeriodResult &&
-      timePeriodResult.valid &&
+      timePeriodResult?.valid === true &&
       nameResult.valid &&
-      nameResult.data &&
-      timePeriodResult.data
+      nameResult.data != null &&
+      timePeriodResult.data != null
     ) {
       putAvailabilityAPI.mutate({
         id: gatheringData.id,
@@ -138,7 +137,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
               Please enter your availability in the event timezone: {gatheringData.timezone}
             </Typography>
             <TimePeriodsStep
-              initial={initial ? initial.availability : {}}
+              initial={initial?.availability ?? {}}
               restrictions={gatheringData.allowedPeriods}
               days={Object.keys(gatheringData.allowedPeriods) as Weekday[]}
               timezone={gatheringData.timezone}
@@ -148,7 +147,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          {initial && (
+          {initial != null && (
             <Button
               onClick={() => {
                 setLeaveOpen(true);

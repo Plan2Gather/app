@@ -111,14 +111,14 @@ const DetailsStep = forwardRef<
               }}
               required
             />
-            {disableTimezoneEdit && (
+            {disableTimezoneEdit != null && (
               <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
                 This gathering is in {formContext.watch('timezone')}. To change the timezone, create
                 a new gathering.
               </Typography>
             )}
           </Stack>
-          {selectedTimezone && (
+          {selectedTimezone.length > 0 && (
             <Grid container sx={{ textAlign: 'center' }}>
               <Grid xs={12} sm={diffTimezone ? 5 : 12}>
                 <Typography variant="subtitle2" gutterBottom>
@@ -137,7 +137,7 @@ const DetailsStep = forwardRef<
                     </Typography>
                     <Typography variant="h6" gutterBottom>
                       {/* Calculate hours different */}
-                      {calculatedDiff ? '+' : ''}
+                      {!Number.isNaN(calculatedDiff) ? '+' : ''}
                       {calculatedDiff} hours
                     </Typography>
                   </Grid>

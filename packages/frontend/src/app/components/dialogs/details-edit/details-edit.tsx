@@ -44,7 +44,7 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
 
   const handleSubmit = useCallback(async () => {
     const result = await formSubmitRef.current?.submit();
-    if (result?.valid && result.data) {
+    if (result?.valid === true && result.data != null) {
       submitAPI.mutate({
         id: data.id,
         details: result.data,

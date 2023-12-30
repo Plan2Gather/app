@@ -73,7 +73,7 @@ export default function CreationStepper() {
   });
 
   const transformToGatheringData = useCallback((data: CreationStore): GatheringFormData | null => {
-    if (data.details && data.possibleDates.length > 0) {
+    if (data.details != null && data.possibleDates.length > 0) {
       const result = {
         name: data.details.name,
         description: data.details.description,
@@ -94,7 +94,7 @@ export default function CreationStepper() {
       // When navigating forward, we need to do form validation
       if (step > activeStep) {
         const result = await currentStepRef.current?.submit();
-        if (result && result.valid) {
+        if (result != null && result.valid) {
           // Store the result data based on the active step
           switch (activeStep) {
             case 0:
@@ -114,7 +114,7 @@ export default function CreationStepper() {
           // If we're on the last step, create the gathering
           if (steps.length === step) {
             const data = transformToGatheringData(store);
-            if (data) {
+            if (data != null) {
               createGathering.mutate(data);
             } else {
               throw new Error('Invalid data');

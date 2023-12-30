@@ -9,7 +9,7 @@ export interface GatheringListProps {
 }
 
 export default function GatheringList({ gatherings }: GatheringListProps) {
-  if (!gatherings || gatherings.length === 0) {
+  if (gatherings == null || gatherings.length === 0) {
     return <Typography>No gatherings found</Typography>;
   }
 

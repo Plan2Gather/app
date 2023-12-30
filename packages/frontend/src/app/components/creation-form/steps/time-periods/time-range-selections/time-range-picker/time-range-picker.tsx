@@ -36,8 +36,9 @@ export default function TimeRangePicker({
     disableIgnoringDatePartForTimeValidation: true,
   });
 
-  const startRestriction = restriction?.start ? DateTime.fromISO(restriction?.start) : undefined;
-  const endRestriction = restriction?.end ? DateTime.fromISO(restriction?.end) : undefined;
+  const startRestriction =
+    restriction?.start != null ? DateTime.fromISO(restriction.start) : undefined;
+  const endRestriction = restriction?.end != null ? DateTime.fromISO(restriction.end) : undefined;
 
   return (
     <Stack direction="row" spacing={1} sx={{ alignItems: 'center', minWidth: 310 }}>
