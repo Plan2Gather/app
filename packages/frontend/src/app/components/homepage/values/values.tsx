@@ -35,7 +35,7 @@ export default function Values() {
           <Grid xs={12} md={4}>
             <Box sx={item}>
               <EventAvailableIcon sx={{ fontSize: 40 }} />
-              <Typography variant="h6" align="center" gutterBottom>
+              <Typography variant="h6" component="h3" align="center" gutterBottom>
                 Powerful Planning
               </Typography>
               <Typography variant="body1" align="center">
@@ -48,7 +48,7 @@ export default function Values() {
           <Grid xs={12} md={4}>
             <Box sx={item}>
               <ScheduleIcon sx={{ fontSize: 40 }} />
-              <Typography variant="h6" align="center" gutterBottom>
+              <Typography variant="h6" component="h3" align="center" gutterBottom>
                 Flexible Scheduling
               </Typography>
               <Typography variant="body1" align="center">
@@ -61,7 +61,7 @@ export default function Values() {
           <Grid xs={12} md={4}>
             <Box sx={item}>
               <SecurityIcon sx={{ fontSize: 40 }} />
-              <Typography variant="h6" align="center" gutterBottom>
+              <Typography variant="h6" component="h3" align="center" gutterBottom>
                 Privacy Centric
               </Typography>
               <Typography variant="body1" align="center">
