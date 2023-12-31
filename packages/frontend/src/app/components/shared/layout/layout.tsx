@@ -73,9 +73,6 @@ export default function Layout(props: LayoutProps) {
         createTheme({
           palette: {
             mode: prefersDarkMode ? 'dark' : 'light',
-            primary: {
-              main: '#3367D6',
-            },
           },
         })
       ),

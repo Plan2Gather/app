@@ -8,9 +8,6 @@ const theme = responsiveFontSizes(
   createTheme({
     palette: {
       mode: 'dark',
-      primary: {
-        main: '#3367D6',
-      },
     },
   })
 );
