@@ -70,7 +70,7 @@
   "description": "Plan2Gather is a simple app to help you plan your gatherings",
   "screenshots": [
     {
-     "src": "/images/screenshots/wide.png",
+      "src": "/images/screenshots/wide.png",
       "sizes": "4107x2215",
       "type": "image/png",
       "form_factor": "wide",
@@ -78,10 +78,10 @@
     },
     {
       "src": "/images/screenshots/mobile.png",
-       "sizes": "780x1689",
-       "type": "image/png",
-       "form_factor": "narrow",
-       "label": "Plan2Gather"
-     }
-]
+      "sizes": "780x1689",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Plan2Gather"
+    }
+  ]
 }
