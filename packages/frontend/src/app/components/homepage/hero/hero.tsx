@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <HeroLayout
       sxBackground={{
-        backgroundImage: 'url(/hero.webp)',
+        backgroundImage: 'url(/images/hero.webp)',
         backgroundColor: '#448ab7',
         backgroundPosition: 'center',
       }}
