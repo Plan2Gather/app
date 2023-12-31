@@ -31,9 +31,9 @@ jobs:
       parallel-commands: |
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
-        npx nx affected --base=origin/main --target=lint --parallel=3
-        npx nx affected --base=origin/main --target=test --parallel=3 --ci --coverage
-        npx nx affected --base=origin/main --target=build --parallel=3
+        npx nx run-many --target=lint --all
+        npx nx run-many --target=test --all --parallel=3 --ci --coverage
+        npx nx run-many --target=build --all --parallel=3
 
   agents:
     if: >
