@@ -13,10 +13,10 @@ export default function Hero() {
         backgroundPosition: 'center',
       }}
     >
-      <Typography variant="h1" fontWeight={1} align="center" color="text.primary">
+      <Typography variant="h1" fontWeight={1} align="center" color="white">
         Plan2Gather
       </Typography>
-      <Typography component="h2" variant="h6" align="center" color="text.primary">
+      <Typography component="h2" variant="h6" align="center" color="white">
         Discover the lightning-speed hangout harmonizer
       </Typography>
       <Box display="flex" justifyContent="center" alignItems="center" paddingTop={2}>
