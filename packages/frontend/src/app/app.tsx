@@ -22,9 +22,9 @@ import Team from './pages/team/team';
 export default function App() {
   const [queryClient] = useState(() => {
     const client = new QueryClient({
-      defaultOptions: { queries: { staleTime: Infinity, cacheTime: 600000 } },
+      defaultOptions: { queries: { staleTime: Infinity, gcTime: 600000 } },
     });
-    persistQueryClient({
+    void persistQueryClient({
       queryClient: client,
       persister: createIDBPersister(),
     });
