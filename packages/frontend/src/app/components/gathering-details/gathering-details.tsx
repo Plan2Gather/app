@@ -6,7 +6,8 @@ import { useState } from 'react';
 
 import DetailsEditDialog from '@/app/components/dialogs/details-edit/details-edit';
 import { trpc } from '@/trpc';
-import { type GatheringData, type GatheringFormDetails } from '@backend/types';
+
+import type { GatheringFormDetails, GatheringData } from '@backend/types';
 
 export interface GatheringDetailsProps {
   gatheringData: GatheringData | GatheringFormDetails;

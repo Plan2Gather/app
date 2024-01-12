@@ -1,10 +1,15 @@
+import {
+  type Availability,
+  type GatheringFormData,
+  type GatheringFormDetails,
+  type Weekday,
+} from '@backend/types';
 import { Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Step from '@mui/material/Step';
 import StepContent from '@mui/material/StepContent';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState, useRef, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,16 +21,12 @@ import Confirmation from '@/app/components/creation-form/steps/confirmation/conf
 import DetailsForm from '@/app/components/creation-form/steps/details/details';
 import PossibleDates from '@/app/components/creation-form/steps/possible-dates/possible-dates';
 import TimePeriodsStep from '@/app/components/creation-form/steps/time-periods/time-periods';
-import { type SubmitFunction } from '@/app/components/creation-form/types';
 import { trpc } from '@/trpc';
-import {
-  type Availability,
-  type GatheringFormData,
-  type GatheringFormDetails,
-  type Weekday,
-} from '@backend/types';
 
 import CreationStepperControls from './stepper-controls/stepper-controls';
+
+import type { SubmitFunction } from '@/app/components/creation-form/types';
+import type { Theme } from '@mui/material/styles';
 
 // Define a type for step information
 interface StepInfo<T> {

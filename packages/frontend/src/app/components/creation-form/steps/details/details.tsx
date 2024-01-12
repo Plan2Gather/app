@@ -1,3 +1,4 @@
+import { gatheringFormDetailsSchema } from '@backend/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -13,7 +14,7 @@ import {
 } from 'react-hook-form-mui';
 import { zones } from 'tzdata';
 
-import { type GatheringFormDetails, gatheringFormDetailsSchema } from '@backend/types';
+import type { GatheringFormDetails } from '@backend/types';
 
 const DetailsStep = forwardRef<
   unknown,

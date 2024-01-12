@@ -5,7 +5,8 @@ import { useState } from 'react';
 import DeleteGatheringDialog from '@/app/components/dialogs/details-edit/delete-gathering/delete-gathering';
 import BulletedList from '@/app/components/shared/bulleted-list/bulleted-list';
 import BulletedListItem from '@/app/components/shared/bulleted-list/bulleted-list-item/bulleted-list-item';
-import { type GatheringListResponseData } from '@backend/types';
+
+import type { GatheringListResponseData } from '@backend/types';
 
 export interface GatheringListProps {
   gatherings: GatheringListResponseData | undefined;

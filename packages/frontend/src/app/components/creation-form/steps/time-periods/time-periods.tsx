@@ -1,23 +1,24 @@
-import { type Theme, useMediaQuery } from '@mui/material';
+import {
+  convertBackendDatesToTimePeriods,
+  convertTimePeriodsToBackendDates,
+  sortWeekdays,
+} from '@backend/utils';
+import { useMediaQuery } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { type DateTime } from 'luxon';
 import { Fragment, forwardRef, useImperativeHandle } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormContainer } from 'react-hook-form-mui';
 
-import { type Availability, type Weekday } from '@backend/types';
-import {
-  convertBackendDatesToTimePeriods,
-  convertTimePeriodsToBackendDates,
-  sortWeekdays,
-} from '@backend/utils';
-
 import TimeRangeSelections from './time-range-selections/time-range-selections';
+
+import type { Weekday, Availability } from '@backend/types';
+import type { Theme } from '@mui/material';
+import type { DateTime } from 'luxon';
 
 export interface TimePeriodsStepProps {
   initial: Availability;

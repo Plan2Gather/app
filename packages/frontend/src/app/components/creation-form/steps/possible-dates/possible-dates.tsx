@@ -1,9 +1,10 @@
+import { weekdays } from '@backend/types';
+import { sortWeekdays } from '@backend/utils';
 import Typography from '@mui/material/Typography';
 import { forwardRef, useImperativeHandle } from 'react';
 import { FormContainer, ToggleButtonGroupElement, useForm } from 'react-hook-form-mui';
 
-import { type Weekday, weekdays } from '@backend/types';
-import { sortWeekdays } from '@backend/utils';
+import type { Weekday } from '@backend/types';
 
 const PossibleDatesStep = forwardRef<unknown, { initial: Weekday[] }>(({ initial }, ref) => {
   const formContext = useForm<{ possibleDates: Weekday[] }>({

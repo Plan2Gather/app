@@ -1,10 +1,10 @@
-import { sentryVitePlugin } from '@sentry/vite-plugin';
-/// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import checker from 'vite-plugin-checker';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import { checker } from 'vite-plugin-checker';
 
+/// <reference types='viztest' />
 export default defineConfig(({ mode }) => ({
   root: __dirname,
   build: {
@@ -17,7 +17,8 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       onLog(level, log, handler) {
         if (
-          log.cause &&
+          log.cause !== undefined &&
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (log.cause as any).message === `Can't resolve original location of error.`
         ) {
           return;

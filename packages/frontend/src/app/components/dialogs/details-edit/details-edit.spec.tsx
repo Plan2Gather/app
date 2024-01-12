@@ -2,9 +2,10 @@ import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { TRPCWrapper } from '@/utils/test-utils';
-import { type GatheringFormData } from '@backend/types';
 
 import DetailsEditDialog from './details-edit';
+
+import type { GatheringFormData } from '@backend/types';
 
 describe('DetailsEditDialog', () => {
   const defaultGatheringData: GatheringFormData = {

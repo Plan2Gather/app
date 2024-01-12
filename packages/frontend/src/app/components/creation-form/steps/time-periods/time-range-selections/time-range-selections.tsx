@@ -1,14 +1,14 @@
 import AddCircleIcon from '@mui/icons-material/AddCircleOutline';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import { type DateTime } from 'luxon';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form-mui';
 import { v4 as uuidv4 } from 'uuid';
 
-import { type DateRange, type Weekday } from '@backend/types';
-
 import TimeRangePicker from './time-range-picker/time-range-picker';
+
+import type { Weekday, DateRange } from '@backend/types';
+import type { DateTime } from 'luxon';
 
 interface TimeRangeSelectionsProps {
   initial: Record<string, DateTime>;

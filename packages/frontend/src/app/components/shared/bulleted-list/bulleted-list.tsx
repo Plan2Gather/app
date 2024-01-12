@@ -1,6 +1,7 @@
 import List from '@mui/material/List';
-import { type Theme } from '@mui/material/styles';
-import { type SxProps } from '@mui/system';
+
+import type { Theme } from '@mui/material/styles';
+import type { SxProps } from '@mui/system';
 
 interface BulletedListProps {
   children: React.ReactNode;

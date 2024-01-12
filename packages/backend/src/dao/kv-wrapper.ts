@@ -1,11 +1,11 @@
 import { TRPCError } from '@trpc/server';
-import { type infer as zodInfer, type SafeParseReturnType, type ZodTypeAny } from 'zod';
 
 import type {
   KVNamespace,
   KVNamespaceListOptions,
   KVNamespacePutOptions,
 } from '@cloudflare/workers-types';
+import type { infer as zodInfer, SafeParseReturnType, ZodTypeAny } from 'zod';
 
 export default class KvWrapper {
   constructor(private readonly kv: KVNamespace) {}

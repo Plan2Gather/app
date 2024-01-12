@@ -1,8 +1,9 @@
 import Typography from '@mui/material/Typography';
 import { forwardRef, useImperativeHandle } from 'react';
 
-import { type CreationStore } from '@/app/components/creation-form/creation.store';
 import GatheringDetails from '@/app/components/gathering-details/gathering-details';
+
+import type { CreationStore } from '@/app/components/creation-form/creation.store';
 
 const ConfirmationStep = forwardRef<unknown, { initial: CreationStore }>(({ initial }, ref) => {
   useImperativeHandle(ref, () => ({

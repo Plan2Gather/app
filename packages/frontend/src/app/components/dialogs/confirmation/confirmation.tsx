@@ -1,4 +1,4 @@
-import Button, { type ButtonProps } from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -8,6 +8,8 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import LoadingButton from '@/app/components/shared/buttons/loading/loading';
+
+import type { ButtonProps } from '@mui/material/Button';
 
 interface ConfirmationDialogProps {
   open: boolean;

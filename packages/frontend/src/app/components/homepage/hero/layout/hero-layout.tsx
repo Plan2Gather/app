@@ -1,7 +1,9 @@
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { type Theme, styled } from '@mui/material/styles';
-import { type SxProps } from '@mui/system';
+import { styled } from '@mui/material/styles';
+
+import type { Theme } from '@mui/material/styles';
+import type { SxProps } from '@mui/system';
 
 const HeroLayoutRoot = styled('section')(({ theme }) => ({
   color: theme.palette.common.white,

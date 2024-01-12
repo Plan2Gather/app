@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
 
-import { type UserAvailability } from '@backend/types';
-
 import TimeGrid from './time-grid';
 import { combineTimeSlots, parseListForTimeSlots } from './time-grid.helpers';
+
+import type { UserAvailability } from '@backend/types';
 
 interface TimeGridWrapperProps {
   userAvailability: UserAvailability[];

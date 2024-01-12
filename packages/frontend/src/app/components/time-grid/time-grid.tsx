@@ -1,10 +1,11 @@
 import Box from '@mui/material/Box';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { type DateTime } from 'luxon';
 import { Fragment, useState } from 'react';
 
 import PossibleTime from './time-popover/time-popover';
+
+import type { DateTime } from 'luxon';
 
 interface CellData {
   color: string;

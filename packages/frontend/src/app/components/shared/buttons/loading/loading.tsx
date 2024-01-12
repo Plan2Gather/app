@@ -1,5 +1,7 @@
-import Button, { type ButtonProps } from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+
+import type { ButtonProps } from '@mui/material/Button';
 
 type LoadingButtonProps = {
   loading: boolean;

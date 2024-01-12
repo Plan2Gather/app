@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 
-import { type DateRange } from '@backend/types';
-
 import TimePopover from './time-popover';
+
+import type { DateRange } from '@backend/types';
 
 const dateRange: DateRange = {
   start: '2022-01-01T00:00:00.000Z',

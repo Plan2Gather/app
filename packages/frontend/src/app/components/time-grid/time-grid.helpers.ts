@@ -1,7 +1,7 @@
+import { sortWeekdays } from '@backend/utils';
 import { DateTime } from 'luxon';
 
-import { type DateRange, type UserAvailability, type Weekday } from '@backend/types';
-import { sortWeekdays } from '@backend/utils';
+import type { UserAvailability, DateRange, Weekday } from '@backend/types';
 
 interface DateRangeLuxon {
   start: DateTime;

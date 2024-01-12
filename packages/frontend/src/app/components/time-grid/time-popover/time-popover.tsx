@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { DateTime } from 'luxon';
 import { useState, useEffect } from 'react';
 
-import { type DateRange } from '@backend/types';
+import type { DateRange } from '@backend/types';
 
 export interface TimePopoverProps {
   dateRange: DateRange;

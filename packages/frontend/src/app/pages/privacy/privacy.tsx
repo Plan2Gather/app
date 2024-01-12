@@ -1,7 +1,7 @@
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import MuiAccordion, { type AccordionProps } from '@mui/material/Accordion';
+import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import MuiAccordionSummary, { type AccordionSummaryProps } from '@mui/material/AccordionSummary';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
@@ -9,6 +9,9 @@ import Typography from '@mui/material/Typography';
 
 import BulletedList from '@/app/components/shared/bulleted-list/bulleted-list';
 import BulletedListItem from '@/app/components/shared/bulleted-list/bulleted-list-item/bulleted-list-item';
+
+import type { AccordionProps } from '@mui/material/Accordion';
+import type { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 
 const Accordion = styled((props: AccordionProps) => (
   // eslint-disable-next-line react/jsx-props-no-spreading

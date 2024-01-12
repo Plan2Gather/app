@@ -1,6 +1,6 @@
 import { initTRPC } from '@trpc/server';
 
-import { type Env } from './env';
+import type { Env } from './env';
 
 interface Context {
   env: Env;

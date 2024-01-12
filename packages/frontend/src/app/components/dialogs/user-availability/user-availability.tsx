@@ -13,13 +13,13 @@ import { useRef, useState } from 'react';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
 
 import TimePeriodsStep from '@/app/components/creation-form/steps/time-periods/time-periods';
-import { type SubmitFunction } from '@/app/components/creation-form/types';
 import LoadingButton from '@/app/components/shared/buttons/loading/loading';
 import { trpc } from '@/trpc';
 
 import ConfirmTimezoneDialog from './confirm-timezone/confirm-timezone';
 import LeaveGatheringDialog from './leave-gathering/leave-gathering';
 
+import type { SubmitFunction } from '@/app/components/creation-form/types';
 import type { Availability, GatheringData, UserAvailability, Weekday } from '@backend/types';
 
 export interface TimePeriodDialogProps {

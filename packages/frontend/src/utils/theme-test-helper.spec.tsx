@@ -1,8 +1,10 @@
 /* eslint-disable import/prefer-default-export */
-import { type ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { render } from '@testing-library/react';
 import { match } from 'css-mediaquery';
-import { type ReactElement } from 'react';
+
+import type { ThemeOptions } from '@mui/material/styles';
+import type { ReactElement } from 'react';
 
 // Create a matchMedia mock function using the helper you provided
 function createMatchMedia(width: number) {

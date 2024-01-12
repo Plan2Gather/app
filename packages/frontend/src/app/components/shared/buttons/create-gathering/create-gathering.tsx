@@ -1,8 +1,9 @@
 import GroupsIcon from '@mui/icons-material/Groups'; // or any other relevant icon
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+import type { Theme } from '@mui/material/styles';
 
 export default function CreateGatheringButton({ variant }: { variant: 'toolbar' | 'homepage' }) {
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
