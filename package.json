@@ -55,12 +55,12 @@
     "@nx/web": "17.3.1",
     "@nx/webpack": "17.3.1",
     "@nx/workspace": "17.3.1",
-    "@storybook/addon-essentials": "^7.6.10",
-    "@storybook/addon-interactions": "^7.6.10",
-    "@storybook/core-server": "^7.6.10",
+    "@storybook/addon-essentials": "^7.6.12",
+    "@storybook/addon-interactions": "^7.6.12",
+    "@storybook/core-server": "^7.6.12",
     "@storybook/jest": "0.2.3",
-    "@storybook/react": "^7.6.10",
-    "@storybook/react-vite": "^7.6.10",
+    "@storybook/react": "^7.6.12",
+    "@storybook/react-vite": "^7.6.12",
     "@storybook/testing-library": "0.2.2",
     "@swc-node/register": "~1.6.7",
     "@swc/cli": "^0.1.64",
@@ -113,4 +113,3 @@
     "wrangler": "^3.23.0"
   }
 }
-
