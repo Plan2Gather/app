@@ -1,6 +1,7 @@
 import { sortWeekdays } from '@backend/utils';
 import { DateTime } from 'luxon';
 
+import type { CellData } from './time-grid';
 import type { UserAvailability, DateRange, Weekday } from '@backend/types';
 
 interface DateRangeLuxon {
@@ -13,7 +14,7 @@ function fuzzyGetPeriod(
   target: DateTime,
   targetPeople: string[],
   requiredPeople: string[]
-) {
+): CellData {
   const foundPeriod = periods.find(
     (timePeriod) => target >= timePeriod.start && target < timePeriod.end
   );
@@ -37,6 +38,7 @@ function fuzzyGetPeriod(
     if (peopleCount !== 0 && requiredPeopleCount === requiredPeople.length) {
       return {
         color: `rgba(0, ${100 + 155 * (peopleCount / targetPeople.length)}, 0, 1)`,
+        clickable: true,
         topBorder,
         names: foundPeriod.names,
         period: { start: foundPeriod.start, end: foundPeriod.end },
@@ -46,6 +48,7 @@ function fuzzyGetPeriod(
 
   return {
     color: '#cccccc',
+    clickable: false,
     topBorder,
     names: [],
     period: { start: target, end: target },
@@ -57,9 +60,9 @@ export function parseListForTimeSlots(
   filteredNames: string[],
   allNames: string[],
   timezone: string,
-  increment: number = 15 * 60 * 1000,
+  increment: number = 30 * 60 * 1000,
   padding = 1
-) {
+): { data: CellData[][]; columnLabels: string[]; rowLabels: string[] } {
   const days = Object.keys(combinedAvailability);
   let dayStart = Number.MAX_SAFE_INTEGER;
   let dayEnd = Number.MIN_SAFE_INTEGER;

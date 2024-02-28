@@ -5,10 +5,12 @@ import { Fragment, useState } from 'react';
 
 import PossibleTime from './time-popover/time-popover';
 
+import type { BoxProps } from '@mui/material/Box';
 import type { DateTime } from 'luxon';
 
-interface CellData {
+export interface CellData {
   color: string;
+  clickable: boolean;
   topBorder: string;
   names: string[];
   period: { start: DateTime; end: DateTime };
@@ -22,7 +24,7 @@ interface TimeGridProps {
 }
 
 const cellWidth = 100;
-const cellHeight = 20;
+const cellHeight = 30;
 
 export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: TimeGridProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -61,7 +63,7 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
 
       {/* Render column labels */}
       {columnLabels.map((label) => (
-        <Typography key={label} align="center">
+        <Typography key={label} align="center" variant="button">
           {label.charAt(0).toUpperCase() + label.slice(1)}
         </Typography>
       ))}
@@ -72,12 +74,14 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
           {/* Render row label */}
           <Box
             sx={{
-              height: 20,
+              pr: 1,
               marginTop: '-10px',
             }}
           >
             {rowLabels[rowIndex].match(/:(00|30)\b/) != null && (
-              <Typography align="center">{rowLabels[rowIndex]}</Typography>
+              <Typography align="right" variant="body2">
+                {rowLabels[rowIndex]}
+              </Typography>
             )}
           </Box>
 
@@ -96,10 +100,14 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
                 borderRight: '1px solid black',
               }}
               aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
-              onClick={(event) => {
-                handleClick(event, rowIndex, colIndex);
-              }}
-              component="button"
+              {...(cellData.clickable
+                ? ({
+                    component: 'button',
+                    onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+                      handleClick(event, rowIndex, colIndex);
+                    },
+                  } as unknown as Partial<BoxProps>)
+                : {})}
             />
           ))}
         </Fragment>

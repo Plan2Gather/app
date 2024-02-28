@@ -22,7 +22,7 @@ export default function TimeRangePicker({
   timezone,
   namePrefix,
 }: TimeRangeProps) {
-  const timeSteps = { hours: 1, minutes: 15 };
+  const timeSteps = { hours: 1, minutes: 30 };
 
   const [startTime, setStartTime] = useState(null);
 
