@@ -58,7 +58,7 @@ export function parseListForTimeSlots(
   allNames: string[],
   timezone: string,
   increment: number = 15 * 60 * 1000,
-  padding: number = 1
+  padding = 1
 ) {
   const days = Object.keys(combinedAvailability);
   let dayStart = Number.MAX_SAFE_INTEGER;
