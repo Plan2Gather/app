@@ -19,11 +19,6 @@ function fuzzyGetPeriod(
     (timePeriod) => target >= timePeriod.start && target < timePeriod.end
   );
 
-  let topBorder = '1px dotted grey';
-  if ([0, 30].includes(target.minute)) {
-    topBorder = '1px solid black';
-  }
-
   if (foundPeriod != null) {
     const peopleCount = targetPeople.reduce(
       (count, person) => count + (foundPeriod.names.includes(person) ? 1 : 0),
@@ -37,9 +32,7 @@ function fuzzyGetPeriod(
 
     if (peopleCount !== 0 && requiredPeopleCount === requiredPeople.length) {
       return {
-        color: `rgba(0, ${100 + 155 * (peopleCount / targetPeople.length)}, 0, 1)`,
-        clickable: true,
-        topBorder,
+        totalParticipants: targetPeople.length,
         names: foundPeriod.names,
         period: { start: foundPeriod.start, end: foundPeriod.end },
       };
@@ -47,9 +40,7 @@ function fuzzyGetPeriod(
   }
 
   return {
-    color: '#cccccc',
-    clickable: false,
-    topBorder,
+    totalParticipants: targetPeople.length,
     names: [],
     period: { start: target, end: target },
   };

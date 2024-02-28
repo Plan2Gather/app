@@ -1,3 +1,4 @@
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Box from '@mui/material/Box';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
@@ -9,9 +10,7 @@ import type { BoxProps } from '@mui/material/Box';
 import type { DateTime } from 'luxon';
 
 export interface CellData {
-  color: string;
-  clickable: boolean;
-  topBorder: string;
+  totalParticipants: number;
   names: string[];
   period: { start: DateTime; end: DateTime };
 }
@@ -51,6 +50,17 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
+  // Algorithm to find the best time, aka slots with the most participants. Return the number of participants.
+  const mostParticipants = data.reduce(
+    (max, row) =>
+      Math.max(
+        max,
+        row.reduce((maxInRow, cell) => Math.max(maxInRow, cell.names.length), 0),
+        0
+      ),
+    0
+  );
+
   return (
     <Box
       sx={{
@@ -86,30 +96,39 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
           </Box>
 
           {/* Render data cells */}
-          {rowData.map((cellData, colIndex) => (
-            <Box
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${rowIndex}-${colIndex}`}
-              sx={{
-                width: cellWidth,
-                height: cellHeight,
-                backgroundColor: cellData.color,
-                borderTop: cellData.topBorder,
-                borderBottom: '1px dotted grey',
-                borderLeft: '1px solid black',
-                borderRight: '1px solid black',
-              }}
-              aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}`}
-              {...(cellData.clickable
-                ? ({
-                    component: 'button',
-                    onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
-                      handleClick(event, rowIndex, colIndex);
-                    },
-                  } as unknown as Partial<BoxProps>)
-                : {})}
-            />
-          ))}
+          {rowData.map((cellData, colIndex) => {
+            const numAvailable = cellData.names.length;
+            const isBestTime = numAvailable > 0 && numAvailable === mostParticipants;
+            return (
+              <Box
+                // eslint-disable-next-line react/no-array-index-key
+                key={`${rowIndex}-${colIndex}`}
+                sx={{
+                  width: cellWidth,
+                  height: cellHeight,
+                  backgroundColor:
+                    numAvailable > 0
+                      ? `rgba(0, ${100 + 155 * (cellData.names.length / cellData.totalParticipants)}, 0, 1)`
+                      : '#cccccc',
+                  borderTop: '1px dotted black',
+                  borderBottom: '1px dotted gray',
+                  borderLeft: '1px solid black',
+                  borderRight: '1px solid black',
+                }}
+                aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}, ${numAvailable} out of ${cellData.totalParticipants} participants available${isBestTime ? ', best time' : ''}`}
+                {...(numAvailable > 0
+                  ? ({
+                      component: 'button',
+                      onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+                        handleClick(event, rowIndex, colIndex);
+                      },
+                    } as unknown as Partial<BoxProps>)
+                  : {})}
+              >
+                {isBestTime ? <CheckCircleOutlineIcon sx={{ color: 'black' }} /> : null}
+              </Box>
+            );
+          })}
         </Fragment>
       ))}
       <Popover
