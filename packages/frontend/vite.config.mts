@@ -29,6 +29,10 @@ export default defineConfig(({ mode }) => ({
   },
   cacheDir: '../../node_modules/.vite/plan2gather',
 
+  optimizeDeps: {
+    include: ['@mui/material/Tooltip'],
+  },
+
   server: {
     port: 4200,
     host: 'localhost',
