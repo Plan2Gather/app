@@ -29,6 +29,7 @@ import NotFound from '@/app/pages/not-found/not-found';
 import { trpc } from '@/trpc';
 
 import useGatheringViewData from './gathering-view.store';
+import { CopyButton } from '@/app/components/shared/buttons/copy/copy';
 
 export default function GatheringView() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -171,15 +172,10 @@ export default function GatheringView() {
                     readOnly: true,
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton
-                          aria-label="copy link"
-                          onClick={() => {
-                            void navigator.clipboard.writeText(window.location.href);
-                          }}
-                          edge="end"
-                        >
-                          <ContentCopy />
-                        </IconButton>
+                        <CopyButton
+                          text={window.location.href}
+                          ariaLabel="copy link to clipboard"
+                        />
                       </InputAdornment>
                     ),
                   }}
@@ -237,13 +233,7 @@ export default function GatheringView() {
                               />
                             </Tooltip>
                             <Typography>{timeText}</Typography>
-                            <IconButton
-                              onClick={() => {
-                                void navigator.clipboard.writeText(timeText);
-                              }}
-                            >
-                              <ContentCopy />
-                            </IconButton>
+                            <CopyButton text={timeText} ariaLabel="copy time to clipboard" />
                           </Stack>
                         );
                       })
