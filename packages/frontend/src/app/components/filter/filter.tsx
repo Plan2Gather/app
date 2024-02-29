@@ -55,7 +55,9 @@ export default function Filter({ userLabels }: FilterProps) {
         <Chip
           key={userLabel}
           label={userLabel}
-          onClick={() => { handleToggle(userLabel); }}
+          onClick={() => {
+            handleToggle(userLabel);
+          }}
           color={state[userLabel] ? 'primary' : 'default'}
         />
       ))}
