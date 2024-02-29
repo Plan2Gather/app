@@ -1,12 +1,14 @@
 import { render } from '@testing-library/react';
+import { DateTime } from 'luxon';
 
 import TimePopover from './time-popover';
 
-import type { DateRange } from '@backend/types';
+import type { DateRangeLuxon } from '@/app/components/time-grid/time-grid.helpers';
 
-const dateRange: DateRange = {
-  start: '2022-01-01T00:00:00.000Z',
-  end: '2022-01-01T23:59:59.999Z',
+const dateRange: DateRangeLuxon = {
+  weekday: 'monday',
+  start: DateTime.fromISO('2022-01-01T00:00:00.000Z'),
+  end: DateTime.fromISO('2022-01-01T23:59:59.999Z'),
 };
 
 describe('TimePopover', () => {
