@@ -1,9 +1,3 @@
-import {
-  type Availability,
-  type GatheringFormData,
-  type GatheringFormDetails,
-  type Weekday,
-} from '@backend/types';
 import { Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Step from '@mui/material/Step';
@@ -26,6 +20,12 @@ import { trpc } from '@/trpc';
 import CreationStepperControls from './stepper-controls/stepper-controls';
 
 import type { SubmitFunction } from '@/app/components/creation-form/types';
+import type {
+  Availability,
+  GatheringFormData,
+  GatheringFormDetails,
+  Weekday,
+} from '@backend/types';
 import type { Theme } from '@mui/material/styles';
 
 // Define a type for step information

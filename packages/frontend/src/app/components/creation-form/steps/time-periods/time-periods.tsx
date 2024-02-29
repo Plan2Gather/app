@@ -1,8 +1,3 @@
-import {
-  convertBackendDatesToTimePeriods,
-  convertTimePeriodsToBackendDates,
-  sortWeekdays,
-} from '@backend/utils';
 import { useMediaQuery } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,6 +8,12 @@ import TableRow from '@mui/material/TableRow';
 import { Fragment, forwardRef, useImperativeHandle } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormContainer } from 'react-hook-form-mui';
+
+import {
+  convertBackendDatesToTimePeriods,
+  convertTimePeriodsToBackendDates,
+  sortWeekdays,
+} from '@backend/utils';
 
 import TimeRangeSelections from './time-range-selections/time-range-selections';
 
