@@ -256,32 +256,45 @@ export default function GatheringView() {
             )}
           </Stack>
         </Grid>
-        {fullAvailabilityData != null && fullAvailabilityData.length > 0 && (
-          <Grid xs={12} md={8}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">Group Availability</Typography>
-                <Typography variant="body2" gutterBottom>
-                  Times are shown in the event&apos;s timezone
+
+        <Grid xs={12} md={8}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5">Group Availability</Typography>
+              <Typography variant="body2" gutterBottom>
+                Times are shown in the event&apos;s timezone
+              </Typography>
+              {data.timezone !== userTimezone && (
+                <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
+                  The time grid is in the {data.timezone} timezone.
                 </Typography>
-                {data.timezone !== userTimezone && (
-                  <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
-                    The time grid is in the {data.timezone} timezone.
+              )}
+              {fullAvailabilityData != null &&
+              fullAvailabilityData.length > 0 &&
+              cellData.length > 0 ? (
+                <TimeGrid
+                  data={cellData}
+                  rowLabels={rowLabels}
+                  columnLabels={columnLabels}
+                  timezone={data.timezone}
+                  mostParticipants={mostParticipants}
+                />
+              ) : (
+                <Stack alignItems="center" sx={{ mt: 2 }}>
+                  <Typography variant="h6" align="center">
+                    No availability submitted yet!
                   </Typography>
-                )}
-                {cellData.length > 0 && (
-                  <TimeGrid
-                    data={cellData}
-                    rowLabels={rowLabels}
-                    columnLabels={columnLabels}
-                    timezone={data.timezone}
-                    mostParticipants={mostParticipants}
-                  />
-                )}
-              </CardContent>
-            </Card>
-          </Grid>
-        )}
+                  <Typography variant="body2" align="center" gutterBottom>
+                    Submit yours by clicking the button below
+                  </Typography>
+                  <Button onClick={handleClickOpen} variant="outlined">
+                    Join Gathering
+                  </Button>
+                </Stack>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
       </Grid>
       <TimePeriodDialog
         initial={ownAvailabilityData}
