@@ -88,7 +88,7 @@ export default function TimeGrid({
           {/* Render data cells */}
           {rowData.map((cellData, colIndex) => {
             const numAvailable = cellData.names.length;
-            const isBestTime = numAvailable > 0 && numAvailable === mostParticipants;
+            const isBestTime = numAvailable > 1 && numAvailable === mostParticipants;
             return (
               <Box
                 // eslint-disable-next-line react/no-array-index-key
