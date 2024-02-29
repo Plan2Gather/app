@@ -6,26 +6,27 @@ import { Fragment, useState } from 'react';
 
 import PossibleTime from './time-popover/time-popover';
 
+import type { CellData } from '@/app/pages/gathering-view/gathering-view.store';
 import type { BoxProps } from '@mui/material/Box';
-import type { DateTime } from 'luxon';
-
-export interface CellData {
-  totalParticipants: number;
-  names: string[];
-  period: { start: DateTime; end: DateTime };
-}
 
 interface TimeGridProps {
   data: CellData[][];
   columnLabels: string[];
   rowLabels: string[];
   timezone: string;
+  mostParticipants: number;
 }
 
 const cellWidth = 100;
 const cellHeight = 30;
 
-export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: TimeGridProps) {
+export default function TimeGrid({
+  data,
+  timezone,
+  columnLabels,
+  rowLabels,
+  mostParticipants,
+}: TimeGridProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [selectedCell, setSelectedCell] = useState<CellData | null>(null);
@@ -49,17 +50,6 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
 
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-
-  // Algorithm to find the best time, aka slots with the most participants. Return the number of participants.
-  const mostParticipants = data.reduce(
-    (max, row) =>
-      Math.max(
-        max,
-        row.reduce((maxInRow, cell) => Math.max(maxInRow, cell.names.length), 0),
-        0
-      ),
-    0
-  );
 
   return (
     <Box
@@ -114,6 +104,7 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
                   borderBottom: '1px dotted gray',
                   borderLeft: '1px solid black',
                   borderRight: '1px solid black',
+                  cursor: numAvailable > 0 ? 'pointer' : 'default',
                 }}
                 aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}, ${numAvailable} out of ${cellData.totalParticipants} participants available${isBestTime ? ', best time' : ''}`}
                 {...(numAvailable > 0
@@ -143,10 +134,7 @@ export default function TimeGrid({ data, columnLabels, rowLabels, timezone }: Ti
       >
         {selectedCell != null && (
           <PossibleTime
-            dateRange={{
-              start: selectedCell.period.start.toISO()!,
-              end: selectedCell.period.end.toISO()!,
-            }}
+            dateRange={selectedCell.period}
             users={selectedCell.names}
             timezone={timezone}
           />

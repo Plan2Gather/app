@@ -3,13 +3,12 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { DateTime } from 'luxon';
 import { useState, useEffect } from 'react';
 
-import type { DateRange } from '@backend/types';
+import type { DateRangeLuxon } from '@/app/components/time-grid/time-grid.helpers';
 
 export interface TimePopoverProps {
-  dateRange: DateRange;
+  dateRange: DateRangeLuxon;
   users: string[];
   timezone: string;
 }
@@ -55,9 +54,9 @@ function stringAvatar(name: string) {
 }
 
 export default function TimePopover({ dateRange, users, timezone }: TimePopoverProps) {
-  const { start, end } = dateRange;
-  const startDate = DateTime.fromISO(start).setZone(timezone);
-  const endDate = DateTime.fromISO(end).setZone(timezone);
+  const { weekday, start, end } = dateRange;
+  const startDate = start.setZone(timezone);
+  const endDate = end.setZone(timezone);
   const maxAmt = 3;
   const [displayedUsers, setDisplayedUsers] = useState<string[]>([]);
   const [overflowUsers, setOverflowUsers] = useState<string[]>([]);
@@ -81,7 +80,7 @@ export default function TimePopover({ dateRange, users, timezone }: TimePopoverP
         }}
       >
         <Typography variant="body1">
-          {startDate.weekdayLong}
+          {weekday}
           {' @ '}
           {startDate.toFormat('t')}
           {' - '}

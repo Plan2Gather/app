@@ -1,15 +1,18 @@
-import { sortWeekdays } from '@backend/utils';
 import { DateTime } from 'luxon';
 
-import type { CellData } from './time-grid';
+import { sortWeekdays } from '@backend/utils';
+
+import type { CellData } from '@/app/pages/gathering-view/gathering-view.store';
 import type { UserAvailability, DateRange, Weekday } from '@backend/types';
 
-interface DateRangeLuxon {
+export interface DateRangeLuxon {
+  weekday: Weekday;
   start: DateTime;
   end: DateTime;
 }
 
 function fuzzyGetPeriod(
+  weekday: Weekday,
   periods: Array<DateRangeLuxon & { names: string[] }>,
   target: DateTime,
   targetPeople: string[],
@@ -34,7 +37,7 @@ function fuzzyGetPeriod(
       return {
         totalParticipants: targetPeople.length,
         names: foundPeriod.names,
-        period: { start: foundPeriod.start, end: foundPeriod.end },
+        period: { weekday: foundPeriod.weekday, start: foundPeriod.start, end: foundPeriod.end },
       };
     }
   }
@@ -42,19 +45,17 @@ function fuzzyGetPeriod(
   return {
     totalParticipants: targetPeople.length,
     names: [],
-    period: { start: target, end: target },
+    period: { weekday, start: target, end: target },
   };
 }
 
-export function parseListForTimeSlots(
-  combinedAvailability: Record<string, Array<DateRangeLuxon & { names: string[] }>>,
-  filteredNames: string[],
-  allNames: string[],
+export function getRowAndColumnLabels(
+  combinedAvailability: Record<Weekday, Array<DateRangeLuxon & { names: string[] }>>,
   timezone: string,
   increment: number = 30 * 60 * 1000,
   padding = 1
-): { data: CellData[][]; columnLabels: string[]; rowLabels: string[] } {
-  const days = Object.keys(combinedAvailability);
+) {
+  const days = Object.keys(combinedAvailability) as Weekday[];
   let dayStart = Number.MAX_SAFE_INTEGER;
   let dayEnd = Number.MIN_SAFE_INTEGER;
 
@@ -71,27 +72,75 @@ export function parseListForTimeSlots(
   const dataHeight = Math.ceil((dayEnd - dayStart) / increment);
 
   return {
-    data: Array.from({ length: dataHeight }, (_, rowIndex) =>
-      Array.from({ length: days.length }, (_1, colIndex) =>
-        fuzzyGetPeriod(
-          combinedAvailability[days[colIndex]],
-          DateTime.fromMillis(rowIndex * increment + dayStart).setZone(timezone),
-          allNames,
-          filteredNames
-        )
-      )
-    ),
     columnLabels: days,
     rowLabels: Array.from({ length: dataHeight }, (_, rowIndex) =>
       DateTime.fromMillis(rowIndex * increment + dayStart)
         .setZone(timezone)
         .toLocaleString(DateTime.TIME_SIMPLE)
     ),
+    dataHeight,
+    increment,
+    dayStart,
   };
 }
 
-function createStartStopFromSeries(values: DateTime[]): DateRangeLuxon[] {
+export function parseListForTimeSlots(
+  combinedAvailability: Record<Weekday, Array<DateRangeLuxon & { names: string[] }>>,
+  filteredNames: string[],
+  allNames: string[],
+  timezone: string
+): { data: CellData[][]; columnLabels: string[]; rowLabels: string[] } {
+  const { columnLabels, rowLabels, dataHeight, increment, dayStart } = getRowAndColumnLabels(
+    combinedAvailability,
+    timezone
+  );
+
+  return {
+    data: Array.from({ length: dataHeight }, (_, rowIndex) =>
+      Array.from({ length: columnLabels.length }, (_1, colIndex) =>
+        fuzzyGetPeriod(
+          columnLabels[colIndex],
+          combinedAvailability[columnLabels[colIndex]],
+          DateTime.fromMillis(rowIndex * increment + dayStart).setZone(timezone),
+          allNames,
+          filteredNames
+        )
+      )
+    ),
+    columnLabels,
+    rowLabels,
+  };
+}
+
+export function getBestTimes(data: CellData[]) {
+  data.sort((a, b) => b.names.length - a.names.length);
+
+  const uniquePeriods = new Set<string>();
+  const bestTimes: CellData[] = [];
+  const mostParticipants = data[0].names.length;
+
+  if (mostParticipants !== 0) {
+    data.forEach((cell) => {
+      // Only show times that have at least 2 people available
+      if (cell.names.length < 2) {
+        return;
+      }
+      const periodStr = `${cell.period.start.toString()}-${cell.period.end.toString()}`;
+
+      // Only show unique periods
+      if (!uniquePeriods.has(periodStr)) {
+        uniquePeriods.add(periodStr);
+        bestTimes.push(cell);
+      }
+    });
+  }
+
+  return { bestTimes, mostParticipants };
+}
+
+function createStartStopFromSeries(weekday: Weekday, values: DateTime[]): DateRangeLuxon[] {
   return values.slice(0, -1).map((value, i) => ({
+    weekday,
     start: value,
     end: values[i + 1],
   }));
@@ -107,8 +156,13 @@ function isAvailable(
   );
 }
 
-function convertToLuxonDateRange(dateRange: DateRange, timezone: string): DateRangeLuxon {
+function convertToLuxonDateRange(
+  weekday: Weekday,
+  dateRange: DateRange,
+  timezone: string
+): DateRangeLuxon {
   return {
+    weekday,
     start: DateTime.fromISO(dateRange.start).setZone(timezone),
     end: DateTime.fromISO(dateRange.end).setZone(timezone),
   };
@@ -136,7 +190,7 @@ export function combineTimeSlots(
 
     groupTimePeriods.forEach((person) => {
       const dayAvailability = person.availability[day]?.map((p) =>
-        convertToLuxonDateRange(p, timezone)
+        convertToLuxonDateRange(day, p, timezone)
       );
       dayAvailability?.forEach((period) => {
         dayStartStopSet.add(period.start);
@@ -145,11 +199,13 @@ export function combineTimeSlots(
     });
 
     const dayStartStop = createStartStopFromSeries(
+      day,
       Array.from(dayStartStopSet).sort((a, b) => a.valueOf() - b.valueOf())
     );
 
     dayStartStop.forEach((period) => {
       const tempPeriod = {
+        weekday: day,
         start: period.start,
         end: period.end,
         names: [] as string[],
@@ -157,7 +213,7 @@ export function combineTimeSlots(
       groupTimePeriods.forEach((person) => {
         if (
           isAvailable(
-            person.availability[day]?.map((p) => convertToLuxonDateRange(p, timezone)),
+            person.availability[day]?.map((p) => convertToLuxonDateRange(day, p, timezone)),
             period.start,
             period.end
           )
