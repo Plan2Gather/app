@@ -117,7 +117,7 @@ export function getBestTimes(data: CellData[]) {
 
   const uniquePeriods = new Set<string>();
   const bestTimes: CellData[] = [];
-  const mostParticipants = data[0].names.length;
+  const mostParticipants = data[0]?.names.length ?? 0;
 
   if (mostParticipants !== 0) {
     data.forEach((cell) => {
