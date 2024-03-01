@@ -3,7 +3,7 @@ import IosShareIcon from '@mui/icons-material/IosShare';
 import LinkIcon from '@mui/icons-material/Link';
 import RedditIcon from '@mui/icons-material/Reddit';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
@@ -44,9 +44,11 @@ export default function DropdownShareButton() {
 
   return (
     <>
-      <IconButton {...bindTrigger(popupState)}>
-        <IosShareIcon />
-      </IconButton>
+      <Tooltip title="Share" arrow disableInteractive>
+        <IconButton {...bindTrigger(popupState)}>
+          <IosShareIcon />
+        </IconButton>
+      </Tooltip>
       <Paper>
         <Menu {...bindMenu(popupState)}>
           <MenuItem id="facebook" onClick={handleShare}>

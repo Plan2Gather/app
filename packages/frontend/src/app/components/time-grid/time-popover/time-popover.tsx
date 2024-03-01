@@ -5,6 +5,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 
+import { formattedWeekday } from '@/app/components/time-grid/time-grid.helpers';
+
 import type { WeekdayDateRangeLuxon } from '@/app/components/time-grid/time-grid.helpers';
 
 export interface TimePopoverProps {
@@ -80,11 +82,10 @@ export default function TimePopover({ dateRange, users, timezone }: TimePopoverP
         }}
       >
         <Typography variant="body1">
-          {weekday}
+          {formattedWeekday(weekday)}
           {' @ '}
           {startDate.toFormat('t')}
           {' - '}
-          {startDate.weekdayLong !== endDate.weekdayLong ? `${endDate.weekdayLong} @ ` : ''}
           {endDate.toFormat('t')}
         </Typography>
         <Typography variant="subtitle2">{timezone}</Typography>

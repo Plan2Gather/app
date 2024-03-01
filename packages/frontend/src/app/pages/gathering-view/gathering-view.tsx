@@ -25,6 +25,7 @@ import Filter from '@/app/components/filter/filter';
 import { CopyButton } from '@/app/components/shared/buttons/copy/copy';
 import DropdownShareButton from '@/app/components/shared/buttons/share/share';
 import TimeGrid from '@/app/components/time-grid/time-grid';
+import { formattedWeekday } from '@/app/components/time-grid/time-grid.helpers';
 import NotFound from '@/app/pages/not-found/not-found';
 import { trpc } from '@/trpc';
 
@@ -116,14 +117,16 @@ export default function GatheringView() {
             {data.name}
           </Typography>
           {canEdit && (
-            <IconButton
-              onClick={() => {
-                setOpenEdit(true);
-              }}
-              aria-label="edit"
-            >
-              <EditIcon />
-            </IconButton>
+            <Tooltip title="Edit" arrow disableInteractive>
+              <IconButton
+                onClick={() => {
+                  setOpenEdit(true);
+                }}
+                aria-label="edit"
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           )}
           <DropdownShareButton />
         </Stack>
@@ -212,7 +215,7 @@ export default function GatheringView() {
                     </Typography>
                     {bestTimes.length > 0 ? (
                       bestTimes.map((data) => {
-                        const timeText = `${data.period.weekday}, ${data.period.start.toFormat('t')} - ${data.period.end.toFormat('t')}`;
+                        const timeText = `${formattedWeekday(data.period.weekday)}, ${data.period.start.toFormat('t')} - ${data.period.end.toFormat('t')}`;
                         return (
                           <Stack
                             direction="row"

@@ -14,6 +14,10 @@ export interface WeekdayDateRangeLuxon extends DateRangeLuxon {
   weekday: Weekday;
 }
 
+export function formattedWeekday(weekday: Weekday) {
+  return weekday.charAt(0).toUpperCase() + weekday.slice(1);
+}
+
 function fuzzyGetPeriod(
   weekday: Weekday,
   periods: Array<WeekdayDateRangeLuxon & { names: string[] }>,
@@ -53,7 +57,7 @@ function fuzzyGetPeriod(
 }
 
 export function getRowAndColumnLabels(
-  combinedAvailability: Record<Weekday, Array<WeekdayDateRangeLuxon & { names: string[] }>>,
+  combinedAvailability: Record<Weekday, WeekdayDateRangeLuxon[]>,
   timezone: string,
   increment: number = 30 * 60 * 1000,
   padding = 1
@@ -100,7 +104,7 @@ export function parseListForTimeSlots(
 
   return {
     data: Array.from({ length: dataHeight }, (_, rowIndex) =>
-      Array.from({ length: columnLabels.length }, (_1, colIndex) =>
+      Array.from({ length: columnLabels.length }, (_, colIndex) =>
         fuzzyGetPeriod(
           columnLabels[colIndex],
           combinedAvailability[columnLabels[colIndex]],
