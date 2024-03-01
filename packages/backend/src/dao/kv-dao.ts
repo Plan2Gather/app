@@ -4,6 +4,7 @@ import type KvWrapper from './kv-wrapper';
 import type {
   GatheringBackendData,
   GatheringFormDetails,
+  GatheringFormPeriods,
   GatheringListResponseData,
   UserAvailabilityBackend,
 } from '@backend/types';
@@ -105,6 +106,16 @@ export default class KVDAO {
     };
 
     await this.putGathering(gatheringWithDetails);
+  }
+
+  async putAllowedPeriod(id: string, allowedPeriod: GatheringFormPeriods) {
+    const existingGathering = await this.getBackendGathering(id);
+    const gatheringWithPeriod: GatheringBackendData = {
+      ...existingGathering,
+      ...allowedPeriod,
+    };
+
+    await this.putGathering(gatheringWithPeriod);
   }
 
   /**

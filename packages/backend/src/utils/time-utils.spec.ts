@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { flattenDateRanges, mergeDateRanges, sortWeekdays } from './time-utils';
+import { flattenDateRanges, isRangeWithinRange, mergeDateRanges, sortWeekdays } from './time-utils';
 
 import type { DateRange, Weekday } from '@backend/types';
 
@@ -113,6 +113,68 @@ describe('time-utils', () => {
         start: '2022-01-01T09:00:00.000Z',
         end: '2022-01-01T18:00:00.000Z',
       });
+    });
+  });
+
+  describe('isRangeWithinRange', () => {
+    it('should return true when the range is within the restriction', () => {
+      const range: DateRange = {
+        start: '2022-01-01T09:00:00.000Z',
+        end: '2022-01-01T15:00:00.000Z',
+      };
+      const restriction: DateRange = {
+        start: '2022-01-01T08:00:00.000Z',
+        end: '2022-01-01T16:00:00.000Z',
+      };
+      expect(isRangeWithinRange(range, restriction)).toBe(true);
+    });
+
+    it('should return false when the range is not within the restriction', () => {
+      const range: DateRange = {
+        start: '2022-01-01T09:00:00.000Z',
+        end: '2022-01-01T15:00:00.000Z',
+      };
+      const restriction: DateRange = {
+        start: '2022-01-01T16:00:00.000Z',
+        end: '2022-01-01T18:00:00.000Z',
+      };
+      expect(isRangeWithinRange(range, restriction)).toBe(false);
+    });
+
+    it('should return true when the range is equal to the restriction', () => {
+      const range: DateRange = {
+        start: '2022-01-01T09:00:00.000Z',
+        end: '2022-01-01T15:00:00.000Z',
+      };
+      const restriction: DateRange = {
+        start: '2022-01-01T09:00:00.000Z',
+        end: '2022-01-01T15:00:00.000Z',
+      };
+      expect(isRangeWithinRange(range, restriction)).toBe(true);
+    });
+
+    it('should return false when the range overlaps the start of the restriction', () => {
+      const range: DateRange = {
+        start: '2022-01-01T08:00:00.000Z',
+        end: '2022-01-01T15:00:00.000Z',
+      };
+      const restriction: DateRange = {
+        start: '2022-01-01T09:00:00.000Z',
+        end: '2022-01-01T16:00:00.000Z',
+      };
+      expect(isRangeWithinRange(range, restriction)).toBe(false);
+    });
+
+    it('should return false when the range overlaps the end of the restriction', () => {
+      const range: DateRange = {
+        start: '2022-01-01T09:00:00.000Z',
+        end: '2022-01-01T16:00:00.000Z',
+      };
+      const restriction: DateRange = {
+        start: '2022-01-01T08:00:00.000Z',
+        end: '2022-01-01T15:00:00.000Z',
+      };
+      expect(isRangeWithinRange(range, restriction)).toBe(false);
     });
   });
 });

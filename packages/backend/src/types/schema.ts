@@ -83,23 +83,22 @@ export const gatheringFormDetailsSchema = z.object({
 
 export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
 
-/**
- * Gathering form data schema.
- *
- * The gathering form data is the required data to create a gathering.
- */
-export const gatheringFormPeriodsSchema = z.object({
-  allowedPeriod: z
-    .object({
-      weekdays: z.array(weekdaySchema),
-      period: dateRangeSchema,
-    })
-    .readonly(),
+export const gatheringFormPeriodSchema = z
+  .object({
+    weekdays: z.array(weekdaySchema),
+    period: dateRangeSchema,
+  })
+  .readonly();
+
+export const gatheringFormPeriodDataSchema = z.object({
+  allowedPeriod: gatheringFormPeriodSchema,
 });
 
-export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
+export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodDataSchema>;
 
-export const gatheringFormDataSchema = gatheringFormDetailsSchema.merge(gatheringFormPeriodsSchema);
+export const gatheringFormDataSchema = gatheringFormDetailsSchema.merge(
+  gatheringFormPeriodDataSchema
+);
 
 export type GatheringFormData = z.infer<typeof gatheringFormDataSchema>;
 

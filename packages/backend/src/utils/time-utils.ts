@@ -8,6 +8,34 @@ import type { Availability, DateRange, Weekday } from '@backend/types';
 export const sortWeekdays = (days: Weekday[]): Weekday[] =>
   days.sort((a, b) => weekdays.indexOf(a) - weekdays.indexOf(b));
 
+/**
+ * Checks if a given date is within a specified date range.
+ * @param date - The date to check.
+ * @param restriction - The date range to compare against.
+ * @returns True if the date is within the range, false otherwise.
+ */
+export const isDateWithinRange = (date: DateTime, restriction: DateRange): boolean => {
+  return date >= DateTime.fromISO(restriction.start) && date <= DateTime.fromISO(restriction.end);
+};
+
+/**
+ * Checks if a given date range is within another date range.
+ * @param range - The date range to check.
+ * @param restriction - The date range to compare against.
+ * @returns True if the range is within the restriction, false otherwise.
+ */
+export const isRangeWithinRange = (range: DateRange, restriction: DateRange): boolean => {
+  return (
+    isDateWithinRange(DateTime.fromISO(range.start), restriction) &&
+    isDateWithinRange(DateTime.fromISO(range.end), restriction)
+  );
+};
+
+/**
+ * Convert backend dates to time periods
+ * @param availability - Availability to convert
+ * @returns Time periods
+ */
 export const convertBackendDatesToTimePeriods = (
   availability: Availability
 ): Record<string, DateTime> => {
