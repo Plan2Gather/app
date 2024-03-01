@@ -20,7 +20,7 @@ import ConfirmTimezoneDialog from './confirm-timezone/confirm-timezone';
 import LeaveGatheringDialog from './leave-gathering/leave-gathering';
 
 import type { SubmitFunction } from '@/app/components/creation-form/types';
-import type { Availability, GatheringData, UserAvailability, Weekday } from '@backend/types';
+import type { Availability, GatheringData, UserAvailability } from '@backend/types';
 
 export interface TimePeriodDialogProps {
   initial: UserAvailability | undefined;
@@ -138,8 +138,8 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
             </Typography>
             <TimePeriodsStep
               initial={initial?.availability ?? {}}
-              restrictions={gatheringData.allowedPeriods}
-              days={Object.keys(gatheringData.allowedPeriods) as Weekday[]}
+              restriction={gatheringData.allowedPeriod.period}
+              days={gatheringData.allowedPeriod.weekdays}
               timezone={gatheringData.timezone}
               ref={submitRef}
               allowMultiple

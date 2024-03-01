@@ -17,14 +17,14 @@ import {
 
 import TimeRangeSelections from './time-range-selections/time-range-selections';
 
-import type { Weekday, Availability } from '@backend/types';
+import type { Weekday, Availability, DateRange } from '@backend/types';
 import type { Theme } from '@mui/material';
 import type { DateTime } from 'luxon';
 
 export interface TimePeriodsStepProps {
   initial: Availability;
   days: Weekday[];
-  restrictions?: Availability;
+  restriction?: DateRange;
   allowMultiple?: boolean;
   assumeFullDay?: boolean;
   timezone: string | undefined;
@@ -35,7 +35,7 @@ function DayHeaderCell({ day }: { day: Weekday }) {
 }
 
 const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
-  ({ initial, days, restrictions, timezone, allowMultiple, assumeFullDay }, ref) => {
+  ({ initial, days, restriction, timezone, allowMultiple, assumeFullDay }, ref) => {
     const initialValues = convertBackendDatesToTimePeriods(initial);
     const formContext = useForm<Record<string, DateTime>>({
       defaultValues: initialValues ?? {},
@@ -88,7 +88,7 @@ const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
                         <TimeRangeSelections
                           initial={initialValues ?? {}}
                           day={day}
-                          restriction={restrictions?.[day]?.[0]}
+                          restriction={restriction}
                           timezone={timezone}
                           allowMultiple={allowMultiple ?? false}
                         />
@@ -113,7 +113,7 @@ const TimePeriodsStep = forwardRef<unknown, TimePeriodsStepProps>(
                         <TimeRangeSelections
                           initial={initialValues ?? {}}
                           day={day}
-                          restriction={restrictions?.[day]?.[0]}
+                          restriction={restriction}
                           timezone={timezone}
                           allowMultiple={allowMultiple ?? false}
                         />
@@ -135,7 +135,7 @@ export default TimePeriodsStep;
 TimePeriodsStep.displayName = 'TimePeriodsStep';
 
 TimePeriodsStep.defaultProps = {
-  restrictions: undefined,
+  restriction: undefined,
   allowMultiple: false,
   assumeFullDay: false,
 };

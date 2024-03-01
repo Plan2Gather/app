@@ -11,13 +11,12 @@ const defaultGatheringData: GatheringFormData = {
   name: 'Test Gathering',
   description: 'Test Gathering Description',
   timezone: 'America/New_York',
-  allowedPeriods: {
-    wednesday: [
-      {
-        start: '2021-10-10T12:00:00.000Z',
-        end: '2021-10-10T13:00:00.000Z',
-      },
-    ],
+  allowedPeriod: {
+    weekdays: ['wednesday'],
+    period: {
+      start: '2021-10-10T12:00:00.000Z',
+      end: '2021-10-10T13:00:00.000Z',
+    },
   },
 };
 

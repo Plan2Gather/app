@@ -12,7 +12,7 @@ describe('DetailsEditDialog', () => {
     name: 'Test Gathering',
     description: 'Test Gathering Description',
     timezone: 'America/New_York',
-    allowedPeriods: {
+    allowedPeriod: {
       wednesday: [
         {
           start: '2021-10-10T12:00:00.000Z',

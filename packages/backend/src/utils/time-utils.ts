@@ -87,6 +87,31 @@ export const convertTimePeriodsToBackendDates = (
   return parsedSchedule;
 };
 
+/**
+ * Flatten date ranges
+ * @param dateRanges - Date ranges to flatten
+ * @returns The earliest start date and the latest end date
+ */
+export const flattenDateRanges = (dateRanges: DateRange[]) => {
+  return dateRanges.reduce(
+    (acc: { start: string; end: string }, range) => {
+      if (acc.start === '' || DateTime.fromISO(range.start) < DateTime.fromISO(acc.start)) {
+        acc.start = range.start;
+      }
+      if (acc.end === '' || DateTime.fromISO(range.end) > DateTime.fromISO(acc.end)) {
+        acc.end = range.end;
+      }
+      return acc;
+    },
+    { start: '', end: '' }
+  );
+};
+
+/**
+ * Merge overlapping date ranges
+ * @param ranges - Date ranges to merge
+ * @returns Merged date ranges
+ */
 export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
   // Sort ranges by start date
   ranges.sort(
@@ -116,6 +141,11 @@ export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
   return mergedRanges;
 }
 
+/**
+ * Consolidate availability by merging overlapping time ranges
+ * @param availability - Availability to consolidate
+ * @returns Consolidated availability
+ */
 export function consolidateAvailability(availability: Availability): Availability {
   const consolidatedAvailability: Availability = {};
 

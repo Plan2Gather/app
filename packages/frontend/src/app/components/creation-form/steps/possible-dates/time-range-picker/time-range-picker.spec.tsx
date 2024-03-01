@@ -1,20 +1,22 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { render } from '@testing-library/react';
+import { FormContainer } from 'react-hook-form-mui';
 
-import PossibleDatesStep from './possible-dates';
+import TimeRangePicker from './time-range-picker';
 
-import type { PossibleDatesData } from '@/app/components/creation-form/creation.store';
-
-
-describe('PossibleDatesStep', () => {
+describe('TimeRangePicker', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
       <LocalizationProvider dateAdapter={AdapterLuxon}>
-        <PossibleDatesStep
-          initial={{} as unknown as PossibleDatesData}
-          timezone="America/Los_Angeles"
-        />
+        <FormContainer>
+          <TimeRangePicker
+            index={0}
+            range={{ start: null, end: null, id: '1234' }}
+            onRemove={() => {}}
+            onUpdate={() => {}}
+          />
+        </FormContainer>
       </LocalizationProvider>
     );
     expect(baseElement).toBeTruthy();

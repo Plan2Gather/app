@@ -5,10 +5,10 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 
-import type { DateRangeLuxon } from '@/app/components/time-grid/time-grid.helpers';
+import type { WeekdayDateRangeLuxon } from '@/app/components/time-grid/time-grid.helpers';
 
 export interface TimePopoverProps {
-  dateRange: DateRangeLuxon;
+  dateRange: WeekdayDateRangeLuxon;
   users: string[];
   timezone: string;
 }

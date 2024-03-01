@@ -1,19 +1,23 @@
 import { create } from 'zustand';
 
-import type { GatheringFormDetails, Availability, Weekday } from '@backend/types';
+import type { DateRangeLuxon } from '@/app/components/time-grid/time-grid.helpers';
+import type { GatheringFormDetails, Weekday } from '@backend/types';
+
+export interface PossibleDatesData {
+  weekdays: Weekday[];
+  period: DateRangeLuxon;
+}
 
 export interface CreationStore {
   details: GatheringFormDetails | null;
-  possibleDates: Weekday[];
-  timePeriods: Availability;
+  possibleDates: PossibleDatesData;
   setDetails: (details: GatheringFormDetails) => void;
-  setPossibleDates: (possibleDates: Weekday[]) => void;
-  setTimePeriods: (timePeriods: Availability) => void;
+  setPossibleDates: (possibleDates: PossibleDatesData) => void;
 }
 
 const useCreationStore = create<CreationStore>((set) => ({
   details: null,
-  possibleDates: [],
+  possibleDates: {} as unknown as PossibleDatesData,
   timePeriods: {},
   timePeriodsFormData: null,
   setDetails: (details) => {
@@ -21,9 +25,6 @@ const useCreationStore = create<CreationStore>((set) => ({
   },
   setPossibleDates: (possibleDates) => {
     set({ possibleDates });
-  },
-  setTimePeriods: (timePeriods) => {
-    set({ timePeriods });
   },
 }));
 

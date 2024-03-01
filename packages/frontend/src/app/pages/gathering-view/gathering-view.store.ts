@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import {
   getBestTimes,
-  type DateRangeLuxon,
+  type WeekdayDateRangeLuxon,
   parseListForTimeSlots,
   combineTimeSlots,
 } from '@/app/components/time-grid/time-grid.helpers';
@@ -12,7 +12,7 @@ import type { UserAvailability } from '@backend/types';
 export interface CellData {
   totalParticipants: number;
   names: string[];
-  period: DateRangeLuxon;
+  period: WeekdayDateRangeLuxon;
 }
 
 export interface GatheringViewData {

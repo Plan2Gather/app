@@ -31,7 +31,6 @@ export default t.router({
     const gathering: GatheringBackendData = {
       id: gatheringId,
       ...input,
-      allowedPeriods: input.allowedPeriods,
       availability: {},
       creationDate: new Date().toISOString(),
       creationUserId: ctx.userId,

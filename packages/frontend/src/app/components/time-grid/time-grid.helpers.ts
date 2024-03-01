@@ -6,14 +6,17 @@ import type { CellData } from '@/app/pages/gathering-view/gathering-view.store';
 import type { UserAvailability, DateRange, Weekday } from '@backend/types';
 
 export interface DateRangeLuxon {
-  weekday: Weekday;
   start: DateTime;
   end: DateTime;
 }
 
+export interface WeekdayDateRangeLuxon extends DateRangeLuxon {
+  weekday: Weekday;
+}
+
 function fuzzyGetPeriod(
   weekday: Weekday,
-  periods: Array<DateRangeLuxon & { names: string[] }>,
+  periods: Array<WeekdayDateRangeLuxon & { names: string[] }>,
   target: DateTime,
   targetPeople: string[],
   requiredPeople: string[]
@@ -50,7 +53,7 @@ function fuzzyGetPeriod(
 }
 
 export function getRowAndColumnLabels(
-  combinedAvailability: Record<Weekday, Array<DateRangeLuxon & { names: string[] }>>,
+  combinedAvailability: Record<Weekday, Array<WeekdayDateRangeLuxon & { names: string[] }>>,
   timezone: string,
   increment: number = 30 * 60 * 1000,
   padding = 1
@@ -85,7 +88,7 @@ export function getRowAndColumnLabels(
 }
 
 export function parseListForTimeSlots(
-  combinedAvailability: Record<Weekday, Array<DateRangeLuxon & { names: string[] }>>,
+  combinedAvailability: Record<Weekday, Array<WeekdayDateRangeLuxon & { names: string[] }>>,
   filteredNames: string[],
   allNames: string[],
   timezone: string
@@ -138,7 +141,7 @@ export function getBestTimes(data: CellData[]) {
   return { bestTimes, mostParticipants };
 }
 
-function createStartStopFromSeries(weekday: Weekday, values: DateTime[]): DateRangeLuxon[] {
+function createStartStopFromSeries(weekday: Weekday, values: DateTime[]): WeekdayDateRangeLuxon[] {
   return values.slice(0, -1).map((value, i) => ({
     weekday,
     start: value,
@@ -147,7 +150,7 @@ function createStartStopFromSeries(weekday: Weekday, values: DateTime[]): DateRa
 }
 
 function isAvailable(
-  individualTimePeriods: DateRangeLuxon[] | undefined,
+  individualTimePeriods: WeekdayDateRangeLuxon[] | undefined,
   start: DateTime,
   end: DateTime
 ): boolean {
@@ -160,7 +163,7 @@ function convertToLuxonDateRange(
   weekday: Weekday,
   dateRange: DateRange,
   timezone: string
-): DateRangeLuxon {
+): WeekdayDateRangeLuxon {
   return {
     weekday,
     start: DateTime.fromISO(dateRange.start).setZone(timezone),
@@ -171,8 +174,8 @@ function convertToLuxonDateRange(
 export function combineTimeSlots(
   groupTimePeriods: UserAvailability[],
   timezone: string
-): Record<string, Array<DateRangeLuxon & { names: string[] }>> {
-  const finalResult: Record<string, Array<DateRangeLuxon & { names: string[] }>> = {};
+): Record<string, Array<WeekdayDateRangeLuxon & { names: string[] }>> {
+  const finalResult: Record<string, Array<WeekdayDateRangeLuxon & { names: string[] }>> = {};
   const usedDays = new Set<Weekday>();
 
   groupTimePeriods.forEach((person) => {

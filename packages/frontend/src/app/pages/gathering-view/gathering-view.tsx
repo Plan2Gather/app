@@ -1,5 +1,4 @@
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ContentCopy from '@mui/icons-material/ContentCopy';
 import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
@@ -23,13 +22,13 @@ import { useParams } from 'react-router-dom';
 import DetailsEditDialog from '@/app/components/dialogs/details-edit/details-edit';
 import TimePeriodDialog from '@/app/components/dialogs/user-availability/user-availability';
 import Filter from '@/app/components/filter/filter';
+import { CopyButton } from '@/app/components/shared/buttons/copy/copy';
 import DropdownShareButton from '@/app/components/shared/buttons/share/share';
 import TimeGrid from '@/app/components/time-grid/time-grid';
 import NotFound from '@/app/pages/not-found/not-found';
 import { trpc } from '@/trpc';
 
 import useGatheringViewData from './gathering-view.store';
-import { CopyButton } from '@/app/components/shared/buttons/copy/copy';
 
 export default function GatheringView() {
   const [dialogOpen, setDialogOpen] = useState(false);

@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { mergeDateRanges, sortWeekdays } from './time-utils';
+import { flattenDateRanges, mergeDateRanges, sortWeekdays } from './time-utils';
 
 import type { DateRange, Weekday } from '@backend/types';
 
@@ -92,6 +92,27 @@ describe('time-utils', () => {
 
       const result = mergeDateRanges(dateRanges);
       expect(result).toEqual(dateRanges);
+    });
+  });
+
+  describe('flattenDateRanges', () => {
+    it('should flatten date ranges correctly', () => {
+      const dateRanges: DateRange[] = [
+        {
+          start: '2022-01-01T09:00:00.000Z',
+          end: '2022-01-01T15:00:00.000Z',
+        },
+        {
+          start: '2022-01-01T14:00:00.000Z',
+          end: '2022-01-01T18:00:00.000Z',
+        },
+      ];
+
+      const result = flattenDateRanges(dateRanges);
+      expect(result).toEqual({
+        start: '2022-01-01T09:00:00.000Z',
+        end: '2022-01-01T18:00:00.000Z',
+      });
     });
   });
 });

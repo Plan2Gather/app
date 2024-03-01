@@ -89,7 +89,12 @@ export type GatheringFormDetails = z.infer<typeof gatheringFormDetailsSchema>;
  * The gathering form data is the required data to create a gathering.
  */
 export const gatheringFormPeriodsSchema = z.object({
-  allowedPeriods: limitedAvailabilitySchema,
+  allowedPeriod: z
+    .object({
+      weekdays: z.array(weekdaySchema),
+      period: dateRangeSchema,
+    })
+    .readonly(),
 });
 
 export type GatheringFormPeriods = z.infer<typeof gatheringFormPeriodsSchema>;
@@ -116,6 +121,7 @@ export const gatheringBackendDataSchema = z
     creationUserId: z.string(),
     availability: userAvailabilityBackendSchema,
   })
+  .strict()
   .readonly();
 
 export type GatheringBackendData = z.infer<typeof gatheringBackendDataSchema>;

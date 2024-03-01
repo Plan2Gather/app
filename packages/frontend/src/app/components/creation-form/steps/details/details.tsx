@@ -74,9 +74,7 @@ const DetailsStep = forwardRef<
 
   return (
     <>
-      <Typography variant="h5" gutterBottom>
-        Gathering Details
-      </Typography>
+      <Typography variant="h5">Gathering Details</Typography>
       <Typography variant="subtitle2" gutterBottom sx={{ paddingBottom: 1.5 }}>
         Treat all fields as public information. Do not include any personal information.
       </Typography>
