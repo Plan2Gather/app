@@ -1,5 +1,6 @@
-import { Stack } from '@mui/material';
+import { Stack, useTheme } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { DateTime } from 'luxon';
 import { forwardRef, useImperativeHandle } from 'react';
 import { FormContainer, ToggleButtonGroupElement, useForm } from 'react-hook-form-mui';
@@ -19,6 +20,8 @@ interface PossibleDatesStepProps {
 
 const PossibleDatesStep = forwardRef<unknown, PossibleDatesStepProps>(
   ({ initial, timezone }, ref) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const formContext = useForm<{ weekdays: Weekday[]; start: DateTime; end: DateTime }>({
       defaultValues: {
         weekdays: initial.weekdays ?? [],
@@ -59,7 +62,7 @@ const PossibleDatesStep = forwardRef<unknown, PossibleDatesStepProps>(
 
     const options = weekdays.map((day) => ({
       id: day,
-      label: day.slice(0, 3),
+      label: day.slice(0, isMobile ? 1 : 3),
     }));
 
     return (
