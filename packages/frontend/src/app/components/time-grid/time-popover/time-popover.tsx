@@ -8,10 +8,11 @@ import { useState, useEffect } from 'react';
 
 import { formattedWeekday } from '@/app/components/time-grid/time-grid.helpers';
 
-import type { WeekdayDateRangeLuxon } from '@backend/types';
+import type { DateRangeLuxon, Weekday } from '@backend/types';
 
 export interface TimePopoverProps {
-  dateRange: WeekdayDateRangeLuxon;
+  weekday: Weekday;
+  dateRange: DateRangeLuxon;
   users: string[];
   timezone: string;
   bestTime?: boolean;
@@ -57,8 +58,14 @@ function stringAvatar(name: string) {
   };
 }
 
-export default function TimePopover({ dateRange, users, timezone, bestTime }: TimePopoverProps) {
-  const { weekday, start, end } = dateRange;
+export default function TimePopover({
+  weekday,
+  dateRange,
+  users,
+  timezone,
+  bestTime,
+}: TimePopoverProps) {
+  const { start, end } = dateRange;
   const startDate = start.setZone(timezone);
   const endDate = end.setZone(timezone);
   const maxAmt = 3;

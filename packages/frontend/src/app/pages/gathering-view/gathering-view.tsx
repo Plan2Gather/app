@@ -216,7 +216,7 @@ export default function GatheringView() {
                     </Typography>
                     {bestTimes.length > 0 ? (
                       bestTimes.map((data) => {
-                        const timeText = `${formattedWeekday(data.period.weekday)}, ${data.period.start.toFormat('t')} - ${data.period.end.toFormat('t')}`;
+                        const timeText = `${formattedWeekday(data.weekday)}, ${data.period.start.toFormat('t')} - ${data.period.end.toFormat('t')}`;
                         return (
                           <Stack
                             direction="row"

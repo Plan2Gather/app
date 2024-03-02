@@ -6,7 +6,6 @@ import PossibleDatesStep from './possible-dates';
 
 import type { PossibleDatesData } from '@/app/components/creation-form/creation.store';
 
-
 describe('PossibleDatesStep', () => {
   it('should render successfully', () => {
     const { baseElement } = render(

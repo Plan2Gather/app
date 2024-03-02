@@ -3,6 +3,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Divider,
   Stack,
   Typography,
 } from '@mui/material';
@@ -12,10 +13,10 @@ import { DateTime } from 'luxon';
 import { useRef, useState } from 'react';
 import { FormContainer, TextFieldElement, useForm } from 'react-hook-form-mui';
 
-import TimePeriodsStep from '@/app/components/creation-form/steps/time-periods/time-periods';
 import LoadingButton from '@/app/components/shared/buttons/loading/loading';
 import { trpc } from '@/trpc';
 
+import TimeGrid from './availability-grid/availability-grid';
 import ConfirmTimezoneDialog from './confirm-timezone/confirm-timezone';
 import LeaveGatheringDialog from './leave-gathering/leave-gathering';
 
@@ -129,20 +130,20 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
                 required
               />
             </FormContainer>
-            <DialogContentText>
-              Set your availability for the gathering. You can set multiple time periods for each
-              day.
-            </DialogContentText>
+            <Divider />
             <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
               Please enter your availability in the event timezone: {gatheringData.timezone}
             </Typography>
-            <TimePeriodsStep
+            <DialogContentText>
+              Click and drag to select the times you are available. You can also click and drag to
+              deselect times you are not available.
+            </DialogContentText>
+            <TimeGrid
               initial={initial?.availability ?? {}}
               restriction={gatheringData.allowedPeriod.period}
               days={gatheringData.allowedPeriod.weekdays}
               timezone={gatheringData.timezone}
               ref={submitRef}
-              allowMultiple
             />
           </Stack>
         </DialogContent>

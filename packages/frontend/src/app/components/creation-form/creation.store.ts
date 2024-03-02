@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 
-import type { DateRangeLuxon } from '@/app/components/time-grid/time-grid.helpers';
-import type { GatheringFormDetails, Weekday } from '@backend/types';
+import type { DateRangeLuxon, GatheringFormDetails, Weekday } from '@backend/types';
 
 export interface PossibleDatesData {
   weekdays: Weekday[];

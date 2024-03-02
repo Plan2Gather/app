@@ -1,12 +1,26 @@
 import { DateTime } from 'luxon';
 
-import { sortedAvailabilitySchema, weekdays } from '@backend/types';
+import { weekdays } from '@backend/types';
 
 // eslint-disable-next-line import/no-cycle
-import type { Availability, DateRange, Weekday } from '@backend/types';
+import type { Availability, DateRange, DateRangeLuxon, Weekday } from '@backend/types';
 
 export const sortWeekdays = (days: Weekday[]): Weekday[] =>
   days.sort((a, b) => weekdays.indexOf(a) - weekdays.indexOf(b));
+
+export const timeOnly = (dateTime: DateTime): DateTime => {
+  return DateTime.fromObject({
+    hour: dateTime.hour,
+    minute: dateTime.minute,
+    second: dateTime.second,
+  });
+};
+
+export const isDateWithinRangeLuxon = (date: DateTime, restriction: DateRangeLuxon) => {
+  return (
+    timeOnly(date) >= timeOnly(restriction.start) && timeOnly(date) <= timeOnly(restriction.end)
+  );
+};
 
 /**
  * Checks if a given date is within a specified date range.
@@ -15,7 +29,10 @@ export const sortWeekdays = (days: Weekday[]): Weekday[] =>
  * @returns True if the date is within the range, false otherwise.
  */
 export const isDateWithinRange = (date: DateTime, restriction: DateRange): boolean => {
-  return date >= DateTime.fromISO(restriction.start) && date <= DateTime.fromISO(restriction.end);
+  const start = DateTime.fromISO(restriction.start);
+  const end = DateTime.fromISO(restriction.end);
+
+  return isDateWithinRangeLuxon(date, { start, end });
 };
 
 /**
@@ -28,110 +45,6 @@ export const isRangeWithinRange = (range: DateRange, restriction: DateRange): bo
   return (
     isDateWithinRange(DateTime.fromISO(range.start), restriction) &&
     isDateWithinRange(DateTime.fromISO(range.end), restriction)
-  );
-};
-
-/**
- * Convert backend dates to time periods
- * @param availability - Availability to convert
- * @returns Time periods
- */
-export const convertBackendDatesToTimePeriods = (
-  availability: Availability
-): Record<string, DateTime> => {
-  const tps: Record<string, DateTime> = {};
-
-  // Assuming 'availability' is in the format of Record<Weekday, Array<{ id: string; start: string; end: string }>>
-  Object.keys(availability).forEach((weekday) => {
-    availability[weekday as Weekday]?.forEach((timeSlot, index) => {
-      const startKey = `${weekday}_${index}_start`;
-      const endKey = `${weekday}_${index}_end`;
-
-      // Assuming the DateTime here refers to some date-time library that can parse ISO strings
-      tps[startKey] = DateTime.fromISO(timeSlot.start);
-      tps[endKey] = DateTime.fromISO(timeSlot.end);
-    });
-  });
-
-  return tps;
-};
-
-/**
- * Convert time periods to backend dates
- * @param tps - Time periods
- * @param days - Possible days of the week, if provided, days that are missing from tps will generate time periods spanning the entire day
- * @returns Availability backend dates
- */
-export const convertTimePeriodsToBackendDates = (
-  tps: Record<string, DateTime>,
-  days?: Weekday[]
-): Availability => {
-  const convertedSchedule: Partial<
-    Record<Weekday, Array<{ id: string; start: string; end: string }>>
-  > = {};
-
-  Object.keys(tps).forEach((key) => {
-    const match = key.match(/(^[a-zA-Z]+)_(\d+)_(start|end)$/);
-    if (match != null) {
-      const day = match[1].toLowerCase(); // Convert to lowercase to match the enum values
-      const index = match[2]; // Identifier for the time period
-      const type = match[3] as 'start' | 'end';
-
-      if (Object.values(weekdays).includes(day as Weekday)) {
-        const weekday = day as Weekday;
-
-        if (convertedSchedule[weekday] == null) {
-          convertedSchedule[weekday] = [];
-        }
-
-        let timeSlot = convertedSchedule[weekday]?.find((slot) => slot.id === index);
-        if (timeSlot == null) {
-          timeSlot = { id: index, start: '', end: '' };
-          convertedSchedule[weekday]!.push(timeSlot);
-        }
-
-        timeSlot[type] = tps[key].toISO()!;
-      }
-    }
-  });
-
-  if (days != null) {
-    days.forEach((day) => {
-      if (convertedSchedule[day] == null) {
-        convertedSchedule[day] = [
-          {
-            id: 'none',
-            start: DateTime.now().startOf('day').toISO(),
-            end: DateTime.now().endOf('day').toISO(),
-          },
-        ];
-      }
-    });
-  }
-
-  // Validate the overall schedule - this strips the id field
-  const parsedSchedule = sortedAvailabilitySchema.parse(convertedSchedule);
-
-  return parsedSchedule;
-};
-
-/**
- * Flatten date ranges
- * @param dateRanges - Date ranges to flatten
- * @returns The earliest start date and the latest end date
- */
-export const flattenDateRanges = (dateRanges: DateRange[]) => {
-  return dateRanges.reduce(
-    (acc: { start: string; end: string }, range) => {
-      if (acc.start === '' || DateTime.fromISO(range.start) < DateTime.fromISO(acc.start)) {
-        acc.start = range.start;
-      }
-      if (acc.end === '' || DateTime.fromISO(range.end) > DateTime.fromISO(acc.end)) {
-        acc.end = range.end;
-      }
-      return acc;
-    },
-    { start: '', end: '' }
   );
 };
 

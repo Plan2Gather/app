@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { consolidateAvailability } from '@backend/utils';
 
 import { weekdays } from './const';
+
+import type { DateTime } from 'luxon';
 // eslint-disable-next-line import/no-cycle
 
 /**
@@ -37,6 +39,13 @@ export const dateRangeSchema = z
   .readonly();
 
 export type DateRange = z.infer<typeof dateRangeSchema>;
+
+export interface DateRangeLuxon {
+  start: DateTime;
+  end: DateTime;
+}
+
+export type AvailabilityLuxon = Record<Weekday, DateRangeLuxon[]>;
 
 export const weekdaySchema = z.enum(weekdays).readonly();
 
