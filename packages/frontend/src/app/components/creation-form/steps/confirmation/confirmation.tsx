@@ -1,4 +1,3 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { forwardRef, useImperativeHandle } from 'react';
 
@@ -19,12 +18,6 @@ const ConfirmationStep = forwardRef<unknown, { initial: CreationStore }>(({ init
     <>
       <Typography variant="h5">Confirm Gathering</Typography>
       <GatheringDetails gatheringData={details!} />
-      <FormGroup>
-        <FormControlLabel
-          control={<Checkbox name="notifications" />}
-          label="Want to receive notifications about this gathering?"
-        />
-      </FormGroup>
     </>
   );
 });
