@@ -4,7 +4,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 
 import { formattedWeekday } from '@/app/components/time-grid/time-grid.helpers';
 
@@ -69,18 +69,14 @@ export default function TimePopover({
   const startDate = start.setZone(timezone);
   const endDate = end.setZone(timezone);
   const maxAmt = 4;
-  const [displayedUsers, setDisplayedUsers] = useState<string[]>([]);
-  const [overflowUsers, setOverflowUsers] = useState<string[]>([]);
-
-  useEffect(() => {
-    if (users.length <= maxAmt) {
-      setDisplayedUsers(users);
-      setOverflowUsers([]);
-    } else {
-      setDisplayedUsers(users.slice(0, maxAmt - 1));
-      setOverflowUsers(users.slice(maxAmt - 1));
-    }
-  }, [users]);
+  const displayedUsers = useMemo<string[]>(
+    () => (users.length <= maxAmt ? users : users.slice(0, maxAmt - 1)),
+    [users]
+  );
+  const overflowUsers = useMemo<string[]>(
+    () => (users.length <= maxAmt ? [] : users.slice(maxAmt - 1)),
+    [users]
+  );
 
   return (
     <Box

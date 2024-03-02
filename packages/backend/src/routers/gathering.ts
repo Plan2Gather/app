@@ -9,7 +9,7 @@ import {
   userAvailabilityBackendSchema,
   userAvailabilitySchema,
 } from '@backend/types';
-import { isRangeWithinRange } from '@backend/utils';
+import { isRangeWithinRange, timeRangeToLuxon } from '@backend/utils';
 import t from 'packages/backend/src/trpc';
 
 import userProcedure from './userid-middleware';
@@ -82,7 +82,12 @@ export default t.router({
       weekdayKeys.forEach((key) => {
         const periods = availability[key as Weekday];
         periods?.forEach((period) => {
-          if (isRangeWithinRange(period, gathering.allowedPeriod.period)) {
+          if (
+            isRangeWithinRange(
+              timeRangeToLuxon(period),
+              timeRangeToLuxon(gathering.allowedPeriod.period)
+            )
+          ) {
             throw new TRPCError({
               message: `The period ${period.start} - ${period.end} is not allowed for ${key}.`,
               code: 'BAD_REQUEST',

@@ -16,6 +16,10 @@ export const timeOnly = (dateTime: DateTime): DateTime => {
   });
 };
 
+export const timeOnlyISO = (dateTimeISO: string): DateTime => {
+  return timeOnly(DateTime.fromISO(dateTimeISO));
+};
+
 export const isDateWithinRangeLuxon = (date: DateTime, restriction: DateRangeLuxon) => {
   return (
     timeOnly(date) >= timeOnly(restriction.start) && timeOnly(date) <= timeOnly(restriction.end)
@@ -28,9 +32,9 @@ export const isDateWithinRangeLuxon = (date: DateTime, restriction: DateRangeLux
  * @param restriction - The date range to compare against.
  * @returns True if the date is within the range, false otherwise.
  */
-export const isDateWithinRange = (date: DateTime, restriction: DateRange): boolean => {
-  const start = DateTime.fromISO(restriction.start);
-  const end = DateTime.fromISO(restriction.end);
+export const isDateWithinRange = (date: DateTime, restriction: DateRangeLuxon): boolean => {
+  const start = restriction.start;
+  const end = restriction.end;
 
   return isDateWithinRangeLuxon(date, { start, end });
 };
@@ -41,11 +45,15 @@ export const isDateWithinRange = (date: DateTime, restriction: DateRange): boole
  * @param restriction - The date range to compare against.
  * @returns True if the range is within the restriction, false otherwise.
  */
-export const isRangeWithinRange = (range: DateRange, restriction: DateRange): boolean => {
-  return (
-    isDateWithinRange(DateTime.fromISO(range.start), restriction) &&
-    isDateWithinRange(DateTime.fromISO(range.end), restriction)
-  );
+export const isRangeWithinRange = (range: DateRangeLuxon, restriction: DateRangeLuxon): boolean => {
+  return isDateWithinRange(range.start, restriction) && isDateWithinRange(range.end, restriction);
+};
+
+export const timeRangeToLuxon = (range: DateRange): DateRangeLuxon => {
+  return {
+    start: timeOnlyISO(range.start),
+    end: timeOnlyISO(range.end),
+  };
 };
 
 /**
@@ -56,7 +64,7 @@ export const isRangeWithinRange = (range: DateRange, restriction: DateRange): bo
 export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
   // Sort ranges by start date
   ranges.sort(
-    (a, b) => DateTime.fromISO(a.start).toUnixInteger() - DateTime.fromISO(b.start).toUnixInteger()
+    (a, b) => timeOnlyISO(a.start).toUnixInteger() - timeOnlyISO(b.start).toUnixInteger()
   );
 
   const mergedRanges: DateRange[] = [];
@@ -66,12 +74,12 @@ export function mergeDateRanges(ranges: DateRange[]): DateRange[] {
       mergedRanges.push(range);
     } else {
       const lastRange = mergedRanges[mergedRanges.length - 1];
-      const lastRangeEnd = DateTime.fromISO(lastRange.end);
-      if (lastRangeEnd >= DateTime.fromISO(range.start)) {
+      const lastRangeEnd = timeOnlyISO(lastRange.end);
+      if (lastRangeEnd >= timeOnlyISO(range.start)) {
         // Create a new DateRange with updated end time if there is an overlap
         mergedRanges[mergedRanges.length - 1] = {
           start: lastRange.start,
-          end: lastRangeEnd > DateTime.fromISO(range.end) ? lastRange.end : range.end,
+          end: lastRangeEnd > timeOnlyISO(range.end) ? lastRange.end : range.end,
         };
       } else {
         mergedRanges.push(range);

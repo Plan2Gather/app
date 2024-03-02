@@ -1,13 +1,14 @@
 import { render } from '@testing-library/react';
-import { DateTime } from 'luxon';
+
+import { timeOnlyISO } from '@backend/utils';
 
 import TimePopover from './time-popover';
 
 import type { DateRangeLuxon } from '@backend/types';
 
 const dateRange: DateRangeLuxon = {
-  start: DateTime.fromISO('2022-01-01T00:00:00.000Z'),
-  end: DateTime.fromISO('2022-01-01T23:59:59.999Z'),
+  start: timeOnlyISO('2022-01-01T00:00:00.000Z'),
+  end: timeOnlyISO('2022-01-01T23:59:59.999Z'),
 };
 
 describe('TimePopover', () => {

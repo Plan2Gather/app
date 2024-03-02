@@ -1,11 +1,11 @@
 import { Button, Dialog, DialogActions, DialogContent, Divider } from '@mui/material';
-import { DateTime } from 'luxon';
 import { useCallback, useRef, useState } from 'react';
 
 import DetailsStep from '@/app/components/creation-form/steps/details/details';
 import PossibleDatesStep from '@/app/components/creation-form/steps/possible-dates/possible-dates';
 import LoadingButton from '@/app/components/shared/buttons/loading/loading';
 import { trpc } from '@/trpc';
+import { timeOnlyISO } from '@backend/utils';
 
 import DeleteGatheringDialog from './delete-gathering/delete-gathering';
 
@@ -86,8 +86,8 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
   const possibleDates: PossibleDatesData = {
     weekdays: data.allowedPeriod.weekdays,
     period: {
-      start: DateTime.fromISO(data.allowedPeriod.period.start),
-      end: DateTime.fromISO(data.allowedPeriod.period.end),
+      start: timeOnlyISO(data.allowedPeriod.period.start),
+      end: timeOnlyISO(data.allowedPeriod.period.end),
     },
   };
 

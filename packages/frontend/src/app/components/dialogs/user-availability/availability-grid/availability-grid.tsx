@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import {
   forwardRef,
   useCallback,
@@ -17,7 +16,7 @@ import {
   convertHighlightedCellsToAvailability,
   getRowAndColumnLabels2,
 } from '@/app/components/time-grid/time-grid.helpers';
-import { timeOnly, sortWeekdays } from '@backend/utils';
+import { timeOnly, sortWeekdays, timeOnlyISO } from '@backend/utils';
 
 import type { Coordinate } from '@/app/components/time-grid/time-grid.helpers';
 import type {
@@ -110,8 +109,8 @@ const TimeGrid = forwardRef<unknown, TimeGridProps>(
     const restrictionSchedule = useMemo(() => {
       const sortedDays = sortWeekdays(days);
 
-      const start = DateTime.fromISO(restriction.start);
-      const end = DateTime.fromISO(restriction.end);
+      const start = timeOnlyISO(restriction.start);
+      const end = timeOnlyISO(restriction.end);
       return sortedDays.reduce<Record<Weekday, DateRangeLuxon>>(
         (acc, day) => {
           acc[day] = {

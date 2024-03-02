@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { sortWeekdays, timeOnly } from '@backend/utils';
+import { sortWeekdays, timeOnly, timeOnlyISO } from '@backend/utils';
 
 import type { CellData } from '@/app/pages/gathering-view/gathering-view.store';
 import type {
@@ -77,7 +77,7 @@ export function getRowAndColumnLabels(
   return {
     columnLabels: days,
     rowLabels: Array.from({ length: dataHeight + 1 }, (_, rowIndex) =>
-      DateTime.fromMillis(rowIndex * increment + dayStart)
+      timeOnly(DateTime.fromMillis(rowIndex * increment + dayStart))
         .setZone(timezone)
         .toLocaleString(DateTime.TIME_SIMPLE)
     ),
@@ -106,7 +106,7 @@ export function getRowAndColumnLabels2(
   return {
     columnLabels: days,
     rowLabels: Array.from({ length: dataHeight + 1 }, (_, rowIndex) =>
-      DateTime.fromMillis(rowIndex * increment + dayStart)
+      timeOnly(DateTime.fromMillis(rowIndex * increment + dayStart))
         .setZone(timezone)
         .toLocaleString(DateTime.TIME_SIMPLE)
     ),
@@ -133,7 +133,7 @@ export function parseListForTimeSlots(
         fuzzyGetPeriod(
           columnLabels[colIndex],
           combinedAvailability[columnLabels[colIndex]],
-          DateTime.fromMillis(rowIndex * increment + dayStart).setZone(timezone),
+          timeOnly(DateTime.fromMillis(rowIndex * increment + dayStart)).setZone(timezone),
           allNames,
           filteredNames
         )
@@ -145,7 +145,18 @@ export function parseListForTimeSlots(
 }
 
 export function getBestTimes(data: CellData[]) {
-  data.sort((a, b) => b.names.length - a.names.length);
+  data.sort((a, b) => {
+    // First sort by the number of participants
+    const participantDifference = b.names.length - a.names.length;
+    if (participantDifference !== 0) {
+      return participantDifference;
+    }
+
+    // Then sort by the longest period, assuming start and end can be subtracted to get a duration
+    const durationA = timeOnly(a.period.end).toMillis() - timeOnly(a.period.start).toMillis();
+    const durationB = timeOnly(b.period.end).toMillis() - timeOnly(b.period.start).toMillis();
+    return durationB - durationA; // Descending order: longer periods first
+  });
 
   const uniquePeriods = new Set<string>();
   const bestTimes: CellData[] = [];
@@ -190,8 +201,8 @@ function isAvailable(
 
 function convertToLuxonDateRange(dateRange: DateRange, timezone: string): DateRangeLuxon {
   return {
-    start: timeOnly(DateTime.fromISO(dateRange.start).setZone(timezone)),
-    end: timeOnly(DateTime.fromISO(dateRange.end).setZone(timezone)),
+    start: timeOnlyISO(dateRange.start).setZone(timezone),
+    end: timeOnlyISO(dateRange.end).setZone(timezone),
   };
 }
 
@@ -316,7 +327,7 @@ const convertRowRangeToDateRangeLuxon = (
   const startDateTime = restrictionStart.plus({ minutes: 30 * rowRange.start });
   const endDateTime = restrictionStart.plus({ minutes: 30 * (rowRange.end + 1) });
 
-  return { start: startDateTime, end: endDateTime };
+  return { start: timeOnly(startDateTime), end: timeOnly(endDateTime) };
 };
 
 const convertDateRangeLuxonToRowRange = (
@@ -387,8 +398,8 @@ export const convertAvailabilityToAvailabilityLuxon = (
   Object.keys(availability).forEach((key) => {
     const weekday = key as Weekday;
     result[weekday] = availability[weekday]!.map((dateRange) => ({
-      start: DateTime.fromISO(dateRange.start),
-      end: DateTime.fromISO(dateRange.end),
+      start: timeOnlyISO(dateRange.start),
+      end: timeOnlyISO(dateRange.end),
     }));
   });
 

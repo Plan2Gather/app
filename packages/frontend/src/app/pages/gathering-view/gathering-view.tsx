@@ -17,7 +17,7 @@ import {
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { DateTime } from 'luxon';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import DetailsEditDialog from '@/app/components/dialogs/details-edit/details-edit';
@@ -31,6 +31,8 @@ import NotFound from '@/app/pages/not-found/not-found';
 import { trpc } from '@/trpc';
 
 import useGatheringViewData from './gathering-view.store';
+
+import type { Weekday } from '@backend/types';
 
 export default function GatheringView() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -88,12 +90,25 @@ export default function GatheringView() {
   const ownAvailabilityData = ownAvailability.data === 'none' ? undefined : ownAvailability.data;
   const canEdit = editPerms.data ?? false;
 
+  const modifiedAvailabilityData = useMemo(() => {
+    if (fullAvailabilityData == null || data?.timezone == null) return [];
+
+    return fullAvailabilityData.map((item) => {
+      const allowedWeekdays = data?.allowedPeriod.weekdays;
+      const availability = Object.entries(item.availability)
+        .filter(([weekday]) => allowedWeekdays?.includes(weekday as Weekday))
+        .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+      return { ...item, availability };
+    });
+  }, [fullAvailabilityData, data?.allowedPeriod, data?.timezone]);
+
   useEffect(() => {
-    if (fullAvailabilityData != null && data?.timezone != null) {
-      const userLabels = fullAvailabilityData.map((a) => a.name); // Moved inside useEffect
-      setCellData(fullAvailabilityData, data.timezone, checkedUsers, userLabels);
+    if (modifiedAvailabilityData.length > 0 && data?.timezone != null) {
+      const userLabels = modifiedAvailabilityData.map((a) => a.name);
+      setCellData(modifiedAvailabilityData, data.timezone, checkedUsers, userLabels);
     }
-  }, [fullAvailabilityData, data?.timezone, checkedUsers, setCellData]);
+  }, [modifiedAvailabilityData, data?.timezone, checkedUsers, setCellData]);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -193,7 +208,7 @@ export default function GatheringView() {
                       Participants
                     </Typography>
                     <Typography variant="body2" align="center" gutterBottom>
-                      Select participant(s) to only show their availability
+                      Select to only show when they are available
                     </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                       <Filter userLabels={userLabels} />
