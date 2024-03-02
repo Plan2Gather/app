@@ -68,13 +68,18 @@ export default function TimePopover({
   const { start, end } = dateRange;
   const startDate = start.setZone(timezone);
   const endDate = end.setZone(timezone);
-  const maxAmt = 3;
+  const maxAmt = 4;
   const [displayedUsers, setDisplayedUsers] = useState<string[]>([]);
   const [overflowUsers, setOverflowUsers] = useState<string[]>([]);
 
   useEffect(() => {
-    setDisplayedUsers(users.slice(0, maxAmt));
-    setOverflowUsers(users.slice(maxAmt));
+    if (users.length <= maxAmt) {
+      setDisplayedUsers(users);
+      setOverflowUsers([]);
+    } else {
+      setDisplayedUsers(users.slice(0, maxAmt - 1));
+      setOverflowUsers(users.slice(maxAmt - 1));
+    }
   }, [users]);
 
   return (
@@ -100,7 +105,6 @@ export default function TimePopover({
         <Typography variant="subtitle2">{timezone}</Typography>
         <Stack spacing={2} direction="row" sx={{ justifyContent: 'flex-end' }}>
           {bestTime === true && (
-            // Say "Best time" in green with check icon
             <Stack
               direction="row"
               alignItems="center"
@@ -111,19 +115,21 @@ export default function TimePopover({
               <Typography variant="subtitle2">Best time</Typography>
             </Stack>
           )}
-          <AvatarGroup max={maxAmt}>
-            {displayedUsers.map((user) => (
-              <Tooltip title={user} key={user}>
-                {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-                <Avatar {...stringAvatar(user)} />
-              </Tooltip>
-            ))}
-          </AvatarGroup>
-          {overflowUsers.length > 0 && (
-            <Tooltip title={overflowUsers.join(', ')}>
-              <Avatar>+{overflowUsers.length}</Avatar>
-            </Tooltip>
-          )}
+          <Box>
+            <AvatarGroup>
+              {displayedUsers.map((user) => (
+                <Tooltip title={user} key={user}>
+                  {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+                  <Avatar {...stringAvatar(user)} />
+                </Tooltip>
+              ))}
+              {overflowUsers.length > 0 && (
+                <Tooltip title={overflowUsers.join(', ')}>
+                  <Avatar>+{overflowUsers.length}</Avatar>
+                </Tooltip>
+              )}
+            </AvatarGroup>
+          </Box>
         </Stack>
       </Paper>
     </Box>
