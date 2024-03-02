@@ -4,7 +4,7 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { Fragment, useState } from 'react';
 
-import PossibleTime from './time-popover/time-popover';
+import TimePopover from './time-popover/time-popover';
 
 import type { CellData } from '@/app/pages/gathering-view/gathering-view.store';
 import type { BoxProps } from '@mui/material/Box';
@@ -19,6 +19,11 @@ interface TimeGridProps {
 
 const cellWidth = 100;
 const cellHeight = 30;
+
+const isBestTime = (cell: CellData, mostParticipants: number) => {
+  const numAvailable = cell.names.length;
+  return { best: numAvailable > 1 && numAvailable === mostParticipants, numAvailable };
+};
 
 export default function TimeGrid({
   data,
@@ -56,6 +61,7 @@ export default function TimeGrid({
       sx={{
         display: 'grid',
         gridTemplateColumns: `repeat(${data[0].length + 1}, ${cellWidth}px)`,
+        columnGap: 1,
       }}
     >
       {/* Empty cell for the top-left corner */}
@@ -87,8 +93,7 @@ export default function TimeGrid({
 
           {/* Render data cells */}
           {rowData.map((cellData, colIndex) => {
-            const numAvailable = cellData.names.length;
-            const isBestTime = numAvailable > 1 && numAvailable === mostParticipants;
+            const { best, numAvailable } = isBestTime(cellData, mostParticipants);
             return (
               <Box
                 // eslint-disable-next-line react/no-array-index-key
@@ -100,13 +105,13 @@ export default function TimeGrid({
                     numAvailable > 0
                       ? `rgba(0, ${100 + 155 * (cellData.names.length / cellData.totalParticipants)}, 0, 1)`
                       : '#cccccc',
-                  borderTop: '1px dotted black',
-                  borderBottom: '1px dotted gray',
-                  borderLeft: '1px solid black',
-                  borderRight: '1px solid black',
+                  borderTop: rowIndex > 0 ? '1px dotted black' : 0,
+                  borderBottom: 0,
+                  borderLeft: 0,
+                  borderRight: 0,
                   cursor: numAvailable > 0 ? 'pointer' : 'default',
                 }}
-                aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}, ${numAvailable} out of ${cellData.totalParticipants} participants available${isBestTime ? ', best time' : ''}`}
+                aria-label={`${columnLabels[colIndex]}, ${rowLabels[rowIndex]}, ${numAvailable} out of ${cellData.totalParticipants} participants available${best ? ', best time' : ''}`}
                 {...(numAvailable > 0
                   ? ({
                       component: 'button',
@@ -116,7 +121,7 @@ export default function TimeGrid({
                     } as unknown as Partial<BoxProps>)
                   : {})}
               >
-                {isBestTime ? <CheckCircleOutlineIcon sx={{ color: 'black' }} /> : null}
+                {best ? <CheckCircleOutlineIcon sx={{ color: 'black' }} /> : null}
               </Box>
             );
           })}
@@ -133,10 +138,11 @@ export default function TimeGrid({
         }}
       >
         {selectedCell != null && (
-          <PossibleTime
+          <TimePopover
             dateRange={selectedCell.period}
             users={selectedCell.names}
             timezone={timezone}
+            bestTime={isBestTime(selectedCell, mostParticipants).best}
           />
         )}
       </Popover>
