@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   Chip,
+  Divider,
   IconButton,
   InputAdornment,
   Stack,
@@ -220,7 +221,7 @@ export default function GatheringView() {
                           <Stack
                             direction="row"
                             spacing={1}
-                            key={data.period.start.toISO()}
+                            key={timeText}
                             sx={{ mb: 1 }}
                             alignItems="center"
                           >
@@ -256,6 +257,7 @@ export default function GatheringView() {
               <Typography variant="body2" gutterBottom>
                 Times are shown in the event&apos;s timezone
               </Typography>
+              <Divider />
               {data.timezone !== userTimezone && (
                 <Typography variant="subtitle2" sx={{ color: 'warning.main' }} gutterBottom>
                   The time grid is in the {data.timezone} timezone.
