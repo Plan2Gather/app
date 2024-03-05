@@ -68,16 +68,16 @@ export default function CreationStepper() {
   });
 
   const transformToGatheringData = useCallback((data: CreationStore): GatheringFormData | null => {
-    if (data.details != null && data.possibleDates.weekdays.length > 0) {
+    if (data.details != null && data.allowedPeriod.weekdays.length > 0) {
       const result = {
         name: data.details.name,
         description: data.details.description,
         timezone: data.details.timezone,
         allowedPeriod: {
-          weekdays: data.possibleDates.weekdays,
+          weekdays: data.allowedPeriod.weekdays,
           period: {
-            start: data.possibleDates.period.start.toISO()!,
-            end: data.possibleDates.period.end.toISO()!,
+            start: data.allowedPeriod.period.start.toISO()!,
+            end: data.allowedPeriod.period.end.toISO()!,
           },
         },
       };
@@ -102,7 +102,7 @@ export default function CreationStepper() {
               store.setDetails(result.data as GatheringFormDetails);
               break;
             case 1:
-              store.setPossibleDates(result.data as PossibleDatesData);
+              store.setAllowedPeriod(result.data as PossibleDatesData);
               break;
             case 2:
             default:
@@ -135,13 +135,13 @@ export default function CreationStepper() {
       case 'Possible Dates':
         return (
           <PossibleDates
-            initial={store.possibleDates}
+            initial={store.allowedPeriod}
             timezone={store.details?.timezone}
             ref={step.submitRef}
           />
         );
       case 'Confirm Gathering':
-        return <Confirmation initial={store} ref={step.submitRef} />;
+        return <Confirmation ref={step.submitRef} />;
       default:
         return null;
     }

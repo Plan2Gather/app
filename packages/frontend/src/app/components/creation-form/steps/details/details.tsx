@@ -19,7 +19,7 @@ import type { GatheringFormDetails } from '@backend/types';
 
 const DetailsStep = forwardRef<
   unknown,
-  { initial: GatheringFormDetails | null; disableTimezoneEdit?: boolean }
+  { initial: GatheringFormDetails; disableTimezoneEdit?: boolean }
 >(({ initial, disableTimezoneEdit }, ref) => {
   // Get all valid timezones
   const allTimeZones = Object.entries(zones)
@@ -35,21 +35,16 @@ const DetailsStep = forwardRef<
       return offsetA - offsetB;
     });
 
-  // Guess the user's timezone
-  const userTimezone = DateTime.local().zoneName ?? '';
-
   const formContext = useForm<GatheringFormDetails>({
     resolver: zodResolver(gatheringFormDetailsSchema),
-    defaultValues: initial ?? {
-      timezone: userTimezone,
-    },
+    defaultValues: initial ?? undefined,
   });
 
   const selectedTimezone = formContext.watch('timezone') as string | null;
 
   const selectedDateTime = DateTime.local().setZone(formContext.watch('timezone'));
 
-  const diffTimezone = formContext.watch('timezone') !== userTimezone;
+  const diffTimezone = formContext.watch('timezone') !== initial?.timezone;
   const calculatedDiff = selectedDateTime.offset / 60 - DateTime.local().offset / 60;
 
   useImperativeHandle(ref, () => ({
@@ -143,10 +138,10 @@ const DetailsStep = forwardRef<
                   </Grid>
                   <Grid xs={12} sm={5}>
                     <Typography variant="subtitle2" gutterBottom>
-                      Your current time in {userTimezone}:{' '}
+                      Your current time in {initial?.timezone}:{' '}
                     </Typography>
                     <Typography variant="h6" gutterBottom>
-                      {DateTime.local().setZone(userTimezone).toFormat('ff')}
+                      {DateTime.local().setZone(initial?.timezone).toFormat('ff')}
                     </Typography>
                   </Grid>
                 </>

@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { create } from 'zustand';
 
 import type { DateRangeLuxon, GatheringFormDetails, Weekday } from '@backend/types';
@@ -8,22 +9,24 @@ export interface PossibleDatesData {
 }
 
 export interface CreationStore {
-  details: GatheringFormDetails | null;
-  possibleDates: PossibleDatesData;
+  details: GatheringFormDetails;
+  allowedPeriod: PossibleDatesData;
   setDetails: (details: GatheringFormDetails) => void;
-  setPossibleDates: (possibleDates: PossibleDatesData) => void;
+  setAllowedPeriod: (possibleDates: PossibleDatesData) => void;
 }
 
 const useCreationStore = create<CreationStore>((set) => ({
-  details: null,
-  possibleDates: {} as unknown as PossibleDatesData,
+  details: {
+    timezone: DateTime.local().zoneName,
+  } as unknown as GatheringFormDetails,
+  allowedPeriod: {} as unknown as PossibleDatesData,
   timePeriods: {},
   timePeriodsFormData: null,
   setDetails: (details) => {
     set({ details });
   },
-  setPossibleDates: (possibleDates) => {
-    set({ possibleDates });
+  setAllowedPeriod: (allowedPeriod) => {
+    set({ allowedPeriod });
   },
 }));
 
