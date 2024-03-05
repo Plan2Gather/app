@@ -50,7 +50,11 @@ export default function Filter({ userLabels }: FilterProps) {
   }, [updateCheckedUsers]);
 
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack
+      direction="row"
+      sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 0.5 }}
+      spacing={1}
+    >
       {userLabels.map((userLabel) => (
         <Chip
           key={userLabel}

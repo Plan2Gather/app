@@ -162,7 +162,7 @@ export default t.router({
         period: { start: '2024-03-04T16:00:00.000-08:00', end: '2024-03-04T23:00:00.000-08:00' },
       },
       availability: {
-        fjxQMcEcO3T8mXv3gteAU: {
+        randomid0: {
           name: 'Jeff Bezos',
           availability: {
             sunday: [
@@ -176,7 +176,7 @@ export default t.router({
             ],
           },
         },
-        TmclVN38VYBkdxsdMFHwZ: {
+        randomid1: {
           name: 'Steve Jobs',
           availability: {
             sunday: [
@@ -191,7 +191,7 @@ export default t.router({
             ],
           },
         },
-        P7TdOlh3CF9cVBbKLN68f: {
+        randomid2: {
           name: 'Tim Cook',
           availability: {
             sunday: [
@@ -207,7 +207,7 @@ export default t.router({
             ],
           },
         },
-        'UCUmtLJ2uVsywUk-FeR1I': {
+        randomid3: {
           name: 'Bill Gates',
           availability: {
             sunday: [

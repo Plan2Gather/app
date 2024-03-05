@@ -37,6 +37,10 @@ export default defineConfig(({ mode }) => ({
   //  plugins: [ nxViteTsPaths() ],
   // },
 
+  optimizeDeps: {
+    include: ['@mui/material/Tooltip'],
+  },
+
   build: {
     outDir: '../../dist/packages/frontend',
     reportCompressedSize: true,
