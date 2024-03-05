@@ -270,7 +270,8 @@ export default function GatheringView() {
             <CardContent>
               <Typography variant="h5">Group Availability</Typography>
               <Typography variant="body2" gutterBottom>
-                Times are shown in the event&apos;s timezone
+                Times are shown in the event&apos;s timezone. Click a time slot to view participants
+                who are available at that time.
               </Typography>
               <Divider />
               {data.timezone !== userTimezone && (
