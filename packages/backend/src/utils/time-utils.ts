@@ -12,7 +12,6 @@ export const timeOnly = (dateTime: DateTime): DateTime => {
   return DateTime.fromObject({
     hour: dateTime.hour,
     minute: dateTime.minute,
-    second: dateTime.second,
   });
 };
 
@@ -21,9 +20,7 @@ export const timeOnlyISO = (dateTimeISO: string): DateTime => {
 };
 
 export const isDateWithinRangeLuxon = (date: DateTime, restriction: DateRangeLuxon) => {
-  return (
-    timeOnly(date) >= timeOnly(restriction.start) && timeOnly(date) <= timeOnly(restriction.end)
-  );
+  return date >= restriction.start && date <= restriction.end;
 };
 
 /**

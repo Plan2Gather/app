@@ -77,19 +77,16 @@ export default t.router({
       const { availability } = input.availability;
 
       const gathering = await ctx.env.kvDao.getGathering(input.id);
+      const allowedTimeOnly = timeRangeToLuxon(gathering.allowedPeriod.period);
 
       const weekdayKeys = Object.keys(availability);
       weekdayKeys.forEach((key) => {
         const periods = availability[key as Weekday];
         periods?.forEach((period) => {
-          if (
-            isRangeWithinRange(
-              timeRangeToLuxon(period),
-              timeRangeToLuxon(gathering.allowedPeriod.period)
-            )
-          ) {
+          const periodTimeOnly = timeRangeToLuxon(period);
+          if (!isRangeWithinRange(periodTimeOnly, allowedTimeOnly)) {
             throw new TRPCError({
-              message: `The period ${period.start} - ${period.end} is not allowed for ${key}.`,
+              message: `The period ${periodTimeOnly.start.toFormat('t')} - ${periodTimeOnly.end.toFormat('t')} is not allowed for ${key}. Valid period is ${allowedTimeOnly.start.toFormat('t')} - ${allowedTimeOnly.end.toFormat('t')}.`,
               code: 'BAD_REQUEST',
             });
           }
@@ -151,5 +148,88 @@ export default t.router({
     await ctx.env.kvDao.removeGathering(input.id);
 
     return 'ok';
+  }),
+  putTestData: userProcedure.mutation(async ({ ctx }) => {
+    const gatheringId = nanoid();
+
+    const gathering: GatheringBackendData = {
+      id: gatheringId,
+      name: 'Pizza Party',
+      description: 'We should have some pizza to celebrate our successes',
+      timezone: 'America/Los_Angeles',
+      allowedPeriod: {
+        weekdays: ['sunday', 'friday', 'saturday'],
+        period: { start: '2024-03-04T16:00:00.000-08:00', end: '2024-03-04T23:00:00.000-08:00' },
+      },
+      availability: {
+        fjxQMcEcO3T8mXv3gteAU: {
+          name: 'Jeff Bezos',
+          availability: {
+            sunday: [
+              { start: '2024-03-04T16:00:00.000-08:00', end: '2024-03-04T19:00:00.000-08:00' },
+            ],
+            friday: [
+              { start: '2024-03-04T19:30:00.000-08:00', end: '2024-03-04T22:30:00.000-08:00' },
+            ],
+            saturday: [
+              { start: '2024-03-04T18:00:00.000-08:00', end: '2024-03-04T23:00:00.000-08:00' },
+            ],
+          },
+        },
+        TmclVN38VYBkdxsdMFHwZ: {
+          name: 'Steve Jobs',
+          availability: {
+            sunday: [
+              { start: '2024-03-04T19:30:00.000-08:00', end: '2024-03-04T21:00:00.000-08:00' },
+            ],
+            friday: [
+              { start: '2024-03-04T17:30:00.000-08:00', end: '2024-03-04T19:30:00.000-08:00' },
+              { start: '2024-03-04T22:00:00.000-08:00', end: '2024-03-04T23:00:00.000-08:00' },
+            ],
+            saturday: [
+              { start: '2024-03-04T19:30:00.000-08:00', end: '2024-03-04T22:30:00.000-08:00' },
+            ],
+          },
+        },
+        P7TdOlh3CF9cVBbKLN68f: {
+          name: 'Tim Cook',
+          availability: {
+            sunday: [
+              { start: '2024-03-04T17:00:00.000-08:00', end: '2024-03-04T18:30:00.000-08:00' },
+              { start: '2024-03-04T20:00:00.000-08:00', end: '2024-03-04T22:00:00.000-08:00' },
+            ],
+            friday: [
+              { start: '2024-03-04T18:30:00.000-08:00', end: '2024-03-04T20:30:00.000-08:00' },
+            ],
+            saturday: [
+              { start: '2024-03-04T17:00:00.000-08:00', end: '2024-03-04T19:00:00.000-08:00' },
+              { start: '2024-03-04T21:00:00.000-08:00', end: '2024-03-04T23:00:00.000-08:00' },
+            ],
+          },
+        },
+        'UCUmtLJ2uVsywUk-FeR1I': {
+          name: 'Bill Gates',
+          availability: {
+            sunday: [
+              { start: '2024-03-04T17:00:00.000-08:00', end: '2024-03-04T18:30:00.000-08:00' },
+              { start: '2024-03-04T21:00:00.000-08:00', end: '2024-03-04T23:00:00.000-08:00' },
+            ],
+            friday: [
+              { start: '2024-03-04T16:00:00.000-08:00', end: '2024-03-04T17:00:00.000-08:00' },
+              { start: '2024-03-04T18:30:00.000-08:00', end: '2024-03-04T22:30:00.000-08:00' },
+            ],
+            saturday: [
+              { start: '2024-03-04T16:30:00.000-08:00', end: '2024-03-04T21:00:00.000-08:00' },
+            ],
+          },
+        },
+      },
+      creationDate: new Date().toISOString(),
+      creationUserId: ctx.userId,
+    };
+
+    await ctx.env.kvDao.putGathering(gathering);
+
+    return gatheringId;
   }),
 });
