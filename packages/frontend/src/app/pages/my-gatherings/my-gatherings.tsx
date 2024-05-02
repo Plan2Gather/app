@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
@@ -16,30 +16,38 @@ export default function MyGatherings() {
       </Typography>
       <Grid container spacing={2}>
         <Grid xs={12} sm={6}>
-          <Typography component="h2" variant="h4">
-            Owned Gatherings
-          </Typography>
-          <Typography variant="body2" gutterBottom>
-            Gatherings you have created
-          </Typography>
-          {ownedGatheringsQuery.isLoading ? (
-            <CircularProgress />
-          ) : (
-            <GatheringList gatherings={ownedGatheringsQuery.data} />
-          )}
+          <Card>
+            <CardContent>
+              <Typography component="h2" variant="h4">
+                Owned Gatherings
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Gatherings you have created
+              </Typography>
+              {ownedGatheringsQuery.isLoading ? (
+                <CircularProgress />
+              ) : (
+                <GatheringList gatherings={ownedGatheringsQuery.data} />
+              )}
+            </CardContent>
+          </Card>
         </Grid>
         <Grid xs={12} sm={6}>
-          <Typography component="h2" variant="h4">
-            Participating Gatherings
-          </Typography>
-          <Typography variant="body2" gutterBottom>
-            Gatherings you have previously submitted availability for
-          </Typography>
-          {participatingGatheringsQuery.isLoading ? (
-            <CircularProgress />
-          ) : (
-            <GatheringList gatherings={participatingGatheringsQuery.data} />
-          )}
+          <Card>
+            <CardContent>
+              <Typography component="h2" variant="h4">
+                Participating Gatherings
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Gatherings you have previously submitted availability for
+              </Typography>
+              {participatingGatheringsQuery.isLoading ? (
+                <CircularProgress />
+              ) : (
+                <GatheringList gatherings={participatingGatheringsQuery.data} />
+              )}
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
     </>

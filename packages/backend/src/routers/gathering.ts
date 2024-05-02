@@ -5,14 +5,16 @@ import { z } from 'zod';
 import {
   gatheringFormDataSchema,
   gatheringFormDetailsSchema,
+  gatheringFormPeriodSchema,
   userAvailabilityBackendSchema,
   userAvailabilitySchema,
 } from '@backend/types';
+import { isRangeWithinRange, timeRangeToLuxon } from '@backend/utils';
 import t from 'packages/backend/src/trpc';
 
 import userProcedure from './userid-middleware';
 
-import type { GatheringBackendData, UserAvailability } from '@backend/types';
+import type { GatheringBackendData, UserAvailability, Weekday } from '@backend/types';
 
 export default t.router({
   get: t.procedure
@@ -31,7 +33,6 @@ export default t.router({
     const gathering: GatheringBackendData = {
       id: gatheringId,
       ...input,
-      allowedPeriods: input.allowedPeriods,
       availability: {},
       creationDate: new Date().toISOString(),
       creationUserId: ctx.userId,
@@ -42,7 +43,13 @@ export default t.router({
     return gatheringId;
   }),
   putDetails: userProcedure
-    .input(z.object({ id: z.string(), details: gatheringFormDetailsSchema }))
+    .input(
+      z.object({
+        id: z.string(),
+        details: gatheringFormDetailsSchema.optional(),
+        allowedPeriod: gatheringFormPeriodSchema.optional(),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       const gathering = await ctx.env.kvDao.getBackendGathering(input.id);
 
@@ -53,7 +60,12 @@ export default t.router({
         });
       }
 
-      await ctx.env.kvDao.putDetails(input.id, input.details);
+      if (input.details != null) {
+        await ctx.env.kvDao.putDetails(input.id, input.details);
+      }
+      if (input.allowedPeriod != null) {
+        await ctx.env.kvDao.putAllowedPeriod(input.id, { allowedPeriod: input.allowedPeriod });
+      }
 
       return 'ok';
     }),
@@ -62,12 +74,31 @@ export default t.router({
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx;
 
+      const { availability } = input.availability;
+
+      const gathering = await ctx.env.kvDao.getGathering(input.id);
+      const allowedTimeOnly = timeRangeToLuxon(gathering.allowedPeriod.period);
+
+      const weekdayKeys = Object.keys(availability);
+      weekdayKeys.forEach((key) => {
+        const periods = availability[key as Weekday];
+        periods?.forEach((period) => {
+          const periodTimeOnly = timeRangeToLuxon(period);
+          if (!isRangeWithinRange(periodTimeOnly, allowedTimeOnly)) {
+            throw new TRPCError({
+              message: `The period ${periodTimeOnly.start.toFormat('t')} - ${periodTimeOnly.end.toFormat('t')} is not allowed for ${key}. Valid period is ${allowedTimeOnly.start.toFormat('t')} - ${allowedTimeOnly.end.toFormat('t')}.`,
+              code: 'BAD_REQUEST',
+            });
+          }
+        });
+      });
+
       await ctx.env.kvDao.putAvailability(
         input.id,
         userAvailabilityBackendSchema.parse({
           [userId]: {
             name: input.availability.name,
-            availability: input.availability.availability,
+            availability,
           },
         })
       );
