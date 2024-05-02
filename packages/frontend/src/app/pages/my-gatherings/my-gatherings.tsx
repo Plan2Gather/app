@@ -1,7 +1,6 @@
-import { Button, Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { useNavigate } from 'react-router';
 
 import GatheringList from '@/app/components/gathering-list/gathering-list';
 import { trpc } from '@/trpc';
@@ -9,14 +8,6 @@ import { trpc } from '@/trpc';
 export default function MyGatherings() {
   const ownedGatheringsQuery = trpc.gatherings.getOwnedGatherings.useQuery();
   const participatingGatheringsQuery = trpc.gatherings.getParticipatingGatherings.useQuery();
-  const navigate = useNavigate();
-  const utils = trpc.useUtils();
-  const testData = trpc.gatherings.putTestData.useMutation({
-    onSuccess: async (id) => {
-      await utils.gatherings.getOwnedGatherings.invalidate();
-      navigate(`/gathering/${id}`);
-    },
-  });
 
   return (
     <>
@@ -38,15 +29,6 @@ export default function MyGatherings() {
               ) : (
                 <GatheringList gatherings={ownedGatheringsQuery.data} />
               )}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  testData.mutate();
-                }}
-              >
-                Create test data
-              </Button>
             </CardContent>
           </Card>
         </Grid>
