@@ -95,7 +95,7 @@ export default function CreationStepper() {
       // When navigating forward, we need to do form validation
       if (step > activeStep) {
         const result = await currentStepRef.current?.submit();
-        if (result != null && result.valid) {
+        if (result?.valid === true) {
           // Store the result data based on the active step
           switch (activeStep) {
             case 0:

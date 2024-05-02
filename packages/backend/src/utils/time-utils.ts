@@ -96,10 +96,10 @@ export function consolidateAvailability(availability: Availability): Availabilit
   const consolidatedAvailability: Availability = {};
 
   sortWeekdays(Object.keys(availability) as Array<keyof Availability>).forEach((day) => {
-    const dayAvailability = availability[day as Weekday];
+    const dayAvailability = availability[day];
     if (dayAvailability != null) {
       const mergedRanges = mergeDateRanges(dayAvailability);
-      consolidatedAvailability[day as Weekday] = mergedRanges;
+      consolidatedAvailability[day] = mergedRanges;
     }
   });
 

@@ -10,12 +10,7 @@ describe('TimeRangePicker', () => {
     const { baseElement } = render(
       <LocalizationProvider dateAdapter={AdapterLuxon}>
         <FormContainer>
-          <TimeRangePicker
-            index={0}
-            range={{ start: null, end: null, id: '1234' }}
-            onRemove={() => {}}
-            onUpdate={() => {}}
-          />
+          <TimeRangePicker timezone="America/Los_Angeles" />
         </FormContainer>
       </LocalizationProvider>
     );
