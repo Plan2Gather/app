@@ -82,7 +82,7 @@ const PossibleDatesStep = forwardRef<unknown, PossibleDatesStepProps>(
               />
               <TimeRangePicker
                 sx={{ mt: 2 }}
-                helperText="Select what time range the gathering should ocurr between"
+                helperText="Select what time range the gathering should occur between"
                 timezone={timezone}
               />
             </Stack>

@@ -85,7 +85,8 @@ export default function Privacy() {
           accessible, as anyone with the gathering link can view them.
         </BulletedListItem>
         <BulletedListItem>
-          <strong>Data Deletion:</strong> Gathering data is automatically deleted after 90 days.
+          <strong>Data Deletion:</strong> Gathering data is automatically deleted after 30 days
+          since the last use.
         </BulletedListItem>
         <BulletedListItem>
           <strong>Adaptive Policy:</strong> This policy is designed to be forward-looking, providing

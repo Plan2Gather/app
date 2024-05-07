@@ -9,7 +9,7 @@ import type {
   UserAvailabilityBackend,
 } from '@backend/types';
 
-const EXPIRATION_TTL = 60 * 60 * 24 * 7; // 7 days
+const EXPIRATION_TTL = 60 * 60 * 24 * 30; // 30 days
 
 export default class KVDAO {
   constructor(private readonly gatheringsNamespace: KvWrapper) {}
