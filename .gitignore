@@ -39,5 +39,6 @@ testem.log
 Thumbs.db
 
 .nx/cache
+.nx/workspace-data
 # Sentry Config File
 .env.sentry-build-plugin

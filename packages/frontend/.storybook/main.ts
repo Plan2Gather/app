@@ -2,6 +2,7 @@ import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
   stories: ['../src/app/**/*.stories.@(js|jsx|ts|tsx)'],
+
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
@@ -17,8 +18,10 @@ const config: StorybookConfig = {
     },
   },
 
-  docs: {
-    autodocs: true,
+  docs: {},
+
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
   },
 };
 

@@ -21,3 +21,4 @@ export const withMuiTheme = (Story: StoryFn) => (
 );
 
 export const decorators = [withMuiTheme];
+export const tags = ['autodocs'];

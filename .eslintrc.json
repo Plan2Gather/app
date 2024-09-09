@@ -24,7 +24,10 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/consistent-type-imports": [
       "error",
-      { "prefer": "type-imports", "fixStyle": "separate-type-imports" }
+      {
+        "prefer": "type-imports",
+        "fixStyle": "separate-type-imports"
+      }
     ],
     "import/order": [
       "error",
@@ -49,6 +52,13 @@
     ],
     "@typescript-eslint/no-non-null-assertion": "warn",
     "tsdoc/syntax": "warn",
-    "no-relative-import-paths/no-relative-import-paths": ["error", { "allowSameFolder": true }]
+    "no-relative-import-paths/no-relative-import-paths": [
+      "error",
+      {
+        "allowSameFolder": true
+      }
+    ],
+    "@typescript-eslint/no-extra-semi": "error",
+    "no-extra-semi": "off"
   }
 }
