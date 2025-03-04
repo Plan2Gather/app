@@ -44,3 +44,4 @@ Thumbs.db
 .env.sentry-build-plugin
 
 vite.config.*.timestamp*
+vitest.config.*.timestamp*

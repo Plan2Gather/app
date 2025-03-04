@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 
 import { TRPCWrapper } from '@/utils/test-utils';
 import { renderWithTheme } from '@/utils/theme-test-helper.spec';
@@ -13,10 +13,7 @@ describe('CreationStepper', () => {
           <CreationStepper />
         </TRPCWrapper>
       </BrowserRouter>,
-      {
-        themeOptions: {},
-        width: 1024,
-      }
+      { themeOptions: {}, width: 1024 }
     );
     expect(baseElement).toBeTruthy();
   });

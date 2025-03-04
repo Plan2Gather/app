@@ -53,14 +53,12 @@ const GridContainer = ({
     >
       {/* Empty cell for the top-left corner */}
       <Box />
-
       {/* Render column labels */}
       {columnLabels.map((label) => (
         <Typography key={label} align="center" variant="button">
           {label.charAt(0).toUpperCase() + label.slice(1)}
         </Typography>
       ))}
-
       {/* Render data rows with row labels */}
       {rowLabels.map((rowLabel, rowIndex) => (
         <Fragment key={rowLabels[rowIndex]}>

@@ -1,7 +1,7 @@
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid2';
 
 export default function Team() {
   const teamMembers = [
@@ -38,7 +38,7 @@ export default function Team() {
       </Typography>
       <Grid container spacing={3} justifyContent="center">
         {teamMembers.map((member) => (
-          <Grid xs={12} sm={6} md={4} key={member.name}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={member.name}>
             <Avatar
               alt={member.name}
               src={member.image}

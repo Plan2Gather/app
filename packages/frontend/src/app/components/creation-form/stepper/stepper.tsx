@@ -5,7 +5,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useState, useRef, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import useCreationStore from '@/app/components/creation-form/creation.store';
 import Confirmation from '@/app/components/creation-form/steps/confirmation/confirmation';
@@ -35,9 +35,7 @@ export default function CreationStepper() {
   const [loading, setLoading] = useState(false);
 
   const detailsRef = useRef<{ submit: SubmitFunction<GatheringFormDetails> }>(null);
-  const possibleDatesRef = useRef<{
-    submit: SubmitFunction<PossibleDatesData>;
-  }>(null);
+  const possibleDatesRef = useRef<{ submit: SubmitFunction<PossibleDatesData> }>(null);
   const confirmRef = useRef<{ submit: SubmitFunction<undefined> }>(null);
 
   // Define your steps with their respective refs

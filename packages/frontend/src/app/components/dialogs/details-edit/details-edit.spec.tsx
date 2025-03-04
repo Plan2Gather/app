@@ -1,7 +1,7 @@
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 
 import { TRPCWrapper } from '@/utils/test-utils';
 
@@ -16,10 +16,7 @@ describe('DetailsEditDialog', () => {
     timezone: 'America/New_York',
     allowedPeriod: {
       weekdays: ['sunday'],
-      period: {
-        start: '2021-10-10T12:00:00.000Z',
-        end: '2021-10-10T13:00:00.000Z',
-      },
+      period: { start: '2021-10-10T12:00:00.000Z', end: '2021-10-10T13:00:00.000Z' },
     },
   };
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import ConfirmationDialog from '@/app/components/dialogs/confirmation/confirmation';
 import { trpc } from '@/trpc';

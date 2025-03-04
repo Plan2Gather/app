@@ -3,7 +3,7 @@ import { Box, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { TimePickerElement, type TimePickerElementProps } from 'react-hook-form-mui';
+import { TimePickerElement, type TimePickerElementProps } from 'react-hook-form-mui/date-pickers';
 
 interface TimeRangeProps {
   timezone: string | undefined;
