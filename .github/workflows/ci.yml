@@ -22,7 +22,7 @@ jobs:
       (github.event_name == 'pull_request' &&
       (github.base_ref == 'main' || github.base_ref == 'beta'))
     name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.15
     with:
       main-branch-name: ${{ (github.ref == 'refs/heads/main' || github.base_ref == 'main') && 'main' || 'beta' }}
       number-of-agents: 3
@@ -45,7 +45,7 @@ jobs:
       (github.event_name == 'pull_request' &&
       (github.base_ref == 'main' || github.base_ref == 'beta'))
     name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.15
     with:
       number-of-agents: 3
 

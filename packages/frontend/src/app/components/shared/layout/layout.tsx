@@ -3,13 +3,13 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
+import Grid from '@mui/material/Grid2';
 import Link from '@mui/material/Link';
 import createTheme from '@mui/material/styles/createTheme';
 import responsiveFontSizes from '@mui/material/styles/responsiveFontSizes';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useMemo } from 'react';
 
@@ -49,17 +49,9 @@ const footers = [
   },
   {
     title: 'Resources',
-    description: [
-      {
-        text: 'Source code',
-        link: 'https://github.com/cjlawson02/plan2gather',
-      },
-    ],
+    description: [{ text: 'Source code', link: 'https://github.com/cjlawson02/plan2gather' }],
   },
-  {
-    title: 'Legal',
-    description: [{ text: 'Privacy policy', link: '/privacy' }],
-  },
+  { title: 'Legal', description: [{ text: 'Privacy policy', link: '/privacy' }] },
 ];
 
 /* eslint-disable-next-line */
@@ -71,13 +63,7 @@ export default function Layout(props: LayoutProps) {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const mdTheme = useMemo(
     () =>
-      responsiveFontSizes(
-        createTheme({
-          palette: {
-            mode: prefersDarkMode ? 'dark' : 'light',
-          },
-        })
-      ),
+      responsiveFontSizes(createTheme({ palette: { mode: prefersDarkMode ? 'dark' : 'light' } })),
     [prefersDarkMode]
   );
 
@@ -87,13 +73,7 @@ export default function Layout(props: LayoutProps) {
     <ThemeProvider theme={mdTheme}>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-        }}
-      >
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         {/* Header */}
         <AppBar
           position="static"
@@ -123,24 +103,16 @@ export default function Layout(props: LayoutProps) {
         {children}
         {/* End Main */}
         {/* Footer */}
-        <Box
-          component="footer"
-          sx={{
-            mt: 'auto',
-          }}
-        >
+        <Box component="footer" sx={{ mt: 'auto' }}>
           <Container
             maxWidth="lg"
             component="footer"
-            sx={{
-              borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-              py: [1.5, 1.5],
-            }}
+            sx={{ borderTop: (theme) => `1px solid ${theme.palette.divider}`, py: [1.5, 1.5] }}
             data-testid="footer"
           >
             <Grid container spacing={2} justifyContent="space-evenly">
               {footers.map((footer) => (
-                <Grid xs={6} sm={3} md={2} key={footer.title}>
+                <Grid size={{ xs: 6, sm: 3, md: 2 }} key={footer.title}>
                   <Typography component="h3" variant="h6">
                     {footer.title}
                   </Typography>

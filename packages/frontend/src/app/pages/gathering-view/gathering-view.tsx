@@ -15,10 +15,10 @@ import {
   Typography,
 } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid from '@mui/material/Grid2/Grid2';
 import { DateTime } from 'luxon';
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 import DetailsEditDialog from '@/app/components/dialogs/details-edit/details-edit';
 import TimePeriodDialog from '@/app/components/dialogs/user-availability/user-availability';
@@ -66,18 +66,10 @@ export default function GatheringView() {
     setDialogOpen(false);
   };
 
-  const gathering = trpc.gatherings.get.useQuery({
-    id,
-  });
-  const ownAvailability = trpc.gatherings.getOwnAvailability.useQuery({
-    id,
-  });
-  const fullAvailability = trpc.gatherings.getAvailability.useQuery({
-    id,
-  });
-  const editPerms = trpc.gatherings.getEditPermission.useQuery({
-    id,
-  });
+  const gathering = trpc.gatherings.get.useQuery({ id });
+  const ownAvailability = trpc.gatherings.getOwnAvailability.useQuery({ id });
+  const fullAvailability = trpc.gatherings.getAvailability.useQuery({ id });
+  const editPerms = trpc.gatherings.getEditPermission.useQuery({ id });
 
   const isLoading =
     gathering.isLoading ||
@@ -153,7 +145,7 @@ export default function GatheringView() {
       </Box>
 
       <Grid container spacing={2}>
-        <Grid xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Stack spacing={2}>
             <Card>
               <CardContent>
@@ -265,7 +257,7 @@ export default function GatheringView() {
           </Stack>
         </Grid>
 
-        <Grid xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Card>
             <CardContent>
               <Typography variant="h5">Group Availability</Typography>

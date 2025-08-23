@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import Grid from '@mui/material/Grid2';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
 import { DateTime } from 'luxon';
 import { forwardRef, useImperativeHandle } from 'react';
 import {
@@ -20,7 +20,7 @@ import type { GatheringFormDetails } from '@backend/types';
 const DetailsStep = forwardRef<
   unknown,
   { initial: GatheringFormDetails; disableTimezoneEdit?: boolean }
->(({ initial, disableTimezoneEdit }, ref) => {
+>(({ initial, disableTimezoneEdit = false }, ref) => {
   // Get all valid timezones
   const allTimeZones = Object.entries(zones)
     .filter(([_, v]) => Array.isArray(v))
@@ -49,19 +49,18 @@ const DetailsStep = forwardRef<
 
   useImperativeHandle(ref, () => ({
     submit: async () => {
-      const isFormValid = await new Promise<{
-        valid: boolean;
-        data?: GatheringFormDetails;
-      }>((resolve) => {
-        void formContext.handleSubmit(
-          (data) => {
-            resolve({ valid: true, data });
-          },
-          () => {
-            resolve({ valid: false });
-          }
-        )();
-      });
+      const isFormValid = await new Promise<{ valid: boolean; data?: GatheringFormDetails }>(
+        (resolve) => {
+          void formContext.handleSubmit(
+            (data) => {
+              resolve({ valid: true, data });
+            },
+            () => {
+              resolve({ valid: false });
+            }
+          )();
+        }
+      );
 
       return isFormValid;
     },
@@ -115,7 +114,7 @@ const DetailsStep = forwardRef<
           </Stack>
           {selectedTimezone != null && (
             <Grid container sx={{ textAlign: 'center' }}>
-              <Grid xs={12} sm={diffTimezone ? 5 : 12}>
+              <Grid size={{ xs: 12, sm: diffTimezone ? 5 : 12 }}>
                 <Typography variant="subtitle2" gutterBottom>
                   Current time in {formContext.watch('timezone')}:{' '}
                 </Typography>
@@ -125,7 +124,7 @@ const DetailsStep = forwardRef<
               </Grid>
               {diffTimezone && (
                 <>
-                  <Grid xs={12} sm={2}>
+                  <Grid size={{ xs: 12, sm: 2 }}>
                     {/* Show an arrow pointing to the left, and + or - how many hours between the timezones */}
                     <Typography variant="subtitle2" gutterBottom>
                       Time difference:{' '}
@@ -136,7 +135,7 @@ const DetailsStep = forwardRef<
                       {calculatedDiff} hours
                     </Typography>
                   </Grid>
-                  <Grid xs={12} sm={5}>
+                  <Grid size={{ xs: 12, sm: 5 }}>
                     <Typography variant="subtitle2" gutterBottom>
                       Your current time in {initial?.timezone}:{' '}
                     </Typography>
@@ -155,9 +154,5 @@ const DetailsStep = forwardRef<
 });
 
 DetailsStep.displayName = 'DetailsStep';
-
-DetailsStep.defaultProps = {
-  disableTimezoneEdit: false,
-};
 
 export default DetailsStep;

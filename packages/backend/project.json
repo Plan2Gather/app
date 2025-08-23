@@ -3,12 +3,13 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/backend/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "generateBackendTypes": {
       "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/src/generated/tomlGenerated.ts"],
       "options": {
-        "command": "ts-node -O '{\"module\": \"commonjs\"}' ./src/generateBackendTypes",
+        "command": "tsx ./src/generateBackendTypes",
         "cwd": "packages/backend",
         "color": true
       }
@@ -66,6 +67,5 @@
         "jestConfig": "packages/backend/jest.config.ts"
       }
     }
-  },
-  "tags": []
+  }
 }

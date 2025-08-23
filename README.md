@@ -26,10 +26,6 @@ To start the development server run `nx serve frontend`. Open your browser and n
 
 To build the frontend, run `nx build frontend`
 
-#### Start Storybook
-
-To run Storybook, run `nx run frontend:storybook`
-
 ### Backend
 
 #### Start Backend

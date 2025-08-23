@@ -3,7 +3,7 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { useMemo, useState } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import { trpc, trpcClientOptions } from '@/trpc';
 import createIDBPersister from '@/utils/idbPersister';
@@ -24,20 +24,14 @@ export default function App() {
     const client = new QueryClient({
       defaultOptions: { queries: { staleTime: Infinity, gcTime: 600000 } },
     });
-    void persistQueryClient({
-      queryClient: client,
-      persister: createIDBPersister(),
-    });
+    void persistQueryClient({ queryClient: client, persister: createIDBPersister() });
     return client;
   });
   const trpcClient = useMemo(() => trpc.createClient(trpcClientOptions), []);
 
   const router = createBrowserRouter([
     { path: '*', element: <NotFound /> },
-    {
-      path: '/',
-      element: <Homepage />,
-    },
+    { path: '/', element: <Homepage /> },
     {
       path: '/create',
       element: (

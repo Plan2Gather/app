@@ -5,3 +5,5 @@
 packages/backend/src/generated/tomlGenerated.ts
 package.json
 package-lock.json
+
+/.nx/workspace-data

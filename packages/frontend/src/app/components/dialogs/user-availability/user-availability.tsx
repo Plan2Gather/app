@@ -64,7 +64,7 @@ export default function TimePeriodDialog(props: TimePeriodDialogProps) {
     },
   });
 
-  const submitRef = useRef<{ submit: SubmitFunction<Availability> }>();
+  const submitRef = useRef<{ submit: SubmitFunction<Availability> }>(undefined);
 
   const formContext = useForm<{ name: string }>({
     defaultValues: {

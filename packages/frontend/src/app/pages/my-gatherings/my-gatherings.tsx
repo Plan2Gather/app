@@ -1,6 +1,6 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid from '@mui/material/Grid2/Grid2';
 
 import GatheringList from '@/app/components/gathering-list/gathering-list';
 import { trpc } from '@/trpc';
@@ -15,7 +15,7 @@ export default function MyGatherings() {
         My Gatherings
       </Typography>
       <Grid container spacing={2}>
-        <Grid xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Card>
             <CardContent>
               <Typography component="h2" variant="h4">
@@ -32,7 +32,7 @@ export default function MyGatherings() {
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} sm={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Card>
             <CardContent>
               <Typography component="h2" variant="h4">

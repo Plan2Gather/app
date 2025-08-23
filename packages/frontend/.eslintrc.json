@@ -5,10 +5,9 @@
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:storybook/recommended",
     "../../.eslintrc.json"
   ],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["!**/*", "**/vite.config.*.timestamp*", "**/vitest.config.*.timestamp*"],
   "parserOptions": {
     "project": ["packages/frontend/tsconfig.*?.json"]
   },
@@ -16,7 +15,12 @@
     {
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        "react/jsx-filename-extension": [2, { "extensions": [".tsx"] }]
+        "react/jsx-filename-extension": [
+          2,
+          {
+            "extensions": [".tsx"]
+          }
+        ]
       }
     },
     {
@@ -24,7 +28,11 @@
       "rules": {
         "no-relative-import-paths/no-relative-import-paths": [
           "error",
-          { "allowSameFolder": true, "rootDir": "packages/frontend/src", "prefix": "@" }
+          {
+            "allowSameFolder": true,
+            "rootDir": "packages/frontend/src",
+            "prefix": "@"
+          }
         ]
       }
     },

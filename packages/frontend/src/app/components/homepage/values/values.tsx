@@ -4,8 +4,8 @@ import SecurityIcon from '@mui/icons-material/Security';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid2/Grid2';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 import type { Theme } from '@mui/material/styles';
 import type { SxProps } from '@mui/system';
@@ -32,7 +32,7 @@ export default function Values() {
         }}
       >
         <Grid container>
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={item}>
               <EventAvailableIcon sx={{ fontSize: 40 }} />
               <Typography variant="h6" component="h3" align="center" gutterBottom>
@@ -45,7 +45,7 @@ export default function Values() {
               </Typography>
             </Box>
           </Grid>
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={item}>
               <ScheduleIcon sx={{ fontSize: 40 }} />
               <Typography variant="h6" component="h3" align="center" gutterBottom>
@@ -58,7 +58,7 @@ export default function Values() {
               </Typography>
             </Box>
           </Grid>
-          <Grid xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={item}>
               <SecurityIcon sx={{ fontSize: 40 }} />
               <Typography variant="h6" component="h3" align="center" gutterBottom>

@@ -1,19 +1,30 @@
-import { init, Replay, BrowserTracing } from '@sentry/react';
-import { StrictMode } from 'react';
+import * as Sentry from '@sentry/react';
+import { useEffect, StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
+import {
+  createRoutesFromChildren,
+  matchRoutes,
+  useLocation,
+  useNavigationType,
+} from 'react-router';
 
 import App from './app/app';
 
 if (import.meta.env.MODE === 'prod') {
-  init({
+  Sentry.init({
     dsn: 'https://4b3a9151456c94519f8b9f59dcfa6d88@o4506374085738496.ingest.sentry.io/4506374089211904',
     integrations: [
-      new BrowserTracing({
-        // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-        tracePropagationTargets: [/^https:\/\/api-prod\.plan2gather\/.net/],
+      Sentry.reactRouterV6BrowserTracingIntegration({
+        useEffect,
+        useLocation,
+        useNavigationType,
+        createRoutesFromChildren,
+        matchRoutes,
       }),
-      new Replay(),
+      Sentry.replayIntegration(),
     ],
+    // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+    tracePropagationTargets: [/^\//, /^https:\/\/api-prod\.plan2gather\/.net/],
     // Performance Monitoring
     tracesSampleRate: 1.0, //  Capture 100% of the transactions
     // Session Replay

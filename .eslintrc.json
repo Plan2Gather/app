@@ -1,8 +1,19 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx", "eslint-plugin-import", "no-relative-import-paths", "eslint-plugin-tsdoc"],
-  "extends": ["plugin:@nx/typescript", "plugin:import/recommended", "love", "prettier"],
+  "plugins": [
+    "@nx",
+    "eslint-plugin-import",
+    "no-relative-import-paths",
+    "eslint-plugin-tsdoc",
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "plugin:@nx/typescript",
+    "plugin:import/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
@@ -10,7 +21,7 @@
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true,
-        "project": ["packages/*/tsconfig.json"]
+        "project": ["tsconfig.base.json"]
       }
     }
   },
@@ -24,7 +35,10 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/consistent-type-imports": [
       "error",
-      { "prefer": "type-imports", "fixStyle": "separate-type-imports" }
+      {
+        "prefer": "type-imports",
+        "fixStyle": "separate-type-imports"
+      }
     ],
     "import/order": [
       "error",
@@ -49,6 +63,12 @@
     ],
     "@typescript-eslint/no-non-null-assertion": "warn",
     "tsdoc/syntax": "warn",
-    "no-relative-import-paths/no-relative-import-paths": ["error", { "allowSameFolder": true }]
+    "no-relative-import-paths/no-relative-import-paths": [
+      "error",
+      {
+        "allowSameFolder": true
+      }
+    ],
+    "no-extra-semi": "error"
   }
 }
