@@ -2,9 +2,10 @@
 import { Box, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { TimePickerElement, type TimePickerElementProps } from 'react-hook-form-mui/date-pickers';
+
+import type { DateTime } from 'luxon';
 
 interface TimeRangeProps {
   timezone: string | undefined;

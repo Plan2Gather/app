@@ -4,8 +4,8 @@ import SecurityIcon from '@mui/icons-material/Security';
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid2/Grid2';
+import Typography from '@mui/material/Typography';
 
 import type { Theme } from '@mui/material/styles';
 import type { SxProps } from '@mui/system';

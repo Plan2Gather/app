@@ -41,6 +41,7 @@ const GridCell = ({
       ...sx,
     }}
     component={component}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onClick={(e: any) => {
       e.preventDefault();
       if (handleOnClicked != null) handleOnClicked(e);

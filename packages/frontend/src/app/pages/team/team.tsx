@@ -1,7 +1,7 @@
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid2';
+import Typography from '@mui/material/Typography';
 
 export default function Team() {
   const teamMembers = [

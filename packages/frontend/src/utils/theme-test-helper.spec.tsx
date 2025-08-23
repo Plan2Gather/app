@@ -31,12 +31,12 @@ interface RenderOptions {
 }
 
 // Helper function to wrap the component with a theme provider and specific breakpoint
-export function renderWithTheme(ui: ReactElement<any>, { themeOptions, width }: RenderOptions) {
+export function renderWithTheme(ui: ReactElement, { themeOptions, width }: RenderOptions) {
   // This function will use the width to simulate the screen size
   window.matchMedia = createMatchMedia(width);
 
   const theme = createTheme(themeOptions);
-  function Wrapper({ children }: { children: ReactElement<any> }) {
+  function Wrapper({ children }: { children: ReactElement }) {
     return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
   }
   return render(ui, { wrapper: Wrapper });

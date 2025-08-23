@@ -64,11 +64,8 @@ export default function TimeGrid({
         const cellData = data[rowIndex][colIndex];
         const { best, numAvailable } = isBestTime(cellData, mostParticipants);
 
-        let props = {} as any;
-
         if (numAvailable > 0) {
-          props = {
-            ...props,
+          return {
             sx: {
               backgroundColor: `rgba(0, ${100 + 155 * (cellData.names.length / cellData.totalParticipants)}, 0, 1)`,
             },
@@ -79,7 +76,7 @@ export default function TimeGrid({
           };
         }
 
-        return props;
+        return {component: 'button'};
       }}
       handleOnClicked={(e, rowIndex, colIndex) => {
         const { numAvailable } = isBestTime(data[rowIndex][colIndex], mostParticipants);
