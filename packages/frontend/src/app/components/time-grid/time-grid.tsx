@@ -76,7 +76,7 @@ export default function TimeGrid({
           };
         }
 
-        return {component: 'button'};
+        return { component: 'button' };
       }}
       handleOnClicked={(e, rowIndex, colIndex) => {
         const { numAvailable } = isBestTime(data[rowIndex][colIndex], mostParticipants);

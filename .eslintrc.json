@@ -1,8 +1,19 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx", "eslint-plugin-import", "no-relative-import-paths", "eslint-plugin-tsdoc", "@typescript-eslint"],
-  "extends": ["plugin:@nx/typescript", "plugin:import/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "plugins": [
+    "@nx",
+    "eslint-plugin-import",
+    "no-relative-import-paths",
+    "eslint-plugin-tsdoc",
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "plugin:@nx/typescript",
+    "plugin:import/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
