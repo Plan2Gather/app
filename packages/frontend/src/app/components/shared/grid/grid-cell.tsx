@@ -7,7 +7,7 @@ interface GridCellProps {
   rowIndex: number;
   cellWidth: number;
   cursor: 'cell' | 'default' | 'pointer';
-  component?: React.ElementType;
+  component: React.ElementType;
   sx?: SxProps<Theme>;
   handleOnClicked?: (e: React.MouseEvent) => void;
   handleMouseDown?: (e: React.MouseEvent) => void;
@@ -41,7 +41,7 @@ const GridCell = ({
       ...sx,
     }}
     component={component}
-    onClick={(e) => {
+    onClick={(e: any) => {
       e.preventDefault();
       if (handleOnClicked != null) handleOnClicked(e);
     }}

@@ -27,11 +27,11 @@ export default function DetailsEditDialog(props: DetailsEditDialogProps) {
 
   const detailsSubmitRef = useRef<{
     submit: SubmitFunction<GatheringFormDetails>;
-  }>();
+  }>(undefined);
 
   const periodSubmitRef = useRef<{
     submit: SubmitFunction<PossibleDatesData>;
-  }>();
+  }>(undefined);
 
   const handleClose = useCallback(() => {
     onClose();

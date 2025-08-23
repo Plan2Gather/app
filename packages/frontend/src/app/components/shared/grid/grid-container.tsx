@@ -13,7 +13,7 @@ type GridCellInputProps = (
 ) => {
   sx?: SxProps<Theme>;
   cursor?: 'cell' | 'pointer';
-  component?: React.ElementType;
+  component: React.ElementType;
   ariaLabel?: string;
   children?: React.ReactNode;
 };

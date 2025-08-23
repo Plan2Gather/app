@@ -26,7 +26,7 @@ import type { Theme } from '@mui/material/styles';
 // Define a type for step information
 interface StepInfo<T> {
   name: string;
-  submitRef: React.RefObject<{ submit: SubmitFunction<T> }>;
+  submitRef: React.RefObject<{ submit: SubmitFunction<T> } | null>;
 }
 
 export default function CreationStepper() {

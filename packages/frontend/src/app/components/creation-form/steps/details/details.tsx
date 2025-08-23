@@ -20,7 +20,7 @@ import type { GatheringFormDetails } from '@backend/types';
 const DetailsStep = forwardRef<
   unknown,
   { initial: GatheringFormDetails; disableTimezoneEdit?: boolean }
->(({ initial, disableTimezoneEdit }, ref) => {
+>(({ initial, disableTimezoneEdit = false }, ref) => {
   // Get all valid timezones
   const allTimeZones = Object.entries(zones)
     .filter(([_, v]) => Array.isArray(v))
@@ -154,7 +154,5 @@ const DetailsStep = forwardRef<
 });
 
 DetailsStep.displayName = 'DetailsStep';
-
-DetailsStep.defaultProps = { disableTimezoneEdit: false };
 
 export default DetailsStep;

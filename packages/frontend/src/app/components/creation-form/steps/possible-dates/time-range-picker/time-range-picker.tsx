@@ -2,6 +2,7 @@
 import { Box, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { TimePickerElement, type TimePickerElementProps } from 'react-hook-form-mui/date-pickers';
 
@@ -14,7 +15,7 @@ interface TimeRangeProps {
 export default function TimeRangePicker({ sx, helperText, timezone }: TimeRangeProps) {
   const timeSteps = { hours: 1, minutes: 30 };
 
-  const [startTime, setStartTime] = useState(null);
+  const [startTime, setStartTime] = useState<DateTime | null>(null);
 
   const timePickerProps = (name: 'start' | 'end'): TimePickerElementProps => ({
     name: `${name}`,
@@ -38,7 +39,7 @@ export default function TimeRangePicker({ sx, helperText, timezone }: TimeRangeP
         <Typography>&ndash;</Typography>
         <TimePickerElement
           {...timePickerProps('end')}
-          minTime={startTime}
+          minTime={startTime ?? undefined}
           aria-describedby="time-range-helper-text"
         />
       </Stack>
